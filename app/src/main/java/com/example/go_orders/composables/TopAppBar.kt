@@ -49,11 +49,6 @@ fun TopAppBar() {
                     .size(40.dp)
                     .clip(RoundedCornerShape(6.dp))
                     .background(Color(0xFF0C0A09))
-                    .border(
-                        width = 0.8f.dp,
-                        color = Color(0xFF292524),
-                        shape = RoundedCornerShape(6.dp)
-                    )
                     .clickable { },
                 contentAlignment = Alignment.Center
             ) {
