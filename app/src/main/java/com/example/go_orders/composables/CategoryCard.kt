@@ -1,5 +1,6 @@
 package com.example.go_orders.composables
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -37,9 +38,19 @@ private fun CategoryCardContent(
 ) {
     Card(
         modifier = Modifier
-            .size(90.dp),
+            .size(80.dp),
+        onClick = {},
         shape = RoundedCornerShape(8.dp),
-        colors = CardDefaults.cardColors(containerColor = Color(0x44f5f5f4)),
+        border = if(category.isSelected)
+            BorderStroke(1.dp, color = Color(0xFFEA580C))
+        else
+            null,
+        colors = if (category.isSelected)
+            CardDefaults.cardColors(containerColor = Color(0x44EA580C))
+        else
+            CardDefaults.cardColors(
+                containerColor = Color(0x44f5f5f4)
+            ),
 
         ) {
         Column(
@@ -50,7 +61,7 @@ private fun CategoryCardContent(
             verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             Image(
-                modifier = Modifier.size(48.dp),
+                modifier = Modifier.size(40.dp),
                 painter = painterResource(category.img),
                 contentDescription = category.name
             )

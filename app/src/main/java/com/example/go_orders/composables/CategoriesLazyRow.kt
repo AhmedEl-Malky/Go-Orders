@@ -27,7 +27,7 @@ private fun CategoriesLazyRowContent(
         modifier = Modifier
             .fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(12.dp),
-        contentPadding = PaddingValues(horizontal = 12.dp),
+        contentPadding = PaddingValues(horizontal = 12.dp, vertical = 4.dp),
         reverseLayout = true
     ) {
         items(categories) {
