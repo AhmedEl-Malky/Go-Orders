@@ -83,7 +83,7 @@ fun TopAppBar() {
                 )
             }
         }
-        Spacer(modifier = Modifier.width(70.dp))
+        Spacer(modifier = Modifier.width(48.dp))
         Row(
             modifier = Modifier
                 .clip(RoundedCornerShape(6.dp))
@@ -92,19 +92,20 @@ fun TopAppBar() {
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
             Text(
-                modifier = Modifier.padding(vertical = 12.dp, horizontal = 8.dp),
-                text = "اختر مدينتك",
+                modifier = Modifier.padding(top = 8.dp, bottom = 8.dp, start = 24.dp, end = 4.dp),
+                text = "... مدينة",
                 color = MaterialTheme.colorScheme.onSecondary,
                 fontFamily = Beiruti,
-                fontSize = 22.sp
+                fontSize = 18.sp
             )
             Icon(
-                modifier = Modifier.padding(end = 8.dp),
+                modifier = Modifier.size(28.dp).padding(end = 8.dp),
                 imageVector = Icons.Default.LocationOn,
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.onSecondary
             )
         }
+//        Spacer(modifier = Modifier.width(8.dp))
         Image(
             modifier = Modifier.size(60.dp),
             painter = painterResource(id = R.drawable.go_logo),
