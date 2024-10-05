@@ -23,6 +23,9 @@ val DestructiveForeGroundLight = Color(0xFFFCFDF6)
 val BorderLight = Color(0xFFE5E2DB) // Outline
 val InputLight = Color(0xFFE5E2DB)  // SurfaceVariant
 val RingLight = Color(0xFFFF6F1A)
+val Chart_1Light = Color(0xFF059669)
+val Chart_2Light = Color(0xFFD1FAE5)
+
 
 
 val BackgroundDark = Color(0xFF0B0A09)
@@ -46,6 +49,8 @@ val DestructiveForeGroundDark = Color(0xFFFCFDF6)
 val BorderDark = Color(0xFF2A2320)
 val InputDark = Color(0xFF2A2320)
 val RingDark = Color(0xFFFF5C20)
+val Chart_1Dark = Color(0xFF34D399)
+val Chart_2Dark = Color(0xFF064E3B)
 
 
 

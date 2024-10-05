@@ -10,11 +10,11 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -41,15 +41,15 @@ private fun CategoryCardContent(
             .size(80.dp),
         onClick = {},
         shape = RoundedCornerShape(8.dp),
-        border = if(category.isSelected)
-            BorderStroke(1.dp, color = Color(0xFFEA580C))
+        border = if (category.isSelected)
+            BorderStroke(0.8f.dp, color = MaterialTheme.colorScheme.primary)
         else
-            null,
+            BorderStroke(0.8f.dp, color = MaterialTheme.colorScheme.outline),
         colors = if (category.isSelected)
-            CardDefaults.cardColors(containerColor = Color(0x44EA580C))
+            CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.1f))
         else
             CardDefaults.cardColors(
-                containerColor = Color(0x44f5f5f4)
+                containerColor = MaterialTheme.colorScheme.secondary
             ),
 
         ) {
@@ -67,10 +67,10 @@ private fun CategoryCardContent(
             )
             Text(
                 text = category.name,
-                color = Color.White,
+                color = if (category.isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onBackground,
                 fontFamily = Beiruti,
                 fontWeight = FontWeight.SemiBold,
-                fontSize = 18.sp
+                fontSize = 16.sp
             )
         }
     }
@@ -81,5 +81,5 @@ private fun CategoryCardContent(
 @Preview
 @Composable
 private fun PreviewCategoryCard() {
-    CategoryCard(Category(name = "الكل", img = R.drawable.all, isSelected = true))
+    CategoryCard(Category(name = "دجاج", img = R.drawable.all, isSelected = true))
 }

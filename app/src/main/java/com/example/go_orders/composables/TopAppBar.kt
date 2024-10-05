@@ -3,9 +3,7 @@ package com.example.go_orders.composables
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -17,7 +15,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
@@ -31,7 +28,6 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.go_orders.R
@@ -77,7 +73,8 @@ fun TopAppBar() {
                 contentPadding = PaddingValues(10.dp)
             ) {
                 Icon(
-                    imageVector = Icons.Default.ShoppingCart,
+                    modifier = Modifier.size(24.dp),
+                    painter = painterResource(R.drawable.cart),
                     contentDescription = "Cart",
                     tint = MaterialTheme.colorScheme.onSecondary
                 )
@@ -99,8 +96,10 @@ fun TopAppBar() {
                 fontSize = 18.sp
             )
             Icon(
-                modifier = Modifier.size(28.dp).padding(end = 8.dp),
-                imageVector = Icons.Default.LocationOn,
+                modifier = Modifier
+                    .size(28.dp)
+                    .padding(end = 8.dp),
+                painter = painterResource(R.drawable.map),
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.onSecondary
             )
