@@ -2,24 +2,26 @@ package com.example.go_orders.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val BackgroundLight = Color(0xFFFFFFFF)
-val ForegroundLight = Color(0xFF0B0A09)
+val BackgroundLight = Color(0xFFFFFFFF) // Background
+val ForegroundLight = Color(0xFF0B0A09) // OnBackground
 val CardLight = Color(0xFFFFFFFF)
 val CardForegroundLight = Color(0xFF0B0A09)
 val PopOverLight = Color(0xFFFFFFFF)
 val PopOverForegroundLight = Color(0xFF0B0A09)
-val PrimaryLight = Color(0xFFFF6F1A)
-val PrimaryForeGroundLight = Color(0xFFFCFDF6)
-val SecondaryLight = Color(0xFFF5F5F0)
-val SecondaryForeGroundLight = Color(0xFF2A251B)
-val MutedLight = Color(0xFFF5F5F0)
-val MutedForeGroundLight = Color(0xFF6E665B)
+val PrimaryLight = Color(0xFFFF6F1A)  // Primary
+val PrimaryContainerLight = Color(0xAA7C2D12)  // PrimaryContainer
+val OnPrimaryContainerLight = Color(0xFF292524)
+val PrimaryForeGroundLight = Color(0xFFFCFDF6)  // OnPrimary
+val SecondaryLight = Color(0xFFF5F5F0)  // Secondary
+val SecondaryForeGroundLight = Color(0xFF2A251B)  // OnSecondary
+val MutedLight = Color(0xFFF5F5F0) // Tertiary
+val MutedForeGroundLight = Color(0xFF6E665B) // OnTertiary
 val AccentLight = Color(0xFFF5F5F0)
 val AccentForeGroundLight = Color(0xFF2A251B)
 val DestructiveLight = Color(0xFFE53935)
 val DestructiveForeGroundLight = Color(0xFFFCFDF6)
-val BorderLight = Color(0xFFE5E2DB)
-val InputLight = Color(0xFFE5E2DB)
+val BorderLight = Color(0xFFE5E2DB) // Outline
+val InputLight = Color(0xFFE5E2DB)  // SurfaceVariant
 val RingLight = Color(0xFFFF6F1A)
 
 
@@ -30,6 +32,8 @@ val CardForegroundDark = Color(0xFFFCFDF6)
 val PopOverDark = Color(0xFF0B0A09)
 val PopOverForegroundDark = Color(0xFFFCFDF6)
 val PrimaryDark = Color(0xFFFF5C20)
+val PrimaryContainerDark = Color(0xAA7C2D12)
+val OnPrimaryContainerDark = Color(0xFF292524)
 val PrimaryForeGroundDark = Color(0xFFFCFDF6)
 val SecondaryDark = Color(0xFF2A2320)
 val SecondaryForeGroundDark = Color(0xFFFCFDF6)
