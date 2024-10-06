@@ -1,6 +1,5 @@
 package com.example.go_orders.ui.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
@@ -11,33 +10,53 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 
+
 private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
+    background = BackgroundDark,
+    onBackground = ForegroundDark,
+    surface = CardDark,
+    onSurface = CardForegroundDark,
+    surfaceVariant = InputDark,
+    primary = PrimaryDark,
+    onPrimary = PrimaryForeGroundDark,
+    primaryContainer = PrimaryContainerDark,
+    onPrimaryContainer = OnPrimaryContainerDark,
+    surfaceContainerLow = Chart_2Dark,
+    surfaceContainerHigh = Chart_1Dark,
+    secondary = SecondaryDark,
+    onSecondary = SecondaryForeGroundDark,
+    tertiary = MutedDark,
+    onTertiary = MutedForeGroundDark,
+    error = DestructiveDark,
+    outline = BorderDark
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
-
-    /* Other default colors to override
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
-    */
+    background = BackgroundLight,
+    onBackground = ForegroundLight,
+    surface = CardLight,
+    onSurface = CardForegroundLight,
+    surfaceVariant = InputLight,
+    primary = PrimaryLight,
+    onPrimary = PrimaryForeGroundLight,
+    primaryContainer = PrimaryContainerLight,
+    onPrimaryContainer = BackgroundLight,
+    surfaceContainerLow = Chart_2Light,
+    surfaceContainerHigh = Chart_1Light,
+    secondary = SecondaryLight,
+    onSecondary = SecondaryForeGroundLight,
+    tertiary = MutedLight,
+    onTertiary = MutedForeGroundLight,
+    error = DestructiveLight,
+    outline = BorderLight
 )
+
 
 @Composable
 fun GoOrdersTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
+    dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
