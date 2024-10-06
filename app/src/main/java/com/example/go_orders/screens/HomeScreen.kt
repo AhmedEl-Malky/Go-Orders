@@ -28,12 +28,25 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import com.example.go_orders.navigations.Navigation
 import com.example.go_orders.R
 import com.example.go_orders.composables.TopAppBar
 import com.example.go_orders.ui.theme.Beiruti
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(
+    navController: NavController
+){
+    HomeScreenContent(
+        goExploreRestaurants = {navController.navigate(Navigation.ExploreRestaurantsScreen.route)}
+    )
+}
+
+@Composable
+private fun HomeScreenContent(
+    goExploreRestaurants:()->Unit
+) {
     Scaffold { innerPadding ->
         Column(
             modifier = Modifier
@@ -118,7 +131,7 @@ fun HomeScreen() {
                                 )
                             }
                             Button(
-                                onClick = {},
+                                onClick = goExploreRestaurants,
                                 shape = RoundedCornerShape(6.dp),
                                 colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.onPrimaryContainer)
                             ) {
@@ -154,5 +167,5 @@ fun HomeScreen() {
      device = "spec:width=1080px,height=2400px,dpi=440",)
 @Composable
 private fun PreviewHomeScreen() {
-    HomeScreen()
+    HomeScreenContent(goExploreRestaurants = {})
 }
