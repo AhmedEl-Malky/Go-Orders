@@ -13,21 +13,21 @@ import com.example.go_orders.state.ExploreRestaurantsScreenUIState
 import com.example.go_orders.state.ExploreRestaurantsScreenUIState.Category
 
 @Composable
-fun CategoriesLazyRow(
+fun CategoriesLazyList(
     categories: List<Category>
 ) {
-    CategoriesLazyRowContent(categories)
+    CategoriesLazyListContent(categories)
 }
 
 @Composable
-private fun CategoriesLazyRowContent(
+private fun CategoriesLazyListContent(
     categories: List<Category>
 ) {
     LazyRow(
         modifier = Modifier
             .fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(12.dp),
-        contentPadding = PaddingValues(horizontal = 12.dp, vertical = 4.dp),
+        contentPadding = PaddingValues(start = 12.dp, end = 12.dp, top = 4.dp, bottom = 8.dp),
         reverseLayout = true
     ) {
         items(categories) {
@@ -38,6 +38,6 @@ private fun CategoriesLazyRowContent(
 
 @Preview
 @Composable
-private fun PreviewCategoriesLazyRow() {
-    CategoriesLazyRow(ExploreRestaurantsScreenUIState().categories)
+private fun PreviewCategoriesLazyList() {
+    CategoriesLazyList(ExploreRestaurantsScreenUIState().categories)
 }

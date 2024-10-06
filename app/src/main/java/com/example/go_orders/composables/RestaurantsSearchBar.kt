@@ -30,7 +30,7 @@ fun RestaurantsSearchBar() {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 8.dp, bottom = 8.dp, start = 10.dp, end = 10.dp)
+            .padding(horizontal = 10.dp)
             .clip(RoundedCornerShape(6.dp))
             .background(MaterialTheme.colorScheme.secondary),
         verticalAlignment = Alignment.CenterVertically

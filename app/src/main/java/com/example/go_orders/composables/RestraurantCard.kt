@@ -3,7 +3,6 @@ package com.example.go_orders.composables
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -15,6 +14,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -39,7 +39,11 @@ fun RestaurantCard(
 private fun RestaurantCardContent() {
     Card(
         modifier = Modifier
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .padding(horizontal = 10.dp)
+//            .clip(RoundedCornerShape(topStart = 6.dp, topEnd = 6.dp))
+            .background(MaterialTheme.colorScheme.secondary)
+            .padding(top = 12.dp, start = 12.dp, end = 12.dp),
         shape = RoundedCornerShape(6.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.onBackground),
         border = BorderStroke(width = 2.dp, color = MaterialTheme.colorScheme.primary)
@@ -82,18 +86,23 @@ private fun RestaurantCardContent() {
                 ) {
                     Text(
                         modifier = Modifier
+                            .padding(
+                                vertical = 2.dp,
+                                horizontal = 8.dp
+                            )
                             .clip(RoundedCornerShape(100))
                             .background(MaterialTheme.colorScheme.surfaceContainerLow)
                             .padding(
                                 vertical = 2.dp,
-                                horizontal = 8.dp
-                            ),
+                                horizontal = 10.dp
+                            )
+                            ,
 
-                        text = "مفتوح الآن",
+                        text = "طلبات اوفلاين",
                         fontSize = 14.sp,
                         fontFamily = Beiruti,
                         color = MaterialTheme.colorScheme.surfaceContainerHigh
-                        )
+                    )
                     Text(
                         modifier = Modifier.weight(1f),
                         text = "Restaurant Name",
@@ -103,7 +112,9 @@ private fun RestaurantCardContent() {
                         textAlign = TextAlign.End
                     )
                     Image(
-                        modifier = Modifier.size(22.dp).padding(start = 4.dp),
+                        modifier = Modifier
+                            .size(22.dp)
+                            .padding(start = 4.dp),
                         painter = painterResource(R.drawable.verified),
                         contentDescription = "Verified"
                     )
@@ -122,9 +133,26 @@ private fun RestaurantCardContent() {
                         .padding(start = 8.dp, end = 8.dp, top = 8.dp, bottom = 6.dp),
                     onClick = {},
                     shape = RoundedCornerShape(6.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.2f))
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.primary.copy(
+                            alpha = 0.2f
+                        )
+                    )
                 ) {
-
+                    Icon(
+                        modifier = Modifier
+                            .size(20.dp)
+                            .padding(end = 4.dp),
+                        painter = painterResource(R.drawable.menu),
+                        contentDescription = "Check Menu",
+                        tint = MaterialTheme.colorScheme.primary
+                    )
+                    Text(
+                        text = "Menuتصفح ال",
+                        fontFamily = Beiruti,
+                        fontSize = 16.sp,
+                        color = MaterialTheme.colorScheme.primary
+                    )
                 }
             }
         }
