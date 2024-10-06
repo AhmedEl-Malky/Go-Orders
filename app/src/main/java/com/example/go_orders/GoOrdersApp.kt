@@ -4,16 +4,16 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.example.go_orders.screens.ExploreRestaurantsScreen
-import com.example.go_orders.screens.HomeScreen
+import androidx.navigation.compose.rememberNavController
+import com.example.go_orders.navigations.NavigationGraph
 import com.example.go_orders.ui.theme.GoOrdersTheme
 
 @Composable
-fun GoOrdersApp(){
+fun GoOrdersApp() {
     GoOrdersTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-//            HomeScreen()
-            ExploreRestaurantsScreen()
+            val navController = rememberNavController()
+            NavigationGraph(navController)
         }
     }
 }
