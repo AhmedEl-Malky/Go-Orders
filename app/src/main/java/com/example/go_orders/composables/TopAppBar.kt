@@ -93,7 +93,7 @@ fun TopAppBar() {
                 text = "... مدينة",
                 color = MaterialTheme.colorScheme.onSecondary,
                 fontFamily = Beiruti,
-                fontSize = 18.sp
+                fontSize = MaterialTheme.typography.titleLarge.fontSize
             )
             Icon(
                 modifier = Modifier
@@ -104,7 +104,6 @@ fun TopAppBar() {
                 tint = MaterialTheme.colorScheme.onSecondary
             )
         }
-//        Spacer(modifier = Modifier.width(8.dp))
         Image(
             modifier = Modifier.size(60.dp),
             painter = painterResource(id = R.drawable.go_logo),

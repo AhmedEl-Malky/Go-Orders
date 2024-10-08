@@ -12,6 +12,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -20,15 +22,27 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.go_orders.composables.CategoriesLazyList
 import com.example.go_orders.composables.RestaurantCard
-import com.example.go_orders.composables.RestaurantLazyList
 import com.example.go_orders.composables.RestaurantsSearchBar
 import com.example.go_orders.composables.TopAppBar
 import com.example.go_orders.state.ExploreRestaurantsScreenUIState
 import com.example.go_orders.ui.theme.Beiruti
+import com.example.go_orders.viewmodels.ExploreRestaurantsViewModel
+
+
+@Composable
+fun ExploreRestaurantsScreen(
+//    viewModel: ExploreRestaurantsViewModel = hiltViewModel()
+) {
+    val viewModel = ExploreRestaurantsViewModel()
+    val state by viewModel.state.collectAsState()
+    ExploreRestaurantsScreenContent(state)
+}
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun ExploreRestaurantsScreen() {
+fun ExploreRestaurantsScreenContent(
+    state: ExploreRestaurantsScreenUIState
+) {
     Scaffold { innerPadding ->
         Column(
             modifier = Modifier
@@ -66,21 +80,21 @@ fun ExploreRestaurantsScreen() {
                             .padding(horizontal = 16.dp, vertical = 8.dp),
                         text = "المطاعم المتاحة في منطقتك",
                         fontFamily = Beiruti,
-                        fontSize = 24.sp,
+                        fontSize = MaterialTheme.typography.headlineSmall.fontSize,
                         fontWeight = FontWeight.SemiBold,
                         textAlign = TextAlign.End
                     )
                 }
-                items(list){
-                    RestaurantCard()
+                items(state.restaurants) {
+                    RestaurantCard(it)
                 }
             }
         }
     }
 }
-val list = listOf(1,2,3,4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,)
 
-@Preview(showSystemUi = true, showBackground = true,
+@Preview(
+    showSystemUi = true, showBackground = true,
     device = "spec:width=1080px,height=2400px,dpi=441"
 )
 @Composable

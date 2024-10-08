@@ -26,6 +26,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewFontScale
+import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -79,7 +81,7 @@ private fun HomeScreenContent(
                         Text(
                             text = "👌 Order أطلب يوصلك اسرع",
                             fontFamily = Beiruti,
-                            fontSize = 28.sp,
+                            fontSize = MaterialTheme.typography.headlineMedium.fontSize,
                             fontWeight = FontWeight.SemiBold,
                             color = MaterialTheme.colorScheme.background
                         )
@@ -91,16 +93,16 @@ private fun HomeScreenContent(
                                 modifier = Modifier.fillMaxWidth(),
                                 text = "كل Go Orders مع",
                                 fontFamily = Beiruti,
-                                fontSize = 42.sp,
+                                fontSize = MaterialTheme.typography.displayMedium.fontSize,
                                 fontWeight = FontWeight.ExtraBold,
                                 textAlign = TextAlign.Center,
                                 color = MaterialTheme.colorScheme.onBackground
                             )
                             Text(
                                 modifier = Modifier.fillMaxWidth(),
-                                text = ".طلباتك في مكان واحد",
+                                text = "طلباتك في مكان واحد",
                                 fontFamily = Beiruti,
-                                fontSize = 44.sp,
+                                fontSize = MaterialTheme.typography.displayMedium.fontSize,
                                 fontWeight = FontWeight.ExtraBold,
                                 textAlign = TextAlign.Center,
                                 color = MaterialTheme.colorScheme.onBackground
@@ -119,7 +121,7 @@ private fun HomeScreenContent(
                                     modifier = Modifier.padding(start = 8.dp),
                                     text = "اختر مدينتك",
                                     fontFamily = Beiruti,
-                                    fontSize = 20.sp,
+                                    fontSize = MaterialTheme.typography.titleLarge.fontSize,
                                     color = MaterialTheme.colorScheme.onPrimary,
                                     fontWeight = FontWeight.SemiBold
                                 )
@@ -139,7 +141,7 @@ private fun HomeScreenContent(
                                     modifier = Modifier.padding(start = 12.dp),
                                     text = "تصفح المطاعم",
                                     fontFamily = Beiruti,
-                                    fontSize = 20.sp,
+                                    fontSize = MaterialTheme.typography.titleLarge.fontSize,
                                     fontWeight = FontWeight.SemiBold,
                                     color = MaterialTheme.colorScheme.primary
                                 )
@@ -162,8 +164,7 @@ private fun HomeScreenContent(
         }
     }
 }
-
- @Preview(showBackground = true, showSystemUi = true,
+@Preview(showBackground = true, showSystemUi = true,
      device = "spec:width=1080px,height=2400px,dpi=440",)
 @Composable
 private fun PreviewHomeScreen() {

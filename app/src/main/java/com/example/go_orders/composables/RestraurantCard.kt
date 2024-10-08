@@ -27,16 +27,20 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.go_orders.R
+import com.example.go_orders.state.ExploreRestaurantsScreenUIState.RestaurantUIState
 import com.example.go_orders.ui.theme.Beiruti
 
 @Composable
 fun RestaurantCard(
+    restaurant: RestaurantUIState
 ) {
-    RestaurantCardContent()
+    RestaurantCardContent(restaurant)
 }
 
 @Composable
-private fun RestaurantCardContent() {
+private fun RestaurantCardContent(
+    restaurant: RestaurantUIState
+) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -53,7 +57,6 @@ private fun RestaurantCardContent() {
                 .fillMaxWidth()
         ) {
             Box(
-//                modifier = Modifier.weight(3.5f),
                 contentAlignment = Alignment.BottomEnd
             ) {
                 Image(
@@ -95,10 +98,9 @@ private fun RestaurantCardContent() {
                             .padding(
                                 vertical = 2.dp,
                                 horizontal = 10.dp
-                            )
-                            ,
+                            ),
 
-                        text = "طلبات اوفلاين",
+                        text = restaurant.name,
                         fontSize = 14.sp,
                         fontFamily = Beiruti,
                         color = MaterialTheme.colorScheme.surfaceContainerHigh
@@ -121,7 +123,7 @@ private fun RestaurantCardContent() {
                 }
                 Text(
                     modifier = Modifier.fillMaxWidth(),
-                    text = "Description",
+                    text = restaurant.description,
                     fontFamily = Beiruti,
                     fontSize = 16.sp,
                     color = MaterialTheme.colorScheme.onTertiary,
@@ -162,5 +164,5 @@ private fun RestaurantCardContent() {
 @Preview
 @Composable
 fun PreviewRestaurantCard() {
-    RestaurantCard()
+//    RestaurantCard()
 }

@@ -43,7 +43,7 @@ fun RestaurantsSearchBar() {
                 text = "مفتوح الآن",
                 color = MaterialTheme.colorScheme.onBackground,
                 fontFamily = Beiruti,
-                fontSize = 14.sp,
+                fontSize = MaterialTheme.typography.bodyMedium.fontSize,
             )
             Switch(
                 checked = false,
@@ -72,15 +72,16 @@ fun RestaurantsSearchBar() {
                 focusedContainerColor = MaterialTheme.colorScheme.background,
                 unfocusedContainerColor = MaterialTheme.colorScheme.background,
                 cursorColor = MaterialTheme.colorScheme.primary,
-                focusedIndicatorColor = MaterialTheme.colorScheme.primary
+                focusedIndicatorColor = MaterialTheme.colorScheme.primary,
+                unfocusedIndicatorColor = MaterialTheme.colorScheme.outline
             ),
             placeholder = {
                 Text(
                     modifier = Modifier.fillMaxWidth(),
                     text = " ... البحث عن مطعم ",
-                    color = Color.White,
+                    color = MaterialTheme.colorScheme.surfaceVariant,
                     textAlign = TextAlign.End,
-                    fontSize = 12.sp
+                    fontSize = MaterialTheme.typography.bodyMedium.fontSize
                 )
             }
         )

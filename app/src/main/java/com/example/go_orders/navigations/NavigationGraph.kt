@@ -6,6 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.go_orders.screens.ExploreRestaurantsScreen
+import com.example.go_orders.screens.ExploreRestaurantsScreenContent
 import com.example.go_orders.screens.HomeScreen
 
 @Composable

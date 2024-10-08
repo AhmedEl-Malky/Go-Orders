@@ -2,9 +2,10 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     id("kotlin-kapt")
-    id("com.google.dagger.hilt.android")
-    kotlin("plugin.serialization") version "1.9.0"
-
+//    id("com.google.dagger.hilt.android")
+    kotlin("plugin.serialization") version "2.0.20"
+    alias(libs.plugins.compose.compiler)
+    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
 }
 
 android {
@@ -42,6 +43,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"
@@ -72,16 +74,18 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation("androidx.navigation:navigation-compose:2.8.2")
-    implementation("com.google.dagger:hilt-android:2.52")
-    kapt("com.google.dagger:hilt-android-compiler:2.52")
     implementation(platform("io.github.jan-tennert.supabase:bom:3.0.0"))
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.9.0")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.6")
+    implementation ("androidx.hilt:hilt-navigation-compose:1.0.0")
     implementation("io.github.jan-tennert.supabase:postgrest-kt")
 //    implementation("io.github.jan-tennert.supabase:auth-kt")
 //    implementation("io.github.jan-tennert.supabase:realtime-kt")
     implementation("io.ktor:ktor-client-android:2.3.12")
 
 
+
 }
-kapt {
-    correctErrorTypes = true
-}
+//kapt {
+//    correctErrorTypes = true
+//}

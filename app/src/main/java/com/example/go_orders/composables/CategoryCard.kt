@@ -70,7 +70,7 @@ private fun CategoryCardContent(
                 color = if (category.isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onBackground,
                 fontFamily = Beiruti,
                 fontWeight = FontWeight.SemiBold,
-                fontSize = 16.sp
+                fontSize = MaterialTheme.typography.bodyLarge.fontSize
             )
         }
     }

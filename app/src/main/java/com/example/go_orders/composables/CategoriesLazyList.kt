@@ -11,6 +11,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.go_orders.state.ExploreRestaurantsScreenUIState
 import com.example.go_orders.state.ExploreRestaurantsScreenUIState.Category
+import com.example.go_orders.state.ExploreRestaurantsScreenUIState.CategoryUIState
 
 @Composable
 fun CategoriesLazyList(
