@@ -81,11 +81,15 @@ dependencies {
     implementation("io.github.jan-tennert.supabase:postgrest-kt")
 //    implementation("io.github.jan-tennert.supabase:auth-kt")
 //    implementation("io.github.jan-tennert.supabase:realtime-kt")
-    implementation("io.ktor:ktor-client-android:2.3.12")
-
-
-
+    implementation("io.ktor:ktor-client-android:3.0.0-rc-1")
+    implementation("io.ktor:ktor-client-core:3.0.0-rc-1")
+    implementation("io.ktor:ktor-client-logging:3.0.0-rc-1")
+    implementation("io.ktor:ktor-client-content-negotiation:3.0.0-rc-1")
+    implementation("io.coil-kt.coil3:coil-compose:3.0.0-rc01")
+    implementation("io.coil-kt.coil3:coil-network-okhttp:3.0.0-rc01")
 }
+
+
 //kapt {
 //    correctErrorTypes = true
 //}

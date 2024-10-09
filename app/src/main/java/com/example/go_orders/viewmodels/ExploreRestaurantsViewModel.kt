@@ -3,6 +3,7 @@ package com.example.go_orders.viewmodels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.go_orders.domain.GetAllRestaurantsUseCase
+import com.example.go_orders.domain.GetCategoriesUseCase
 import com.example.go_orders.state.ExploreRestaurantsScreenUIState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -16,7 +17,11 @@ class ExploreRestaurantsViewModel:ViewModel() {
     private val _state = MutableStateFlow(ExploreRestaurantsScreenUIState())
     val state:StateFlow<ExploreRestaurantsScreenUIState> = _state
     val getAllRestaurantsUseCase = GetAllRestaurantsUseCase()
+    val getCategoriesUseCase = GetCategoriesUseCase()
     init {
+        viewModelScope.launch(Dispatchers.IO) {
+            _state.update { it.copy(categories = getCategoriesUseCase()) }
+        }
         viewModelScope.launch(Dispatchers.IO) {
             _state.update { it.copy(restaurants = getAllRestaurantsUseCase()) }
         }

@@ -3,10 +3,13 @@ package com.example.go_orders.composables
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -21,33 +24,60 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil3.compose.AsyncImage
 import com.example.go_orders.R
 import com.example.go_orders.state.ExploreRestaurantsScreenUIState.RestaurantUIState
 import com.example.go_orders.ui.theme.Beiruti
 
 @Composable
 fun RestaurantCard(
-    restaurant: RestaurantUIState
+    restaurant: RestaurantUIState,
+    restaurantCount: Int,
+    index: Int
 ) {
-    RestaurantCardContent(restaurant)
+    RestaurantCardContent(
+        restaurant,
+        restaurantCount,
+        index
+    )
 }
 
 @Composable
 private fun RestaurantCardContent(
-    restaurant: RestaurantUIState
+    restaurant: RestaurantUIState,
+    restaurantCount: Int,
+    index: Int
 ) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 10.dp)
-//            .clip(RoundedCornerShape(topStart = 6.dp, topEnd = 6.dp))
+            .clip(
+                when (index) {
+                    0 -> RoundedCornerShape(topStart = 6.dp, topEnd = 6.dp)
+                    restaurantCount - 1 -> RoundedCornerShape(bottomStart = 6.dp, bottomEnd = 6.dp)
+                    else -> RoundedCornerShape(0.dp)
+                }
+            )
             .background(MaterialTheme.colorScheme.secondary)
-            .padding(top = 12.dp, start = 12.dp, end = 12.dp),
+            .padding(
+                if (index == restaurantCount - 1) PaddingValues(
+                    top = 12.dp,
+                    start = 12.dp,
+                    end = 12.dp,
+                    bottom = 14.dp
+                ) else PaddingValues(
+                    top = 14.dp,
+                    start = 12.dp,
+                    end = 12.dp
+                )
+            ),
         shape = RoundedCornerShape(6.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.onBackground),
         border = BorderStroke(width = 2.dp, color = MaterialTheme.colorScheme.primary)
@@ -59,19 +89,24 @@ private fun RestaurantCardContent(
             Box(
                 contentAlignment = Alignment.BottomEnd
             ) {
-                Image(
+                AsyncImage(
                     modifier = Modifier
+                        .height(230.dp)
                         .clip(RoundedCornerShape(topEnd = 6.dp, topStart = 6.dp)),
-                    painter = painterResource(R.drawable.rocket),
+                    model = restaurant.cover,
+                    contentScale = ContentScale.Crop,
                     contentDescription = "Restaurant banner",
                 )
-                Image(
+                AsyncImage(
                     modifier = Modifier
                         .padding(end = 12.dp, bottom = 12.dp)
                         .size(72.dp)
-                        .clip(RoundedCornerShape(topStart = 18.dp)),
-                    painter = painterResource(R.drawable.rocket_logo),
-                    contentDescription = "Restaurant logo"
+                        .clip(RoundedCornerShape(topStart = 18.dp))
+                        .border(width = 0.5.dp, color = MaterialTheme.colorScheme.primary),
+                    model = restaurant.logo,
+                    contentScale = ContentScale.Crop,
+                    contentDescription = "Restaurant logo",
+                    alpha = 0.95f,
                 )
             }
             Column(
@@ -100,14 +135,14 @@ private fun RestaurantCardContent(
                                 horizontal = 10.dp
                             ),
 
-                        text = restaurant.name,
+                        text = "",
                         fontSize = 14.sp,
                         fontFamily = Beiruti,
                         color = MaterialTheme.colorScheme.surfaceContainerHigh
                     )
                     Text(
                         modifier = Modifier.weight(1f),
-                        text = "Restaurant Name",
+                        text = restaurant.name,
                         fontFamily = Beiruti,
                         fontSize = 24.sp,
                         color = MaterialTheme.colorScheme.primary,
@@ -164,5 +199,5 @@ private fun RestaurantCardContent(
 @Preview
 @Composable
 fun PreviewRestaurantCard() {
-//    RestaurantCard()
+//    RestaurantCard(RestaurantUIState())
 }

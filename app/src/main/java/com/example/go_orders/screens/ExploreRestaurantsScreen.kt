@@ -7,13 +7,15 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -33,7 +35,7 @@ import com.example.go_orders.viewmodels.ExploreRestaurantsViewModel
 fun ExploreRestaurantsScreen(
 //    viewModel: ExploreRestaurantsViewModel = hiltViewModel()
 ) {
-    val viewModel = ExploreRestaurantsViewModel()
+    val viewModel by remember { mutableStateOf(ExploreRestaurantsViewModel()) }
     val state by viewModel.state.collectAsState()
     ExploreRestaurantsScreenContent(state)
 }
@@ -68,7 +70,7 @@ fun ExploreRestaurantsScreenContent(
                     )
                 }
                 item {
-                    CategoriesLazyList(ExploreRestaurantsScreenUIState().categories)
+                    CategoriesLazyList(state.categories)
                 }
                 stickyHeader {
                     RestaurantsSearchBar()
@@ -85,8 +87,12 @@ fun ExploreRestaurantsScreenContent(
                         textAlign = TextAlign.End
                     )
                 }
-                items(state.restaurants) {
-                    RestaurantCard(it)
+                itemsIndexed(state.restaurants) { index, item ->
+                    RestaurantCard(
+                        restaurant = item,
+                        restaurantCount = state.restaurants.size,
+                        index = index
+                    )
                 }
             }
         }

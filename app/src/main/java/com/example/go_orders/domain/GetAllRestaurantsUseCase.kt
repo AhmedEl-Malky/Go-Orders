@@ -5,7 +5,7 @@ import com.example.go_orders.state.ExploreRestaurantsScreenUIState.RestaurantUIS
 
 class GetAllRestaurantsUseCase {
     suspend operator fun invoke(): List<RestaurantUIState> {
-        return Supabase.getAllRestaurants()
+        return Supabase.getAllRestaurants().sortedBy { it.id }
     }
 
 }

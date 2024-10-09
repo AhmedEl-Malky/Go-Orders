@@ -10,19 +10,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.go_orders.state.ExploreRestaurantsScreenUIState
-import com.example.go_orders.state.ExploreRestaurantsScreenUIState.Category
 import com.example.go_orders.state.ExploreRestaurantsScreenUIState.CategoryUIState
 
 @Composable
 fun CategoriesLazyList(
-    categories: List<Category>
+    categories: List<CategoryUIState>
 ) {
     CategoriesLazyListContent(categories)
 }
 
 @Composable
 private fun CategoriesLazyListContent(
-    categories: List<Category>
+    categories: List<CategoryUIState>
 ) {
     LazyRow(
         modifier = Modifier
