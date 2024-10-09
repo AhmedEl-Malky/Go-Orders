@@ -26,4 +26,13 @@ class ExploreRestaurantsViewModel:ViewModel() {
             _state.update { it.copy(restaurants = getAllRestaurantsUseCase()) }
         }
     }
+
+    fun filterOpenedRestaurants(isOpened:Boolean){
+        _state.update { it.copy(isOpenFilter = isOpened) }
+    }
+
+    fun searchForRestaurant(searchInput:String){
+        _state.update { it.copy(searchInput = searchInput) }
+    }
+
 }

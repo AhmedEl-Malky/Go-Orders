@@ -37,13 +37,19 @@ fun ExploreRestaurantsScreen(
 ) {
     val viewModel by remember { mutableStateOf(ExploreRestaurantsViewModel()) }
     val state by viewModel.state.collectAsState()
-    ExploreRestaurantsScreenContent(state)
+    ExploreRestaurantsScreenContent(
+        state,
+        viewModel::filterOpenedRestaurants,
+        viewModel::searchForRestaurant
+    )
 }
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ExploreRestaurantsScreenContent(
-    state: ExploreRestaurantsScreenUIState
+    state: ExploreRestaurantsScreenUIState,
+    filterOpenedRestaurants: (Boolean) -> Unit,
+    searchForRestaurant: (String) -> Unit
 ) {
     Scaffold { innerPadding ->
         Column(
@@ -73,7 +79,12 @@ fun ExploreRestaurantsScreenContent(
                     CategoriesLazyList(state.categories)
                 }
                 stickyHeader {
-                    RestaurantsSearchBar()
+                    RestaurantsSearchBar(
+                        state.isOpenFilter,
+                        state.searchInput,
+                        filterOpenedRestaurants,
+                        searchForRestaurant
+                    )
                 }
                 item {
                     Text(
