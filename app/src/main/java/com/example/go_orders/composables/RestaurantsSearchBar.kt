@@ -21,7 +21,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.intl.LocaleList
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -57,6 +56,42 @@ fun RestaurantsSearchBarContent(
             .background(MaterialTheme.colorScheme.secondary),
         verticalAlignment = Alignment.CenterVertically
     ) {
+        OutlinedTextField(
+            modifier = Modifier
+                .weight(5f)
+                .height(52.dp)
+                .padding(top = 0.dp, bottom = 0.dp, end = 0.dp, start = 4.dp),
+            value = searchInput,
+            onValueChange = { searchForRestaurant(it) },
+            textStyle = TextStyle(
+                fontFamily = Beiruti,
+                textAlign = TextAlign.Start,
+                color = MaterialTheme.colorScheme.onBackground,
+                fontSize = MaterialTheme.typography.bodyLarge.fontSize
+            ),
+            shape = RoundedCornerShape(6.dp),
+            colors = TextFieldDefaults.colors(
+                focusedContainerColor = MaterialTheme.colorScheme.background,
+                unfocusedContainerColor = MaterialTheme.colorScheme.background,
+                cursorColor = MaterialTheme.colorScheme.primary,
+                focusedIndicatorColor = MaterialTheme.colorScheme.primary,
+                unfocusedIndicatorColor = MaterialTheme.colorScheme.outline
+            ),
+            placeholder = {
+                Text(
+                    modifier = Modifier.fillMaxWidth(),
+                    text = "البحث عن مطاعم ...",
+                    color = MaterialTheme.colorScheme.surfaceVariant,
+                    textAlign = TextAlign.Start,
+                    fontSize = MaterialTheme.typography.bodyLarge.fontSize
+                )
+            },
+            singleLine = true,
+            keyboardOptions = KeyboardOptions(
+                imeAction = ImeAction.Search,
+                keyboardType = KeyboardType.Text
+            )
+        )
         Column(
             modifier = Modifier.weight(1f),
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -78,46 +113,10 @@ fun RestaurantsSearchBarContent(
                 )
             )
         }
-        OutlinedTextField(
-            modifier = Modifier
-                .weight(5f)
-                .height(52.dp)
-                .padding(top = 0.dp, bottom = 0.dp, start = 0.dp, end = 4.dp),
-            value = searchInput,
-            onValueChange = {searchForRestaurant(it)},
-            textStyle = TextStyle(
-                fontFamily = Beiruti,
-                textAlign = TextAlign.End,
-                color = MaterialTheme.colorScheme.onBackground,
-                fontSize = MaterialTheme.typography.bodyLarge.fontSize
-            ),
-            shape = RoundedCornerShape(6.dp),
-            colors = TextFieldDefaults.colors(
-                focusedContainerColor = MaterialTheme.colorScheme.background,
-                unfocusedContainerColor = MaterialTheme.colorScheme.background,
-                cursorColor = MaterialTheme.colorScheme.primary,
-                focusedIndicatorColor = MaterialTheme.colorScheme.primary,
-                unfocusedIndicatorColor = MaterialTheme.colorScheme.outline
-            ),
-            placeholder = {
-                Text(
-                    modifier = Modifier.fillMaxWidth(),
-                    text = " ... البحث عن مطعم ",
-                    color = MaterialTheme.colorScheme.surfaceVariant,
-                    textAlign = TextAlign.End,
-                    fontSize = MaterialTheme.typography.bodyLarge.fontSize
-                )
-            },
-            singleLine = true,
-            keyboardOptions = KeyboardOptions(
-                imeAction = ImeAction.Search,
-                keyboardType = KeyboardType.Text
-            )
-        )
     }
 }
 
-@Preview
+@Preview(locale = "ar")
 @Composable
 fun PreviewRestaurantsSearchBar() {
 //    RestaurantsSearchBar()

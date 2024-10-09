@@ -28,7 +28,6 @@ private fun CategoriesLazyListContent(
             .fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(12.dp),
         contentPadding = PaddingValues(start = 12.dp, end = 12.dp, top = 4.dp, bottom = 8.dp),
-        reverseLayout = true
     ) {
         items(categories) {
             CategoryCard(it)

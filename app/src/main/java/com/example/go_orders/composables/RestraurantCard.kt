@@ -87,7 +87,7 @@ private fun RestaurantCardContent(
                 .fillMaxWidth()
         ) {
             Box(
-                contentAlignment = Alignment.BottomEnd
+                contentAlignment = Alignment.BottomStart
             ) {
                 AsyncImage(
                     modifier = Modifier
@@ -99,9 +99,9 @@ private fun RestaurantCardContent(
                 )
                 AsyncImage(
                     modifier = Modifier
-                        .padding(end = 12.dp, bottom = 12.dp)
+                        .padding(start = 12.dp, bottom = 12.dp)
                         .size(72.dp)
-                        .clip(RoundedCornerShape(topStart = 18.dp))
+                        .clip(RoundedCornerShape(topEnd = 18.dp))
                         .border(width = 0.5.dp, color = MaterialTheme.colorScheme.primary),
                     model = restaurant.logo,
                     contentScale = ContentScale.Crop,
@@ -122,6 +122,21 @@ private fun RestaurantCardContent(
                         .padding(top = 4.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
+                    Image(
+                        modifier = Modifier
+                            .size(24.dp)
+                            .padding(horizontal = 4.dp),
+                        painter = painterResource(R.drawable.verified),
+                        contentDescription = "Verified"
+                    )
+                    Text(
+                        modifier = Modifier.weight(1f),
+                        text = restaurant.name,
+                        fontFamily = Beiruti,
+                        fontSize = 24.sp,
+                        color = MaterialTheme.colorScheme.primary,
+                        textAlign = TextAlign.Start
+                    )
                     Text(
                         modifier = Modifier
                             .padding(
@@ -140,21 +155,6 @@ private fun RestaurantCardContent(
                         fontFamily = Beiruti,
                         color = MaterialTheme.colorScheme.surfaceContainerHigh
                     )
-                    Text(
-                        modifier = Modifier.weight(1f),
-                        text = restaurant.name,
-                        fontFamily = Beiruti,
-                        fontSize = 24.sp,
-                        color = MaterialTheme.colorScheme.primary,
-                        textAlign = TextAlign.End
-                    )
-                    Image(
-                        modifier = Modifier
-                            .size(22.dp)
-                            .padding(start = 4.dp),
-                        painter = painterResource(R.drawable.verified),
-                        contentDescription = "Verified"
-                    )
                 }
                 Text(
                     modifier = Modifier.fillMaxWidth(),
@@ -162,7 +162,7 @@ private fun RestaurantCardContent(
                     fontFamily = Beiruti,
                     fontSize = 16.sp,
                     color = MaterialTheme.colorScheme.onTertiary,
-                    textAlign = TextAlign.End,
+                    textAlign = TextAlign.Start,
                 )
                 Button(
                     modifier = Modifier
@@ -176,19 +176,19 @@ private fun RestaurantCardContent(
                         )
                     )
                 ) {
-                    Icon(
-                        modifier = Modifier
-                            .size(20.dp)
-                            .padding(end = 4.dp),
-                        painter = painterResource(R.drawable.menu),
-                        contentDescription = "Check Menu",
-                        tint = MaterialTheme.colorScheme.primary
-                    )
                     Text(
-                        text = "Menuتصفح ال",
+                        text = "تصفح الMenu",
                         fontFamily = Beiruti,
                         fontSize = 16.sp,
                         color = MaterialTheme.colorScheme.primary
+                    )
+                    Icon(
+                        modifier = Modifier
+                            .size(20.dp)
+                            .padding(start = 4.dp),
+                        painter = painterResource(R.drawable.menu),
+                        contentDescription = "Check Menu",
+                        tint = MaterialTheme.colorScheme.primary
                     )
                 }
             }
@@ -196,8 +196,8 @@ private fun RestaurantCardContent(
     }
 }
 
-@Preview
+@Preview(locale = "ar")
 @Composable
 fun PreviewRestaurantCard() {
-//    RestaurantCard(RestaurantUIState())
+//    RestaurantCard()
 }

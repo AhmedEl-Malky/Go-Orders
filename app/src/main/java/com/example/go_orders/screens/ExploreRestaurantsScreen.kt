@@ -66,13 +66,13 @@ fun ExploreRestaurantsScreenContent(
                     Text(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(end = 6.dp),
+                            .padding(start = 6.dp),
                         text = "التصنيفات المشهورة",
                         fontFamily = Beiruti,
                         color = MaterialTheme.colorScheme.onBackground,
                         fontSize = 22.sp,
                         fontWeight = FontWeight.SemiBold,
-                        textAlign = TextAlign.End
+                        textAlign = TextAlign.Start
                     )
                 }
                 item {
@@ -95,7 +95,7 @@ fun ExploreRestaurantsScreenContent(
                         fontFamily = Beiruti,
                         fontSize = MaterialTheme.typography.headlineSmall.fontSize,
                         fontWeight = FontWeight.SemiBold,
-                        textAlign = TextAlign.End
+                        textAlign = TextAlign.Start
                     )
                 }
                 itemsIndexed(state.restaurants) { index, item ->
@@ -112,7 +112,8 @@ fun ExploreRestaurantsScreenContent(
 
 @Preview(
     showSystemUi = true, showBackground = true,
-    device = "spec:width=1080px,height=2400px,dpi=441"
+    device = "spec:width=1080px,height=2400px,dpi=441",
+    locale = "ar"
 )
 @Composable
 fun PreviewExploreRestaurantsScreen() {

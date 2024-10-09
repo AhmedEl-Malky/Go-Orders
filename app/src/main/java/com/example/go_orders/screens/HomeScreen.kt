@@ -26,28 +26,25 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.PreviewFontScale
-import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.go_orders.navigations.Navigation
 import com.example.go_orders.R
 import com.example.go_orders.composables.TopAppBar
+import com.example.go_orders.navigations.Navigation
 import com.example.go_orders.ui.theme.Beiruti
 
 @Composable
 fun HomeScreen(
     navController: NavController
-){
+) {
     HomeScreenContent(
-        goExploreRestaurants = {navController.navigate(Navigation.ExploreRestaurantsScreen.route)}
+        goExploreRestaurants = { navController.navigate(Navigation.ExploreRestaurantsScreen.route) }
     )
 }
 
 @Composable
 private fun HomeScreenContent(
-    goExploreRestaurants:()->Unit
+    goExploreRestaurants: () -> Unit
 ) {
     Scaffold { innerPadding ->
         Column(
@@ -79,7 +76,7 @@ private fun HomeScreenContent(
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Text(
-                            text = "👌 Order أطلب يوصلك اسرع",
+                            text = "أطلب يوصلك أسرع Order 👌",
                             fontFamily = Beiruti,
                             fontSize = MaterialTheme.typography.headlineMedium.fontSize,
                             fontWeight = FontWeight.SemiBold,
@@ -91,7 +88,7 @@ private fun HomeScreenContent(
                         ) {
                             Text(
                                 modifier = Modifier.fillMaxWidth(),
-                                text = "كل Go Orders مع",
+                                text = "مع Go Orders كل",
                                 fontFamily = Beiruti,
                                 fontSize = MaterialTheme.typography.displayMedium.fontSize,
                                 fontWeight = FontWeight.ExtraBold,
@@ -117,19 +114,19 @@ private fun HomeScreenContent(
                                 shape = RoundedCornerShape(6.dp),
                                 colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
                             ) {
-                                Text(
-                                    modifier = Modifier.padding(start = 8.dp),
-                                    text = "اختر مدينتك",
-                                    fontFamily = Beiruti,
-                                    fontSize = MaterialTheme.typography.titleLarge.fontSize,
-                                    color = MaterialTheme.colorScheme.onPrimary,
-                                    fontWeight = FontWeight.SemiBold
-                                )
                                 Icon(
                                     modifier = Modifier.padding(8.dp),
                                     painter = painterResource(R.drawable.map),
                                     contentDescription = "Location",
                                     tint = MaterialTheme.colorScheme.onPrimary
+                                )
+                                Text(
+                                    modifier = Modifier.padding(end = 8.dp),
+                                    text = "اختر مدينتك",
+                                    fontFamily = Beiruti,
+                                    fontSize = MaterialTheme.typography.titleLarge.fontSize,
+                                    color = MaterialTheme.colorScheme.onPrimary,
+                                    fontWeight = FontWeight.SemiBold
                                 )
                             }
                             Button(
@@ -137,8 +134,9 @@ private fun HomeScreenContent(
                                 shape = RoundedCornerShape(6.dp),
                                 colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.onPrimaryContainer)
                             ) {
+
                                 Text(
-                                    modifier = Modifier.padding(start = 12.dp),
+                                    modifier = Modifier.padding(end = 12.dp),
                                     text = "تصفح المطاعم",
                                     fontFamily = Beiruti,
                                     fontSize = MaterialTheme.typography.titleLarge.fontSize,
@@ -156,6 +154,7 @@ private fun HomeScreenContent(
                                     contentDescription = "Location",
                                     tint = MaterialTheme.colorScheme.primary
                                 )
+
                             }
                         }
                     }
@@ -164,8 +163,11 @@ private fun HomeScreenContent(
         }
     }
 }
-@Preview(showBackground = true, showSystemUi = true,
-     device = "spec:width=1080px,height=2400px,dpi=440",)
+
+@Preview(
+    showBackground = true, showSystemUi = true,
+    device = "spec:width=1080px,height=2400px,dpi=440", locale = "ar"
+)
 @Composable
 private fun PreviewHomeScreen() {
     HomeScreenContent(goExploreRestaurants = {})
