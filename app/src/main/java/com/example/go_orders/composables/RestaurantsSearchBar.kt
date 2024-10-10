@@ -119,5 +119,10 @@ fun RestaurantsSearchBarContent(
 @Preview(locale = "ar")
 @Composable
 fun PreviewRestaurantsSearchBar() {
-//    RestaurantsSearchBar()
+    RestaurantsSearchBar(
+        false,
+        "",
+        filterOpenedRestaurants = {false},
+        searchForRestaurant = {"true"}
+    )
 }

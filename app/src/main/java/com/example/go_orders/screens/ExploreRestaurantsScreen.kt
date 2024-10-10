@@ -22,6 +22,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.go_orders.composables.CategoriesLazyList
 import com.example.go_orders.composables.RestaurantCard
 import com.example.go_orders.composables.RestaurantsSearchBar
@@ -33,9 +34,8 @@ import com.example.go_orders.viewmodels.ExploreRestaurantsViewModel
 
 @Composable
 fun ExploreRestaurantsScreen(
-//    viewModel: ExploreRestaurantsViewModel = hiltViewModel()
+    viewModel: ExploreRestaurantsViewModel
 ) {
-    val viewModel by remember { mutableStateOf(ExploreRestaurantsViewModel()) }
     val state by viewModel.state.collectAsState()
     ExploreRestaurantsScreenContent(
         state,
@@ -117,5 +117,5 @@ fun ExploreRestaurantsScreenContent(
 )
 @Composable
 fun PreviewExploreRestaurantsScreen() {
-    ExploreRestaurantsScreen()
+//    ExploreRestaurantsScreen()
 }

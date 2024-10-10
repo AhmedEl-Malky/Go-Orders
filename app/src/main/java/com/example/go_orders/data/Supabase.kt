@@ -5,6 +5,7 @@ import com.example.go_orders.state.ExploreRestaurantsScreenUIState.*
 import io.github.jan.supabase.createSupabaseClient
 import io.github.jan.supabase.postgrest.Postgrest
 import io.github.jan.supabase.postgrest.from
+import io.github.jan.supabase.postgrest.query.Columns
 
 
 object Supabase : GoOrdersServices {
@@ -16,8 +17,13 @@ object Supabase : GoOrdersServices {
         install(Postgrest)
     }
 
-    override suspend fun getAllRestaurants(): List<RestaurantUIState> {
-        return supabaseClient.from("restaurants").select().decodeList<RestaurantUIState>()
+    override suspend fun getAllRestaurants(searchInput:String,isOpen: Boolean): List<RestaurantUIState> {
+        return supabaseClient.from("restaurants").select{
+            filter {
+                eq("open_now",isOpen)
+                like("name", "%$searchInput%")
+            }
+        }.decodeList<RestaurantUIState>()
     }
 
     override suspend fun getCategories(): List<CategoryUIState> {
@@ -28,7 +34,7 @@ object Supabase : GoOrdersServices {
 
 interface GoOrdersServices {
 
-    suspend fun getAllRestaurants(): List<RestaurantUIState>
+    suspend fun getAllRestaurants(searchInput: String,isOpen:Boolean): List<RestaurantUIState>
 
     suspend fun getCategories(): List<CategoryUIState>
 

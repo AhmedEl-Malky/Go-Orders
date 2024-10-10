@@ -69,7 +69,7 @@ private fun HomeScreenContent(
                     contentScale = ContentScale.Crop
                 )
                 Box(
-                    modifier = Modifier.padding(top = 52.dp)
+                    modifier = Modifier.padding(top = 100.dp)
                 ) {
                     Column(
                         verticalArrangement = Arrangement.spacedBy(12.dp),
@@ -78,12 +78,12 @@ private fun HomeScreenContent(
                         Text(
                             text = "أطلب يوصلك أسرع Order 👌",
                             fontFamily = Beiruti,
-                            fontSize = MaterialTheme.typography.headlineMedium.fontSize,
+                            fontSize = MaterialTheme.typography.headlineSmall.fontSize,
                             fontWeight = FontWeight.SemiBold,
                             color = MaterialTheme.colorScheme.background
                         )
                         Column(
-                            verticalArrangement = Arrangement.spacedBy(6.dp),
+                            verticalArrangement = Arrangement.spacedBy(2.dp),
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             Text(
@@ -106,7 +106,8 @@ private fun HomeScreenContent(
                             )
                         }
                         Column(
-                            verticalArrangement = Arrangement.spacedBy(8.dp),
+                            modifier = Modifier.padding(top = 8.dp),
+                            verticalArrangement = Arrangement.spacedBy(12.dp),
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             Button(
