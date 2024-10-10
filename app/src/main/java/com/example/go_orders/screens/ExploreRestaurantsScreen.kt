@@ -7,28 +7,50 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.go_orders.composables.CategoriesLazyList
 import com.example.go_orders.composables.RestaurantCard
-import com.example.go_orders.composables.RestaurantLazyList
 import com.example.go_orders.composables.RestaurantsSearchBar
 import com.example.go_orders.composables.TopAppBar
 import com.example.go_orders.state.ExploreRestaurantsScreenUIState
 import com.example.go_orders.ui.theme.Beiruti
+import com.example.go_orders.viewmodels.ExploreRestaurantsViewModel
+
+
+@Composable
+fun ExploreRestaurantsScreen(
+    viewModel: ExploreRestaurantsViewModel
+) {
+    val state by viewModel.state.collectAsState()
+    ExploreRestaurantsScreenContent(
+        state,
+        viewModel::filterOpenedRestaurants,
+        viewModel::searchForRestaurant
+    )
+}
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun ExploreRestaurantsScreen() {
+fun ExploreRestaurantsScreenContent(
+    state: ExploreRestaurantsScreenUIState,
+    filterOpenedRestaurants: (Boolean) -> Unit,
+    searchForRestaurant: (String) -> Unit
+) {
     Scaffold { innerPadding ->
         Column(
             modifier = Modifier
@@ -44,20 +66,25 @@ fun ExploreRestaurantsScreen() {
                     Text(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(end = 6.dp),
+                            .padding(start = 6.dp),
                         text = "التصنيفات المشهورة",
                         fontFamily = Beiruti,
                         color = MaterialTheme.colorScheme.onBackground,
                         fontSize = 22.sp,
                         fontWeight = FontWeight.SemiBold,
-                        textAlign = TextAlign.End
+                        textAlign = TextAlign.Start
                     )
                 }
                 item {
-                    CategoriesLazyList(ExploreRestaurantsScreenUIState().categories)
+                    CategoriesLazyList(state.categories)
                 }
                 stickyHeader {
-                    RestaurantsSearchBar()
+                    RestaurantsSearchBar(
+                        state.isOpenFilter,
+                        state.searchInput,
+                        filterOpenedRestaurants,
+                        searchForRestaurant
+                    )
                 }
                 item {
                     Text(
@@ -66,24 +93,29 @@ fun ExploreRestaurantsScreen() {
                             .padding(horizontal = 16.dp, vertical = 8.dp),
                         text = "المطاعم المتاحة في منطقتك",
                         fontFamily = Beiruti,
-                        fontSize = 24.sp,
+                        fontSize = MaterialTheme.typography.headlineSmall.fontSize,
                         fontWeight = FontWeight.SemiBold,
-                        textAlign = TextAlign.End
+                        textAlign = TextAlign.Start
                     )
                 }
-                items(list){
-                    RestaurantCard()
+                itemsIndexed(state.restaurants) { index, item ->
+                    RestaurantCard(
+                        restaurant = item,
+                        restaurantCount = state.restaurants.size,
+                        index = index
+                    )
                 }
             }
         }
     }
 }
-val list = listOf(1,2,3,4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,)
 
-@Preview(showSystemUi = true, showBackground = true,
-    device = "spec:width=1080px,height=2400px,dpi=441"
+@Preview(
+    showSystemUi = true, showBackground = true,
+    device = "spec:width=1080px,height=2400px,dpi=441",
+    locale = "ar"
 )
 @Composable
 fun PreviewExploreRestaurantsScreen() {
-    ExploreRestaurantsScreen()
+//    ExploreRestaurantsScreen()
 }

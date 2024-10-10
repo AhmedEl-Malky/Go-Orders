@@ -20,13 +20,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil3.compose.AsyncImage
 import com.example.go_orders.R
-import com.example.go_orders.state.ExploreRestaurantsScreenUIState.Category
+import com.example.go_orders.state.ExploreRestaurantsScreenUIState
+import com.example.go_orders.state.ExploreRestaurantsScreenUIState.CategoryUIState
 import com.example.go_orders.ui.theme.Beiruti
 
 @Composable
 fun CategoryCard(
-    category: Category
+    category: CategoryUIState
 ) {
     CategoryCardContent(category)
 }
@@ -34,7 +36,7 @@ fun CategoryCard(
 
 @Composable
 private fun CategoryCardContent(
-    category: Category
+    category: CategoryUIState
 ) {
     Card(
         modifier = Modifier
@@ -60,9 +62,9 @@ private fun CategoryCardContent(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
-            Image(
+            AsyncImage(
                 modifier = Modifier.size(40.dp),
-                painter = painterResource(category.img),
+                model = category.icon,
                 contentDescription = category.name
             )
             Text(
@@ -70,7 +72,7 @@ private fun CategoryCardContent(
                 color = if (category.isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onBackground,
                 fontFamily = Beiruti,
                 fontWeight = FontWeight.SemiBold,
-                fontSize = 16.sp
+                fontSize = MaterialTheme.typography.bodyMedium.fontSize
             )
         }
     }
@@ -81,5 +83,5 @@ private fun CategoryCardContent(
 @Preview
 @Composable
 private fun PreviewCategoryCard() {
-    CategoryCard(Category(name = "دجاج", img = R.drawable.all, isSelected = true))
+    CategoryCard(CategoryUIState(name = "فول وفلافل"))
 }

@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -29,7 +28,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.example.go_orders.R
 import com.example.go_orders.ui.theme.Beiruti
 
@@ -45,24 +43,36 @@ fun TopAppBar() {
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Row {
-            Button(
+        Image(
+            modifier = Modifier.size(60.dp),
+            painter = painterResource(id = R.drawable.go_logo),
+            contentDescription = "logo"
+        )
+        Row(
+            modifier = Modifier
+                .clip(RoundedCornerShape(6.dp))
+                .background(MaterialTheme.colorScheme.secondary),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
+        ) {
+            Icon(
                 modifier = Modifier
-                    .size(48.dp),
-                onClick = {},
-                shape = RoundedCornerShape(6.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF)),
-                border = BorderStroke(1.dp, color = MaterialTheme.colorScheme.outline),
-                contentPadding = PaddingValues(10.dp)
-            ) {
-                Icon(
-                    modifier = Modifier.size(24.dp),
-                    imageVector = Icons.Default.Menu,
-                    contentDescription = "Menu",
-                    tint = MaterialTheme.colorScheme.onBackground
-                )
-            }
-            Spacer(modifier = Modifier.width(6.dp))
+                    .size(28.dp)
+                    .padding(start = 8.dp),
+                painter = painterResource(R.drawable.map),
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.onSecondary
+            )
+            Text(
+                modifier = Modifier.padding(top = 8.dp, bottom = 8.dp, end = 24.dp, start = 4.dp),
+                text = "مدينة ...",
+                color = MaterialTheme.colorScheme.onSecondary,
+                fontFamily = Beiruti,
+                fontSize = MaterialTheme.typography.titleLarge.fontSize
+            )
+        }
+        Spacer(modifier = Modifier.width(48.dp))
+        Row {
             Button(
                 modifier = Modifier
                     .size(48.dp),
@@ -79,42 +89,29 @@ fun TopAppBar() {
                     tint = MaterialTheme.colorScheme.onSecondary
                 )
             }
-        }
-        Spacer(modifier = Modifier.width(48.dp))
-        Row(
-            modifier = Modifier
-                .clip(RoundedCornerShape(6.dp))
-                .background(MaterialTheme.colorScheme.secondary),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween,
-        ) {
-            Text(
-                modifier = Modifier.padding(top = 8.dp, bottom = 8.dp, start = 24.dp, end = 4.dp),
-                text = "... مدينة",
-                color = MaterialTheme.colorScheme.onSecondary,
-                fontFamily = Beiruti,
-                fontSize = 18.sp
-            )
-            Icon(
+            Spacer(modifier = Modifier.width(6.dp))
+            Button(
                 modifier = Modifier
-                    .size(28.dp)
-                    .padding(end = 8.dp),
-                painter = painterResource(R.drawable.map),
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.onSecondary
-            )
-        }
-//        Spacer(modifier = Modifier.width(8.dp))
-        Image(
-            modifier = Modifier.size(60.dp),
-            painter = painterResource(id = R.drawable.go_logo),
-            contentDescription = "logo"
-        )
+                    .size(48.dp),
+                onClick = {},
+                shape = RoundedCornerShape(6.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF)),
+                border = BorderStroke(1.dp, color = MaterialTheme.colorScheme.outline),
+                contentPadding = PaddingValues(10.dp)
+            ) {
+                Icon(
+                    modifier = Modifier.size(24.dp),
+                    imageVector = Icons.Default.Menu,
+                    contentDescription = "Menu",
+                    tint = MaterialTheme.colorScheme.onBackground
+                )
+            }
 
+        }
     }
 }
 
-@Preview
+@Preview(locale = "ar")
 @Composable
 fun PreviewTopAppBar() {
     TopAppBar()
