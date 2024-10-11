@@ -30,6 +30,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.go_orders.R
 import com.example.go_orders.ui.theme.Beiruti
+import com.example.go_orders.ui.theme.GoOrdersTheme
 
 @Composable
 fun TopAppBar() {
@@ -114,5 +115,7 @@ fun TopAppBar() {
 @Preview(locale = "ar")
 @Composable
 fun PreviewTopAppBar() {
-    TopAppBar()
+    GoOrdersTheme {
+        TopAppBar()
+    }
 }

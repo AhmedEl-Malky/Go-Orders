@@ -18,7 +18,7 @@ val MutedLight = Color(0xFFF5F5F0) // Tertiary
 val MutedForeGroundLight = Color(0xFF6E665B) // OnTertiary
 val AccentLight = Color(0xFFF5F5F0)
 val AccentForeGroundLight = Color(0xFF2A251B)
-val DestructiveLight = Color(0xFFE53935)
+val DestructiveLight = Color(0xFFE53935) // Error
 val DestructiveForeGroundLight = Color(0xFFFCFDF6)
 val BorderLight = Color(0xFFE5E2DB) // Outline
 val InputLight = Color(0xFFE5E2DB)  // SurfaceVariant
@@ -53,7 +53,7 @@ val Chart_1Dark = Color(0xFF34D399)
 val Chart_2Dark = Color(0xFF064E3B)
 
 
-
+val CartPrice = Color(0xFF10B981) //
 
 
 

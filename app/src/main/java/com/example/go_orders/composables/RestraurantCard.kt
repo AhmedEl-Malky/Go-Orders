@@ -34,6 +34,7 @@ import coil3.compose.AsyncImage
 import com.example.go_orders.R
 import com.example.go_orders.state.ExploreRestaurantsScreenUIState.RestaurantUIState
 import com.example.go_orders.ui.theme.Beiruti
+import com.example.go_orders.ui.theme.GoOrdersTheme
 
 @Composable
 fun RestaurantCard(
@@ -199,5 +200,7 @@ private fun RestaurantCardContent(
 @Preview(locale = "ar")
 @Composable
 fun PreviewRestaurantCard() {
+    GoOrdersTheme {
 //    RestaurantCard()
+    }
 }

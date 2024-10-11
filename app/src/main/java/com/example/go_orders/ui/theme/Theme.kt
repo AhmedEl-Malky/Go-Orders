@@ -28,7 +28,8 @@ private val DarkColorScheme = darkColorScheme(
     tertiary = MutedDark,
     onTertiary = MutedForeGroundDark,
     error = DestructiveDark,
-    outline = BorderDark
+    outline = BorderDark,
+    outlineVariant = CartPrice
 )
 
 private val LightColorScheme = lightColorScheme(
@@ -48,7 +49,8 @@ private val LightColorScheme = lightColorScheme(
     tertiary = MutedLight,
     onTertiary = MutedForeGroundLight,
     error = DestructiveLight,
-    outline = BorderLight
+    outline = BorderLight,
+    outlineVariant = CartPrice
 )
 
 
