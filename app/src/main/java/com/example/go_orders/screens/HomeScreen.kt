@@ -32,6 +32,7 @@ import com.example.go_orders.R
 import com.example.go_orders.composables.TopAppBar
 import com.example.go_orders.navigations.Navigation
 import com.example.go_orders.ui.theme.Beiruti
+import com.example.go_orders.ui.theme.GoOrdersTheme
 
 @Composable
 fun HomeScreen(
@@ -171,5 +172,7 @@ private fun HomeScreenContent(
 )
 @Composable
 private fun PreviewHomeScreen() {
-    HomeScreenContent(goExploreRestaurants = {})
+    GoOrdersTheme {
+        HomeScreenContent(goExploreRestaurants = {})
+    }
 }

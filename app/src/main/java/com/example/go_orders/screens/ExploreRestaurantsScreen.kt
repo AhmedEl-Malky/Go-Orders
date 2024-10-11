@@ -29,6 +29,7 @@ import com.example.go_orders.composables.RestaurantsSearchBar
 import com.example.go_orders.composables.TopAppBar
 import com.example.go_orders.state.ExploreRestaurantsScreenUIState
 import com.example.go_orders.ui.theme.Beiruti
+import com.example.go_orders.ui.theme.GoOrdersTheme
 import com.example.go_orders.viewmodels.ExploreRestaurantsViewModel
 
 
@@ -117,5 +118,7 @@ fun ExploreRestaurantsScreenContent(
 )
 @Composable
 fun PreviewExploreRestaurantsScreen() {
-//    ExploreRestaurantsScreen()
+    GoOrdersTheme {
+//        ExploreRestaurantsScreen()
+    }
 }

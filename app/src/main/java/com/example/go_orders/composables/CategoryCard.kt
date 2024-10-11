@@ -25,6 +25,7 @@ import com.example.go_orders.R
 import com.example.go_orders.state.ExploreRestaurantsScreenUIState
 import com.example.go_orders.state.ExploreRestaurantsScreenUIState.CategoryUIState
 import com.example.go_orders.ui.theme.Beiruti
+import com.example.go_orders.ui.theme.GoOrdersTheme
 
 @Composable
 fun CategoryCard(
@@ -83,5 +84,7 @@ private fun CategoryCardContent(
 @Preview
 @Composable
 private fun PreviewCategoryCard() {
-    CategoryCard(CategoryUIState(name = "فول وفلافل"))
+    GoOrdersTheme {
+        CategoryCard(CategoryUIState(name = "فول وفلافل"))
+    }
 }

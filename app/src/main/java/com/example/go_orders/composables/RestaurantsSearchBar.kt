@@ -25,6 +25,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.go_orders.ui.theme.Beiruti
+import com.example.go_orders.ui.theme.GoOrdersTheme
 
 @Composable
 fun RestaurantsSearchBar(
@@ -119,10 +120,12 @@ fun RestaurantsSearchBarContent(
 @Preview(locale = "ar")
 @Composable
 fun PreviewRestaurantsSearchBar() {
-    RestaurantsSearchBar(
-        false,
-        "",
-        filterOpenedRestaurants = {false},
-        searchForRestaurant = {"true"}
-    )
+    GoOrdersTheme {
+        RestaurantsSearchBar(
+            false,
+            "",
+            filterOpenedRestaurants = { false },
+            searchForRestaurant = { "true" }
+        )
+    }
 }
