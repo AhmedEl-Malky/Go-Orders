@@ -22,7 +22,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -49,23 +48,28 @@ fun TopAppBar() {
             painter = painterResource(id = R.drawable.go_logo),
             contentDescription = "logo"
         )
-        Row(
-            modifier = Modifier
-                .clip(RoundedCornerShape(6.dp))
-                .background(MaterialTheme.colorScheme.secondary),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween,
+        Button(
+            onClick = {},
+            shape = RoundedCornerShape(6.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = MaterialTheme.colorScheme.secondary
+            ),
+            contentPadding = PaddingValues(
+                start = 12.dp,
+                end = 16.dp,
+                top = 8.dp,
+                bottom = 8.dp
+            )
         ) {
             Icon(
                 modifier = Modifier
-                    .size(28.dp)
-                    .padding(start = 8.dp),
+                    .size(24.dp),
                 painter = painterResource(R.drawable.map),
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.onSecondary
             )
+            Spacer(modifier = Modifier.width(8.dp))
             Text(
-                modifier = Modifier.padding(top = 8.dp, bottom = 8.dp, end = 24.dp, start = 4.dp),
                 text = "مدينة ...",
                 color = MaterialTheme.colorScheme.onSecondary,
                 fontFamily = Beiruti,

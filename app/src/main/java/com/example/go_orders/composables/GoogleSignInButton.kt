@@ -59,11 +59,11 @@ fun GoogleSignInButton() {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
-                modifier = Modifier.padding(end = 8.dp),
                 painter = painterResource(id = R.drawable.google_icon),
                 contentDescription = "Google Icon",
                 tint = Color.Unspecified
             )
+            Spacer(modifier = Modifier.width(8.dp))
             Text(
                 text = "تسجيل الدخول باستخدام جوجل",
                 fontFamily = Beiruti,

@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -20,51 +21,53 @@ import com.example.go_orders.ui.theme.GoOrdersTheme
 
 @Composable
 fun AuthenticationScreen() {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
-            .padding(horizontal = 24.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
+    Scaffold { innerPadding ->
         Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.background)
+                .padding(innerPadding),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(12.dp)
+            verticalArrangement = Arrangement.Center
         ) {
-            Row {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                Row {
+                    Text(
+                        text = "تسجيل الدخول الي حساب",
+                        fontFamily = Beiruti,
+                        fontSize = MaterialTheme.typography.titleLarge.fontSize,
+                        fontWeight = FontWeight.SemiBold,
+                        color = MaterialTheme.colorScheme.onBackground
+                    )
+                    Text(
+                        text = " Go Orders",
+                        fontFamily = Beiruti,
+                        fontSize = MaterialTheme.typography.titleLarge.fontSize,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                    Text(
+                        text = " الخاص بي",
+                        fontFamily = Beiruti,
+                        fontSize = MaterialTheme.typography.titleLarge.fontSize,
+                        fontWeight = FontWeight.SemiBold,
+                        color = MaterialTheme.colorScheme.onBackground
+                    )
+                }
                 Text(
-                    text = "تسجيل الدخول الي حساب",
+                    text = "يرجى تسجيل الدخول حتي تتمكنوا من استكمال طلباتكم",
+                    fontSize = MaterialTheme.typography.titleMedium.fontSize,
                     fontFamily = Beiruti,
-                    fontSize = MaterialTheme.typography.titleLarge.fontSize,
-                    fontWeight = FontWeight.SemiBold,
-                    color = MaterialTheme.colorScheme.onBackground
+                    fontWeight = MaterialTheme.typography.titleMedium.fontWeight,
+                    color = MaterialTheme.colorScheme.onTertiary
                 )
-                Text(
-                    text = " Go Orders",
-                    fontFamily = Beiruti,
-                    fontSize = MaterialTheme.typography.titleLarge.fontSize,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.primary
-                )
-                Text(
-                    text = " الخاص بي",
-                    fontFamily = Beiruti,
-                    fontSize = MaterialTheme.typography.titleLarge.fontSize,
-                    fontWeight = FontWeight.SemiBold,
-                    color = MaterialTheme.colorScheme.onBackground
-                )
+                GoogleSignInButton()
             }
-            Text(
-                text = "يرجى تسجيل الدخول حتي تتمكنوا من استكمال طلباتكم",
-                fontSize = MaterialTheme.typography.titleMedium.fontSize,
-                fontFamily = Beiruti,
-                fontWeight = MaterialTheme.typography.titleMedium.fontWeight,
-                color = MaterialTheme.colorScheme.onTertiary
-            )
-            GoogleSignInButton()
-        }
 
+        }
     }
 }
 

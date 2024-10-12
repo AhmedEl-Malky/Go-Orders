@@ -8,10 +8,12 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -96,18 +98,24 @@ private fun RestaurantCardContent(
                         .clip(RoundedCornerShape(topEnd = 6.dp, topStart = 6.dp)),
                     model = restaurant.cover,
                     contentScale = ContentScale.Crop,
-                    contentDescription = "Restaurant banner",
+                    contentDescription = "Restaurant Cover",
+                    placeholder = painterResource(R.drawable.cover_placeholder)
                 )
                 AsyncImage(
                     modifier = Modifier
                         .padding(start = 12.dp, bottom = 12.dp)
                         .size(72.dp)
                         .clip(RoundedCornerShape(topEnd = 18.dp))
-                        .border(width = 0.5.dp, color = MaterialTheme.colorScheme.primary),
+                        .border(
+                            width = 0.5.dp,
+                            color = MaterialTheme.colorScheme.primary,
+                            shape = RoundedCornerShape(topEnd = 18.dp)
+                        ),
                     model = restaurant.logo,
                     contentScale = ContentScale.Crop,
                     contentDescription = "Restaurant logo",
                     alpha = 0.95f,
+                    placeholder = painterResource(R.drawable.logo_placeholder)
                 )
             }
             Column(
@@ -142,19 +150,27 @@ private fun RestaurantCardContent(
                         modifier = Modifier
                             .padding(
                                 vertical = 2.dp,
-                                horizontal = 8.dp
+                                horizontal = 4.dp
                             )
                             .clip(RoundedCornerShape(100))
-                            .background(MaterialTheme.colorScheme.surfaceContainerLow)
+                            .background(
+                                if (restaurant.openNow)
+                                    MaterialTheme.colorScheme.surfaceContainerLow
+                                else
+                                    MaterialTheme.colorScheme.error.copy(alpha = 0.33f)
+                            )
                             .padding(
                                 vertical = 2.dp,
-                                horizontal = 10.dp
+                                horizontal = 8.dp
                             ),
 
-                        text = "",
+                        text = if (restaurant.openNow) "مفتوح الآن" else "مغلق الآن",
                         fontSize = 14.sp,
                         fontFamily = Beiruti,
-                        color = MaterialTheme.colorScheme.surfaceContainerHigh
+                        color = if (restaurant.openNow)
+                            MaterialTheme.colorScheme.surfaceContainerHigh
+                        else
+                            MaterialTheme.colorScheme.error
                     )
                 }
                 Text(
@@ -168,13 +184,19 @@ private fun RestaurantCardContent(
                 Button(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(start = 8.dp, end = 8.dp, top = 8.dp, bottom = 6.dp),
+                        .padding(top = 8.dp, bottom = 6.dp),
                     onClick = {},
                     shape = RoundedCornerShape(6.dp),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = MaterialTheme.colorScheme.primary.copy(
                             alpha = 0.2f
                         )
+                    ),
+                    contentPadding = PaddingValues(
+                        start = 16.dp,
+                        end = 12.dp,
+                        top = 12.dp,
+                        bottom = 12.dp
                     )
                 ) {
                     Text(
@@ -183,10 +205,10 @@ private fun RestaurantCardContent(
                         fontSize = 16.sp,
                         color = MaterialTheme.colorScheme.primary
                     )
+                    Spacer(modifier = Modifier.width(8.dp))
                     Icon(
                         modifier = Modifier
-                            .size(20.dp)
-                            .padding(start = 4.dp),
+                            .size(20.dp),
                         painter = painterResource(R.drawable.menu),
                         contentDescription = "Check Menu",
                         tint = MaterialTheme.colorScheme.primary
@@ -201,6 +223,10 @@ private fun RestaurantCardContent(
 @Composable
 fun PreviewRestaurantCard() {
     GoOrdersTheme {
-//    RestaurantCard()
+        RestaurantCard(
+            restaurant = RestaurantUIState(openNow = false),
+            restaurantCount = 4,
+            index = 0
+        )
     }
 }

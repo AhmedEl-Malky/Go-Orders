@@ -5,9 +5,12 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -114,16 +117,23 @@ private fun HomeScreenContent(
                             Button(
                                 onClick = {},
                                 shape = RoundedCornerShape(6.dp),
-                                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = MaterialTheme.colorScheme.primaryContainer
+                                ),
+                                contentPadding = PaddingValues(
+                                    start = 12.dp,
+                                    end = 16.dp,
+                                    top = 12.dp,
+                                    bottom = 12.dp
+                                )
                             ) {
                                 Icon(
-                                    modifier = Modifier.padding(8.dp),
                                     painter = painterResource(R.drawable.map),
                                     contentDescription = "Location",
                                     tint = MaterialTheme.colorScheme.onPrimary
                                 )
+                                Spacer(modifier = Modifier.width(8.dp))
                                 Text(
-                                    modifier = Modifier.padding(end = 8.dp),
                                     text = "اختر مدينتك",
                                     fontFamily = Beiruti,
                                     fontSize = MaterialTheme.typography.titleLarge.fontSize,
@@ -132,11 +142,16 @@ private fun HomeScreenContent(
                                 )
                             }
                             Button(
+                                contentPadding = PaddingValues(
+                                    start = 16.dp,
+                                    end = 12.dp,
+                                    top = 12.dp,
+                                    bottom = 12.dp
+                                ),
                                 onClick = goExploreRestaurants,
                                 shape = RoundedCornerShape(6.dp),
                                 colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.onPrimaryContainer)
                             ) {
-
                                 Text(
                                     modifier = Modifier.padding(end = 12.dp),
                                     text = "تصفح المطاعم",
@@ -145,13 +160,8 @@ private fun HomeScreenContent(
                                     fontWeight = FontWeight.SemiBold,
                                     color = MaterialTheme.colorScheme.primary
                                 )
+                                Spacer(modifier = Modifier.width(8.dp))
                                 Icon(
-                                    modifier = Modifier.padding(
-                                        top = 6.dp,
-                                        bottom = 6.dp,
-                                        start = 8.dp,
-                                        end = 12.dp,
-                                    ),
                                     painter = painterResource(R.drawable.restaurant),
                                     contentDescription = "Location",
                                     tint = MaterialTheme.colorScheme.primary

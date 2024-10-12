@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -24,48 +25,51 @@ import com.example.go_orders.ui.theme.GoOrdersTheme
 
 @Composable
 fun CartScreen() {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
-            .padding(24.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-
-    ) {
-        Row(
+    Scaffold { innerPadding ->
+        Column(
             modifier = Modifier
-                .fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center
-        ) {
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.background)
+                .padding(innerPadding)
+                .padding(horizontal = 12.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+
+            ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
+                Text(
+                    text = "سلة المشتريات",
+                    fontFamily = Beiruti,
+                    fontSize = MaterialTheme.typography.headlineMedium.fontSize,
+                    fontWeight = FontWeight.Medium,
+                )
+                Text(
+                    text = "(0ج)",
+                    fontFamily = Beiruti,
+                    fontSize = MaterialTheme.typography.headlineMedium.fontSize,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.outlineVariant
+                )
+            }
             Text(
-                text = "سلة المشتريات",
+                modifier = Modifier.padding(top = 6.dp),
+                text = "⚠️ تنويه: يجب أن تكون عناصر الطلب من نفس المطعم",
                 fontFamily = Beiruti,
-                fontSize = MaterialTheme.typography.headlineMedium.fontSize,
+                fontSize = MaterialTheme.typography.titleMedium.fontSize,
                 fontWeight = FontWeight.Medium,
+                color = MaterialTheme.colorScheme.onTertiary
             )
-            Text(
-                text = "(0ج)",
-                fontFamily = Beiruti,
-                fontSize = MaterialTheme.typography.headlineMedium.fontSize,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.outlineVariant
-            )
-        }
-        Text(
-            modifier = Modifier.padding(top = 6.dp),
-            text = "⚠️ تنويه: يجب أن تكون عناصر الطلب من نفس المطعم",
-            fontFamily = Beiruti,
-            fontSize = MaterialTheme.typography.titleMedium.fontSize,
-            fontWeight = FontWeight.Medium,
-            color = MaterialTheme.colorScheme.onTertiary
-        )
 //        Image(
 //            modifier = Modifier.weight(1f),
 //            painter = painterResource(R.drawable.empty_cart),
 //            contentDescription = "Empty Cart"
 //        )
-        OrdersLazyColumn()
+            OrdersLazyColumn()
+        }
     }
 }
 
