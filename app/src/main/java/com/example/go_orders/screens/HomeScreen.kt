@@ -21,6 +21,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -32,23 +34,41 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.go_orders.R
+import com.example.go_orders.composables.CityForm
 import com.example.go_orders.composables.TopAppBar
 import com.example.go_orders.navigations.Navigation
+import com.example.go_orders.state.HomeScreenUIState
+import com.example.go_orders.state.HomeScreenUIState.CityUIState
 import com.example.go_orders.ui.theme.Beiruti
 import com.example.go_orders.ui.theme.GoOrdersTheme
+import com.example.go_orders.viewmodels.HomeViewModel
 
 @Composable
 fun HomeScreen(
+    viewModel: HomeViewModel,
     navController: NavController
 ) {
+    val state by viewModel.state.collectAsState()
     HomeScreenContent(
-        goExploreRestaurants = { navController.navigate(Navigation.ExploreRestaurantsScreen.route) }
+        goExploreRestaurants = {
+            navController.navigate(Navigation.ExploreRestaurantsScreen.route)
+        },
+        state = state,
+        showCityForm = viewModel::showCityForm,
+        dismissCityForm = viewModel::dismissCityForm,
+        onSelectCity = viewModel::onSelectCity,
+        expandCitiesMenu = viewModel::expandCitiesMenu,
     )
 }
 
 @Composable
 private fun HomeScreenContent(
-    goExploreRestaurants: () -> Unit
+    goExploreRestaurants: () -> Unit,
+    state: HomeScreenUIState,
+    showCityForm: () -> Unit,
+    dismissCityForm: () -> Unit,
+    onSelectCity: (CityUIState) -> Unit,
+    expandCitiesMenu: (Boolean) -> Unit,
 ) {
     Scaffold { innerPadding ->
         Column(
@@ -57,7 +77,16 @@ private fun HomeScreenContent(
                 .padding(innerPadding)
                 .background(MaterialTheme.colorScheme.background)
         ) {
-            TopAppBar()
+            TopAppBar(
+                city = state.city,
+                showCityForm = showCityForm,
+                dismissCityForm = dismissCityForm,
+                isCityFormShown = state.isCityFormShown,
+                availableCities = state.availableCities,
+                onSelectCity = onSelectCity,
+                isCitiesMenuExpanded = state.isCitiesMenuExpanded,
+                expandCitiesMenu = expandCitiesMenu,
+            )
             Box(
                 modifier = Modifier
                     .padding(top = 12.dp, start = 12.dp, end = 12.dp)
@@ -115,7 +144,7 @@ private fun HomeScreenContent(
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             Button(
-                                onClick = {},
+                                onClick = {showCityForm()},
                                 shape = RoundedCornerShape(6.dp),
                                 colors = ButtonDefaults.buttonColors(
                                     containerColor = MaterialTheme.colorScheme.primaryContainer
@@ -173,6 +202,16 @@ private fun HomeScreenContent(
                 }
             }
         }
+        if (state.isCityFormShown) {
+            CityForm(
+                dismissCityForm = dismissCityForm,
+                availableCities = state.availableCities,
+                onSelectCity = onSelectCity,
+                isCitiesMenuExpanded = state.isCitiesMenuExpanded,
+                expandCitiesMenu = expandCitiesMenu,
+                currentCity = state.city
+            )
+        }
     }
 }
 
@@ -183,6 +222,13 @@ private fun HomeScreenContent(
 @Composable
 private fun PreviewHomeScreen() {
     GoOrdersTheme {
-        HomeScreenContent(goExploreRestaurants = {})
+        HomeScreenContent(
+            goExploreRestaurants = {},
+            state = HomeScreenUIState(),
+            showCityForm = {},
+            dismissCityForm = {},
+            onSelectCity = {},
+            expandCitiesMenu = {},
+        )
     }
 }

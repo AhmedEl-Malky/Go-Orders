@@ -14,10 +14,14 @@ import kotlinx.coroutines.launch
 
 @HiltViewModel
 class ExploreRestaurantsViewModel:ViewModel() {
+
     private val _state = MutableStateFlow(ExploreRestaurantsScreenUIState())
+
     val state:StateFlow<ExploreRestaurantsScreenUIState> = _state
-    val getAllRestaurantsUseCase = GetAllRestaurantsUseCase()
-    val getCategoriesUseCase = GetCategoriesUseCase()
+
+    private val getAllRestaurantsUseCase = GetAllRestaurantsUseCase()
+
+    private val getCategoriesUseCase = GetCategoriesUseCase()
     init {
         viewModelScope.launch(Dispatchers.IO) {
             _state.update { it.copy(categories = getCategoriesUseCase()) }

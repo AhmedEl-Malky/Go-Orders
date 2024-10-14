@@ -2,10 +2,11 @@ package com.example.go_orders.data
 
 import com.example.go_orders.BuildConfig
 import com.example.go_orders.state.ExploreRestaurantsScreenUIState.*
+import com.example.go_orders.state.HomeScreenUIState.CityUIState
 import io.github.jan.supabase.createSupabaseClient
 import io.github.jan.supabase.postgrest.Postgrest
 import io.github.jan.supabase.postgrest.from
-import io.github.jan.supabase.postgrest.query.Columns
+
 
 
 object Supabase : GoOrdersServices {
@@ -30,6 +31,10 @@ object Supabase : GoOrdersServices {
         return supabaseClient.from("categories").select().decodeList<CategoryUIState>()
     }
 
+    override suspend fun getCities(): List<CityUIState> {
+        return supabaseClient.from("cities").select().decodeList<CityUIState>()
+    }
+
 }
 
 interface GoOrdersServices {
@@ -37,5 +42,7 @@ interface GoOrdersServices {
     suspend fun getAllRestaurants(searchInput: String,isOpen:Boolean): List<RestaurantUIState>
 
     suspend fun getCategories(): List<CategoryUIState>
+
+    suspend fun getCities():List<CityUIState>
 
 }
