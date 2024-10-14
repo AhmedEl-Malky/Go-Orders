@@ -71,16 +71,16 @@ fun CityForm() {
                 Text(
                     text = "اختر مدينتك",
                     fontFamily = Beiruti,
-                    fontSize = MaterialTheme.typography.titleMedium.fontSize,
+                    fontSize = MaterialTheme.typography.titleLarge.fontSize,
                     color = MaterialTheme.colorScheme.onBackground,
                     fontWeight = FontWeight.Medium,
                 )
                 Text(
                     text = "برجاء اختيار مدينتك أو منطقتك حتي تتمكن من تصفح المطاعم والمحلات المتواجدة بهذه المنطقة.",
                     fontFamily = Beiruti,
-                    fontSize = MaterialTheme.typography.bodyMedium.fontSize,
+                    fontSize = MaterialTheme.typography.bodyLarge.fontSize,
                     color = MaterialTheme.colorScheme.onTertiary,
-                    fontWeight = FontWeight.Medium,
+                    fontWeight = FontWeight.SemiBold,
                     textAlign = TextAlign.Center
                 )
                 ExposedDropdownMenuBox(
