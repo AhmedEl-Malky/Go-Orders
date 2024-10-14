@@ -58,7 +58,7 @@ fun ExploreRestaurantsScreenContent(
                 .padding(innerPadding)
                 .background(MaterialTheme.colorScheme.background)
         ) {
-            TopAppBar()
+//            TopAppBar()
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()

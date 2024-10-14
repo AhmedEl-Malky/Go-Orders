@@ -25,14 +25,48 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.go_orders.R
+import com.example.go_orders.state.HomeScreenUIState.CityUIState
 import com.example.go_orders.ui.theme.Beiruti
 import com.example.go_orders.ui.theme.GoOrdersTheme
 
 @Composable
-fun TopAppBar() {
+fun TopAppBar(
+    city: CityUIState,
+    showCityForm: () -> Unit,
+    dismissCityForm: () -> Unit,
+    isCityFormShown: Boolean,
+    availableCities: List<CityUIState>,
+    onSelectCity: (CityUIState) -> Unit,
+    isCitiesMenuExpanded: Boolean,
+    expandCitiesMenu: (Boolean) -> Unit,
+) {
+    TopAppBarContent(
+        city = city,
+        showCityForm = showCityForm,
+        dismissCityForm = dismissCityForm,
+        isCityFormShown = isCityFormShown,
+        availableCities = availableCities,
+        onSelectCity = onSelectCity,
+        isCitiesMenuExpanded = isCitiesMenuExpanded,
+        expandCitiesMenu = expandCitiesMenu,
+    )
+}
+
+@Composable
+fun TopAppBarContent(
+    city: CityUIState,
+    showCityForm: () -> Unit,
+    dismissCityForm: () -> Unit,
+    isCityFormShown: Boolean,
+    availableCities: List<CityUIState>,
+    onSelectCity: (CityUIState) -> Unit,
+    isCitiesMenuExpanded: Boolean,
+    expandCitiesMenu: (Boolean) -> Unit,
+) {
 
     Row(
         modifier = Modifier
@@ -49,7 +83,7 @@ fun TopAppBar() {
             contentDescription = "logo"
         )
         Button(
-            onClick = {},
+            onClick = { showCityForm() },
             shape = RoundedCornerShape(6.dp),
             colors = ButtonDefaults.buttonColors(
                 containerColor = MaterialTheme.colorScheme.secondary
@@ -70,10 +104,11 @@ fun TopAppBar() {
             )
             Spacer(modifier = Modifier.width(8.dp))
             Text(
-                text = "مدينة ...",
+                text = "${city.name}",
                 color = MaterialTheme.colorScheme.onSecondary,
                 fontFamily = Beiruti,
-                fontSize = MaterialTheme.typography.titleLarge.fontSize
+                fontSize = MaterialTheme.typography.titleLarge.fontSize,
+                fontWeight = FontWeight.Normal
             )
         }
         Spacer(modifier = Modifier.width(48.dp))
@@ -114,12 +149,31 @@ fun TopAppBar() {
 
         }
     }
+    if (isCityFormShown) {
+        CityForm(
+            dismissCityForm = dismissCityForm,
+            availableCities = availableCities,
+            onSelectCity = onSelectCity,
+            isCitiesMenuExpanded = isCitiesMenuExpanded,
+            expandCitiesMenu = expandCitiesMenu,
+            currentCity = city
+        )
+    }
 }
 
 @Preview(locale = "ar")
 @Composable
 fun PreviewTopAppBar() {
     GoOrdersTheme {
-        TopAppBar()
+        TopAppBar(
+            CityUIState(name = "السادات"),
+            showCityForm = {},
+            dismissCityForm = {},
+            isCityFormShown = false,
+            availableCities = listOf(),
+            onSelectCity = {},
+            isCitiesMenuExpanded = false,
+            expandCitiesMenu = {},
+        )
     }
 }

@@ -32,23 +32,41 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import com.example.go_orders.state.HomeScreenUIState.CityUIState
 import com.example.go_orders.ui.theme.Beiruti
 import com.example.go_orders.ui.theme.GoOrdersTheme
 
+@Composable
+fun CityForm(
+    dismissCityForm: () -> Unit,
+    availableCities:List<CityUIState>,
+    currentCity:CityUIState,
+    onSelectCity: (CityUIState) -> Unit,
+    isCitiesMenuExpanded: Boolean,
+    expandCitiesMenu: (Boolean) -> Unit
+) {
+    CityFormContent(
+        dismissCityForm = dismissCityForm,
+        availableCities = availableCities,
+        currentCity = currentCity,
+        onSelectCity = onSelectCity,
+        isCitiesMenuExpanded = isCitiesMenuExpanded,
+        expandCitiesMenu = expandCitiesMenu,
+    )
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CityForm() {
-    var isExpanded by remember { mutableStateOf(false) }
-    var list = listOf(
-        "menouf",
-        "sadat",
-        "komHamada",
-        "dfgl;a",
-        "fajld",
-    )
-    var cityf by remember { mutableStateOf("") }
+fun CityFormContent(
+    dismissCityForm: () -> Unit,
+    availableCities:List<CityUIState>,
+    currentCity:CityUIState,
+    onSelectCity:(CityUIState)->Unit,
+    isCitiesMenuExpanded: Boolean,
+    expandCitiesMenu: (Boolean) -> Unit,
+) {
     Dialog(
-        onDismissRequest = {},
+        onDismissRequest = { dismissCityForm() },
         properties = DialogProperties(usePlatformDefaultWidth = false)
     ) {
         Card(
@@ -64,7 +82,7 @@ fun CityForm() {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 12.dp, horizontal = 8.dp),
+                    .padding(vertical = 18.dp, horizontal = 8.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
@@ -85,20 +103,19 @@ fun CityForm() {
                 )
                 ExposedDropdownMenuBox(
                     modifier = Modifier.fillMaxWidth(),
-                    expanded = isExpanded,
-                    onExpandedChange = { isExpanded = it }
+                    expanded = isCitiesMenuExpanded,
+                    onExpandedChange = { expandCitiesMenu(isCitiesMenuExpanded) }
                 ) {
                     OutlinedTextField(
                         modifier = Modifier
                             .menuAnchor()
-                            .fillMaxWidth()
-                            .padding(0.dp),
-                        value = cityf,
+                            .fillMaxWidth(),
+                        value = currentCity.name,
                         onValueChange = {},
                         readOnly = true,
                         trailingIcon = {
                             Icon(
-                                imageVector = if (isExpanded)
+                                imageVector = if (isCitiesMenuExpanded)
                                     Icons.Default.KeyboardArrowUp
                                 else
                                     Icons.Default.KeyboardArrowDown,
@@ -109,40 +126,26 @@ fun CityForm() {
                     )
                     ExposedDropdownMenu(
                         modifier = Modifier.fillMaxWidth(),
-                        expanded = isExpanded,
-                        onDismissRequest = { isExpanded = false }
+                        expanded = isCitiesMenuExpanded,
+                        onDismissRequest = { expandCitiesMenu(isCitiesMenuExpanded) }
                     ) {
-                        list.forEach { city ->
+                        availableCities.forEach { city ->
                             DropdownMenuItem(
                                 text = {
                                     Text(
                                         modifier = Modifier.fillMaxWidth(),
-                                        text = city
+                                        text = city.name,
+                                        textAlign = TextAlign.Right
                                     )
                                 },
                                 onClick = {
-                                    cityf = city
-                                    isExpanded = false
+                                    onSelectCity(city)
+                                    expandCitiesMenu(isCitiesMenuExpanded)
+                                    dismissCityForm()
                                 }
                             )
                         }
                     }
-                }
-
-                Button(
-                    onClick = {},
-                    shape = RoundedCornerShape(6.dp),
-                    enabled = false,
-                    colors = ButtonDefaults.buttonColors(
-                        disabledContainerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.5f)
-                    )
-                ) {
-                    Text(
-                        text = "تأكيد الإختيار",
-                        fontFamily = Beiruti,
-                        fontSize = MaterialTheme.typography.bodyMedium.fontSize,
-                        color = MaterialTheme.colorScheme.background
-                    )
                 }
             }
         }
@@ -154,6 +157,13 @@ fun CityForm() {
 @Composable
 fun PreviewCityForm() {
     GoOrdersTheme {
-        CityForm()
+        CityForm(
+            dismissCityForm = {},
+            availableCities = listOf(),
+            currentCity = CityUIState(name = "السادات"),
+            onSelectCity = {},
+            isCitiesMenuExpanded = false,
+            expandCitiesMenu = {}
+        )
     }
 }
