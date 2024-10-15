@@ -30,7 +30,8 @@ fun NavigationGraph(
         }
         composable(Navigation.ExploreRestaurantsScreen.route) {
             ExploreRestaurantsScreen(
-                viewModel = exploreRestaurantsViewModel
+                viewModel = exploreRestaurantsViewModel,
+                homeViewModel = homeViewModel
             )
         }
     }

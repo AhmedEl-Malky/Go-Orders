@@ -55,4 +55,12 @@ data class ExploreRestaurantsScreenUIState(
         val categories: String = "",
         val owner: String? = null
     )
+
+    data class BannerUIState(
+        val img:String,
+        val title : String,
+        val subtitle:String,
+        val highlight:String,
+        val buttonText:String
+    )
 }

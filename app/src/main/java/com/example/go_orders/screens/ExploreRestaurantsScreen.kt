@@ -14,34 +14,42 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.go_orders.composables.CategoriesLazyList
+import com.example.go_orders.composables.HorizontalBannersPager
 import com.example.go_orders.composables.RestaurantCard
 import com.example.go_orders.composables.RestaurantsSearchBar
 import com.example.go_orders.composables.TopAppBar
 import com.example.go_orders.state.ExploreRestaurantsScreenUIState
+import com.example.go_orders.state.HomeScreenUIState
 import com.example.go_orders.ui.theme.Beiruti
 import com.example.go_orders.ui.theme.GoOrdersTheme
 import com.example.go_orders.viewmodels.ExploreRestaurantsViewModel
+import com.example.go_orders.viewmodels.HomeViewModel
 
 
 @Composable
 fun ExploreRestaurantsScreen(
-    viewModel: ExploreRestaurantsViewModel
+    viewModel: ExploreRestaurantsViewModel,
+    homeViewModel: HomeViewModel
 ) {
     val state by viewModel.state.collectAsState()
+    val homeState by homeViewModel.state.collectAsState()
     ExploreRestaurantsScreenContent(
-        state,
-        viewModel::filterOpenedRestaurants,
-        viewModel::searchForRestaurant
+        state = state,
+        homeState = homeState,
+        filterOpenedRestaurants = viewModel::filterOpenedRestaurants,
+        searchForRestaurant = viewModel::searchForRestaurant,
+        showCityForm = homeViewModel::showCityForm,
+        dismissCityForm = homeViewModel::dismissCityForm,
+        onSelectCity = homeViewModel::onSelectCity,
+        expandCitiesMenu = homeViewModel::expandCitiesMenu,
+        collapseCitiesMenu = homeViewModel::collapseCitiesMenu
     )
 }
 
@@ -49,8 +57,14 @@ fun ExploreRestaurantsScreen(
 @Composable
 fun ExploreRestaurantsScreenContent(
     state: ExploreRestaurantsScreenUIState,
+    homeState: HomeScreenUIState,
     filterOpenedRestaurants: (Boolean) -> Unit,
-    searchForRestaurant: (String) -> Unit
+    searchForRestaurant: (String) -> Unit,
+    showCityForm: () -> Unit,
+    dismissCityForm: () -> Unit,
+    onSelectCity: (HomeScreenUIState.CityUIState) -> Unit,
+    expandCitiesMenu: () -> Unit,
+    collapseCitiesMenu: () -> Unit
 ) {
     Scaffold { innerPadding ->
         Column(
@@ -58,11 +72,21 @@ fun ExploreRestaurantsScreenContent(
                 .padding(innerPadding)
                 .background(MaterialTheme.colorScheme.background)
         ) {
-//            TopAppBar()
+            TopAppBar(
+                state = homeState,
+                showCityForm = showCityForm,
+                dismissCityForm = dismissCityForm,
+                onSelectCity = onSelectCity,
+                expandCitiesMenu = expandCitiesMenu,
+                collapseCitiesMenu = collapseCitiesMenu
+            )
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
             ) {
+                item {
+                    HorizontalBannersPager()
+                }
                 item {
                     Text(
                         modifier = Modifier
