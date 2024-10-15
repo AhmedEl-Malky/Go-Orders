@@ -29,43 +29,38 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.go_orders.R
+import com.example.go_orders.state.HomeScreenUIState
 import com.example.go_orders.state.HomeScreenUIState.CityUIState
 import com.example.go_orders.ui.theme.Beiruti
 import com.example.go_orders.ui.theme.GoOrdersTheme
 
 @Composable
 fun TopAppBar(
-    city: CityUIState,
+    state:HomeScreenUIState,
     showCityForm: () -> Unit,
     dismissCityForm: () -> Unit,
-    isCityFormShown: Boolean,
-    availableCities: List<CityUIState>,
     onSelectCity: (CityUIState) -> Unit,
-    isCitiesMenuExpanded: Boolean,
-    expandCitiesMenu: (Boolean) -> Unit,
+    expandCitiesMenu: () -> Unit,
+    collapseCitiesMenu: () -> Unit,
 ) {
     TopAppBarContent(
-        city = city,
+        state = state,
         showCityForm = showCityForm,
         dismissCityForm = dismissCityForm,
-        isCityFormShown = isCityFormShown,
-        availableCities = availableCities,
         onSelectCity = onSelectCity,
-        isCitiesMenuExpanded = isCitiesMenuExpanded,
         expandCitiesMenu = expandCitiesMenu,
+        collapseCitiesMenu = collapseCitiesMenu
     )
 }
 
 @Composable
 fun TopAppBarContent(
-    city: CityUIState,
+    state: HomeScreenUIState,
     showCityForm: () -> Unit,
     dismissCityForm: () -> Unit,
-    isCityFormShown: Boolean,
-    availableCities: List<CityUIState>,
     onSelectCity: (CityUIState) -> Unit,
-    isCitiesMenuExpanded: Boolean,
-    expandCitiesMenu: (Boolean) -> Unit,
+    expandCitiesMenu: () -> Unit,
+    collapseCitiesMenu: () -> Unit,
 ) {
 
     Row(
@@ -104,7 +99,7 @@ fun TopAppBarContent(
             )
             Spacer(modifier = Modifier.width(8.dp))
             Text(
-                text = "${city.name}",
+                text = "${state.city.name}",
                 color = MaterialTheme.colorScheme.onSecondary,
                 fontFamily = Beiruti,
                 fontSize = MaterialTheme.typography.titleLarge.fontSize,
@@ -149,14 +144,13 @@ fun TopAppBarContent(
 
         }
     }
-    if (isCityFormShown) {
+    if (state.isCityFormShown) {
         CityForm(
+            state = state,
             dismissCityForm = dismissCityForm,
-            availableCities = availableCities,
             onSelectCity = onSelectCity,
-            isCitiesMenuExpanded = isCitiesMenuExpanded,
             expandCitiesMenu = expandCitiesMenu,
-            currentCity = city
+            collapseCitiesMenu = collapseCitiesMenu
         )
     }
 }
@@ -166,14 +160,12 @@ fun TopAppBarContent(
 fun PreviewTopAppBar() {
     GoOrdersTheme {
         TopAppBar(
-            CityUIState(name = "السادات"),
+            state = HomeScreenUIState(),
             showCityForm = {},
             dismissCityForm = {},
-            isCityFormShown = false,
-            availableCities = listOf(),
             onSelectCity = {},
-            isCitiesMenuExpanded = false,
             expandCitiesMenu = {},
+            collapseCitiesMenu = {}
         )
     }
 }

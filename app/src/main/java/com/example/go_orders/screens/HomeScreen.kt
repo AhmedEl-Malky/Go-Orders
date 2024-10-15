@@ -58,6 +58,7 @@ fun HomeScreen(
         dismissCityForm = viewModel::dismissCityForm,
         onSelectCity = viewModel::onSelectCity,
         expandCitiesMenu = viewModel::expandCitiesMenu,
+        collapseCitiesMenu = viewModel::collapseCitiesMenu
     )
 }
 
@@ -68,7 +69,8 @@ private fun HomeScreenContent(
     showCityForm: () -> Unit,
     dismissCityForm: () -> Unit,
     onSelectCity: (CityUIState) -> Unit,
-    expandCitiesMenu: (Boolean) -> Unit,
+    expandCitiesMenu: () -> Unit,
+    collapseCitiesMenu: () -> Unit,
 ) {
     Scaffold { innerPadding ->
         Column(
@@ -78,14 +80,12 @@ private fun HomeScreenContent(
                 .background(MaterialTheme.colorScheme.background)
         ) {
             TopAppBar(
-                city = state.city,
+                state = state,
                 showCityForm = showCityForm,
                 dismissCityForm = dismissCityForm,
-                isCityFormShown = state.isCityFormShown,
-                availableCities = state.availableCities,
                 onSelectCity = onSelectCity,
-                isCitiesMenuExpanded = state.isCitiesMenuExpanded,
                 expandCitiesMenu = expandCitiesMenu,
+                collapseCitiesMenu = collapseCitiesMenu
             )
             Box(
                 modifier = Modifier
@@ -204,12 +204,11 @@ private fun HomeScreenContent(
         }
         if (state.isCityFormShown) {
             CityForm(
+                state = state,
                 dismissCityForm = dismissCityForm,
-                availableCities = state.availableCities,
                 onSelectCity = onSelectCity,
-                isCitiesMenuExpanded = state.isCitiesMenuExpanded,
                 expandCitiesMenu = expandCitiesMenu,
-                currentCity = state.city
+                collapseCitiesMenu = collapseCitiesMenu
             )
         }
     }
@@ -224,11 +223,12 @@ private fun PreviewHomeScreen() {
     GoOrdersTheme {
         HomeScreenContent(
             goExploreRestaurants = {},
-            state = HomeScreenUIState(),
+            state = HomeScreenUIState(city = CityUIState(name = "السادات")),
             showCityForm = {},
             dismissCityForm = {},
             onSelectCity = {},
             expandCitiesMenu = {},
+            collapseCitiesMenu = {}
         )
     }
 }

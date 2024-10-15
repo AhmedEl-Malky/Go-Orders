@@ -22,9 +22,11 @@ class ExploreRestaurantsViewModel:ViewModel() {
     private val getAllRestaurantsUseCase = GetAllRestaurantsUseCase()
 
     private val getCategoriesUseCase = GetCategoriesUseCase()
+
     init {
         viewModelScope.launch(Dispatchers.IO) {
             _state.update { it.copy(categories = getCategoriesUseCase()) }
+            _state.update { it.copy(selectedCategory = it.categories.first()) }
         }
         viewModelScope.launch(Dispatchers.IO) {
             _state.update { it.copy(restaurants = getAllRestaurantsUseCase(isOpen = _state.value.isOpenFilter)) }
