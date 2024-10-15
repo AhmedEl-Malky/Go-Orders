@@ -36,7 +36,11 @@ class HomeViewModel:ViewModel() {
         _state.update { it.copy(isCityFormShown = false) }
     }
 
-    fun expandCitiesMenu(isCitiesMenuExpanded:Boolean){
-        _state.update { it.copy(isCitiesMenuExpanded = !isCitiesMenuExpanded) }
+    fun expandCitiesMenu(){
+        _state.update { it.copy(isCitiesMenuExpanded = true) }
+    }
+
+    fun collapseCitiesMenu(){
+        _state.update { it.copy(isCitiesMenuExpanded = false) }
     }
 }

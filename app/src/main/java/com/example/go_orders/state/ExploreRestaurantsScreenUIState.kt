@@ -6,6 +6,7 @@ import kotlinx.serialization.Serializable
 
 data class ExploreRestaurantsScreenUIState(
     val categories: List<CategoryUIState> = listOf(),
+    val selectedCategory:CategoryUIState = CategoryUIState(),
     val city: String = "",
     val searchInput: String = "",
     val isOpenFilter: Boolean = false,
@@ -22,7 +23,7 @@ data class ExploreRestaurantsScreenUIState(
         val slug: String = "",
         val icon: String = "",
         val order: Int = 0,
-        val isSelected: Boolean = false,
+        var isSelected: Boolean = name == "الكل",
     )
 
     @Serializable

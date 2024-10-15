@@ -8,8 +8,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DropdownMenuItem
@@ -20,10 +18,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -32,38 +26,36 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import com.example.go_orders.state.HomeScreenUIState
 import com.example.go_orders.state.HomeScreenUIState.CityUIState
 import com.example.go_orders.ui.theme.Beiruti
 import com.example.go_orders.ui.theme.GoOrdersTheme
 
 @Composable
 fun CityForm(
+    state: HomeScreenUIState,
     dismissCityForm: () -> Unit,
-    availableCities:List<CityUIState>,
-    currentCity:CityUIState,
     onSelectCity: (CityUIState) -> Unit,
-    isCitiesMenuExpanded: Boolean,
-    expandCitiesMenu: (Boolean) -> Unit
+    expandCitiesMenu: () -> Unit,
+    collapseCitiesMenu: () -> Unit
 ) {
     CityFormContent(
+        state = state,
         dismissCityForm = dismissCityForm,
-        availableCities = availableCities,
-        currentCity = currentCity,
         onSelectCity = onSelectCity,
-        isCitiesMenuExpanded = isCitiesMenuExpanded,
         expandCitiesMenu = expandCitiesMenu,
+        collapseCitiesMenu = collapseCitiesMenu
     )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CityFormContent(
+    state: HomeScreenUIState,
     dismissCityForm: () -> Unit,
-    availableCities:List<CityUIState>,
-    currentCity:CityUIState,
-    onSelectCity:(CityUIState)->Unit,
-    isCitiesMenuExpanded: Boolean,
-    expandCitiesMenu: (Boolean) -> Unit,
+    onSelectCity: (CityUIState) -> Unit,
+    expandCitiesMenu: () -> Unit,
+    collapseCitiesMenu: () -> Unit
 ) {
     Dialog(
         onDismissRequest = { dismissCityForm() },
@@ -103,19 +95,19 @@ fun CityFormContent(
                 )
                 ExposedDropdownMenuBox(
                     modifier = Modifier.fillMaxWidth(),
-                    expanded = isCitiesMenuExpanded,
-                    onExpandedChange = { expandCitiesMenu(isCitiesMenuExpanded) }
+                    expanded = state.isCitiesMenuExpanded,
+                    onExpandedChange = { expandCitiesMenu() }
                 ) {
                     OutlinedTextField(
                         modifier = Modifier
                             .menuAnchor()
                             .fillMaxWidth(),
-                        value = currentCity.name,
+                        value = state.city.name,
                         onValueChange = {},
                         readOnly = true,
                         trailingIcon = {
                             Icon(
-                                imageVector = if (isCitiesMenuExpanded)
+                                imageVector = if (state.isCitiesMenuExpanded)
                                     Icons.Default.KeyboardArrowUp
                                 else
                                     Icons.Default.KeyboardArrowDown,
@@ -126,10 +118,10 @@ fun CityFormContent(
                     )
                     ExposedDropdownMenu(
                         modifier = Modifier.fillMaxWidth(),
-                        expanded = isCitiesMenuExpanded,
-                        onDismissRequest = { expandCitiesMenu(isCitiesMenuExpanded) }
+                        expanded = state.isCitiesMenuExpanded,
+                        onDismissRequest = { collapseCitiesMenu() }
                     ) {
-                        availableCities.forEach { city ->
+                        state.availableCities.forEach { city ->
                             DropdownMenuItem(
                                 text = {
                                     Text(
@@ -140,7 +132,7 @@ fun CityFormContent(
                                 },
                                 onClick = {
                                     onSelectCity(city)
-                                    expandCitiesMenu(isCitiesMenuExpanded)
+                                    collapseCitiesMenu()
                                     dismissCityForm()
                                 }
                             )
@@ -158,12 +150,11 @@ fun CityFormContent(
 fun PreviewCityForm() {
     GoOrdersTheme {
         CityForm(
+            state = HomeScreenUIState(),
             dismissCityForm = {},
-            availableCities = listOf(),
-            currentCity = CityUIState(name = "السادات"),
             onSelectCity = {},
-            isCitiesMenuExpanded = false,
-            expandCitiesMenu = {}
+            expandCitiesMenu = {},
+            collapseCitiesMenu = {}
         )
     }
 }
