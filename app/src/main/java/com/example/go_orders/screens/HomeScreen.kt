@@ -35,7 +35,9 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.go_orders.R
 import com.example.go_orders.composables.CityForm
+import com.example.go_orders.composables.LoadingAnimation
 import com.example.go_orders.composables.TopAppBar
+import com.example.go_orders.data.State
 import com.example.go_orders.navigations.Navigation
 import com.example.go_orders.state.HomeScreenUIState
 import com.example.go_orders.state.HomeScreenUIState.CityUIState
@@ -49,17 +51,40 @@ fun HomeScreen(
     navController: NavController
 ) {
     val state by viewModel.state.collectAsState()
-    HomeScreenContent(
-        goExploreRestaurants = {
-            navController.navigate(Navigation.ExploreRestaurantsScreen.route)
-        },
-        state = state,
-        showCityForm = viewModel::showCityForm,
-        dismissCityForm = viewModel::dismissCityForm,
-        onSelectCity = viewModel::onSelectCity,
-        expandCitiesMenu = viewModel::expandCitiesMenu,
-        collapseCitiesMenu = viewModel::collapseCitiesMenu
-    )
+    when (state.availableCities) {
+        is State.Loading -> HomeScreenContent(
+            goExploreRestaurants = {
+                navController.navigate(Navigation.ExploreRestaurantsScreen.route)
+            },
+            state = state,
+            showCityForm = viewModel::showCityForm,
+            dismissCityForm = viewModel::dismissCityForm,
+            onSelectCity = viewModel::onSelectCity,
+            expandCitiesMenu = viewModel::expandCitiesMenu,
+            collapseCitiesMenu = viewModel::collapseCitiesMenu
+        )
+
+        is State.Success ->
+            HomeScreenContent(
+                goExploreRestaurants = {
+                    navController.navigate(Navigation.ExploreRestaurantsScreen.route)
+                },
+                state = state,
+                showCityForm = viewModel::showCityForm,
+                dismissCityForm = viewModel::dismissCityForm,
+                onSelectCity = viewModel::onSelectCity,
+                expandCitiesMenu = viewModel::expandCitiesMenu,
+                collapseCitiesMenu = viewModel::collapseCitiesMenu
+            )
+
+        is State.Error -> Image(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(24.dp),
+            painter = painterResource(R.drawable.error),
+            contentDescription = "Error"
+        )
+    }
 }
 
 @Composable
@@ -77,7 +102,9 @@ private fun HomeScreenContent(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
-                .background(MaterialTheme.colorScheme.background)
+                .background(MaterialTheme.colorScheme.background),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
         ) {
             TopAppBar(
                 state = state,
@@ -144,7 +171,7 @@ private fun HomeScreenContent(
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             Button(
-                                onClick = {showCityForm()},
+                                onClick = { showCityForm() },
                                 shape = RoundedCornerShape(6.dp),
                                 colors = ButtonDefaults.buttonColors(
                                     containerColor = MaterialTheme.colorScheme.primaryContainer
@@ -201,15 +228,15 @@ private fun HomeScreenContent(
                     }
                 }
             }
-        }
-        if (state.isCityFormShown) {
-            CityForm(
-                state = state,
-                dismissCityForm = dismissCityForm,
-                onSelectCity = onSelectCity,
-                expandCitiesMenu = expandCitiesMenu,
-                collapseCitiesMenu = collapseCitiesMenu
-            )
+            if (state.isCityFormShown) {
+                CityForm(
+                    state = state,
+                    dismissCityForm = dismissCityForm,
+                    onSelectCity = onSelectCity,
+                    expandCitiesMenu = expandCitiesMenu,
+                    collapseCitiesMenu = collapseCitiesMenu
+                )
+            }
         }
     }
 }

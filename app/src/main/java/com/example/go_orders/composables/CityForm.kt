@@ -121,7 +121,7 @@ fun CityFormContent(
                         expanded = state.isCitiesMenuExpanded,
                         onDismissRequest = { collapseCitiesMenu() }
                     ) {
-                        state.availableCities.forEach { city ->
+                        state.availableCities.toData()?.forEach { city ->
                             DropdownMenuItem(
                                 text = {
                                     Text(

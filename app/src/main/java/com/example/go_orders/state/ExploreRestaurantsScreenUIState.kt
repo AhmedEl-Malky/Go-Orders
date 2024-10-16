@@ -1,16 +1,17 @@
 package com.example.go_orders.state
 
+import com.example.go_orders.data.State
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 
 data class ExploreRestaurantsScreenUIState(
-    val categories: List<CategoryUIState> = listOf(),
+    val categories: State<List<CategoryUIState>> = State.Loading,
     val selectedCategory:CategoryUIState = CategoryUIState(),
     val city: String = "",
     val searchInput: String = "",
     val isOpenFilter: Boolean = false,
-    val restaurants: List<RestaurantUIState> = listOf()
+    val restaurants: State<List<RestaurantUIState>> = State.Loading,
 ) {
 
 

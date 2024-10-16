@@ -1,5 +1,6 @@
 package com.example.go_orders.navigations
 
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
@@ -33,6 +34,7 @@ fun NavigationGraph(
                 viewModel = exploreRestaurantsViewModel,
                 homeViewModel = homeViewModel
             )
+            Log.i("ExploreRestaurant Screen","ExploreScreen Start")
         }
     }
 }

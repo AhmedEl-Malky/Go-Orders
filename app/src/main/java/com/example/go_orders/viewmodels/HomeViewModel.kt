@@ -19,8 +19,10 @@ class HomeViewModel:ViewModel() {
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
-            _state.update { it.copy(availableCities = getCitiesUseCase()) }
-            _state.update { it.copy(city = it.availableCities.first()) }
+            getCitiesUseCase().collect{ result ->
+                _state.update { it.copy(availableCities = result) }
+            }
+            _state.update { it.copy(city = it.availableCities.toData()?.first()?: CityUIState()) }
         }
     }
 
