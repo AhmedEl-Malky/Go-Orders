@@ -1,4 +1,4 @@
-package com.example.go_orders.data
+package com.example.go_orders.data.Remote
 
 import com.example.go_orders.BuildConfig
 import com.example.go_orders.state.ExploreRestaurantsScreenUIState.*

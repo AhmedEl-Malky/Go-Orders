@@ -89,13 +89,15 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.9.0")
 //    hilt navigation compose
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.6")
-    implementation ("androidx.hilt:hilt-navigation-compose:1.0.0")
+    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
 //    Coil Compose
     implementation("io.coil-kt.coil3:coil-compose:3.0.0-rc01")
     implementation("io.coil-kt.coil3:coil-network-okhttp:3.0.0-rc01")
 //    Hilt
 //    implementation ("com.google.dagger:hilt-android:2.52")
 //    kapt ("com.google.dagger:hilt-compiler:2.52")
+//    Lottie Compose
+    implementation ("com.airbnb.android:lottie-compose:6.0.0")
 }
 
 

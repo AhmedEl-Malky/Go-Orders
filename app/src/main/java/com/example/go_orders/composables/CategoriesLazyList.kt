@@ -40,6 +40,6 @@ private fun CategoriesLazyListContent(
 @Composable
 private fun PreviewCategoriesLazyList() {
     GoOrdersTheme {
-        CategoriesLazyList(ExploreRestaurantsScreenUIState().categories)
+        CategoriesLazyList(ExploreRestaurantsScreenUIState().categories.toData() ?: emptyList())
     }
 }
