@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 
 
 data class ExploreRestaurantsScreenUIState(
-    val categories: State<List<CategoryUIState>> = State.Loading,
+    val categories: List<CategoryUIState> = emptyList(),
     val selectedCategory:CategoryUIState = CategoryUIState(),
     val city: String = "",
     val searchInput: String = "",
@@ -24,7 +24,7 @@ data class ExploreRestaurantsScreenUIState(
         BannerUIState(
             img = "https://iwpwngjhxeevmqgaohyk.supabase.co/storage/v1/object/public/banners/city-banner-bg.jpg",
             title = "اطلب من Go Orders",
-            subtitle = "مطاعم مدينة",
+            subtitle = "مطاعم مدينة ",
             highlight = "منوف",
             buttonText = "تصفح العروض والخصومات"
         ),
@@ -38,13 +38,12 @@ data class ExploreRestaurantsScreenUIState(
         BannerUIState(
             img = "https://iwpwngjhxeevmqgaohyk.supabase.co/storage/v1/object/public/banners/city-banner-bg.jpg",
             title = "اطلب من Go Orders",
-            subtitle = "مطاعم مدينة",
+            subtitle = "مطاعم مدينة ",
             highlight = "منوف",
             buttonText = "تصفح العروض والخصومات"
         )
     )
 ) {
-
 
     @Serializable
     data class CategoryUIState(

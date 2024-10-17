@@ -98,7 +98,7 @@ fun TopAppBarContent(
             )
             Spacer(modifier = Modifier.width(8.dp))
             Text(
-                text = "${state.city.name}",
+                text = state.city.name,
                 color = MaterialTheme.colorScheme.onSecondary,
                 fontFamily = Beiruti,
                 fontSize = MaterialTheme.typography.titleLarge.fontSize,

@@ -32,7 +32,10 @@ import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.example.go_orders.state.ExploreRestaurantsScreenUIState.BannerUIState
 import com.example.go_orders.ui.theme.Beiruti
+import com.example.go_orders.ui.theme.BorderLight
+import com.example.go_orders.ui.theme.CardDark
 import com.example.go_orders.ui.theme.GoOrdersTheme
+import com.example.go_orders.ui.theme.PrimaryLight
 import kotlinx.coroutines.delay
 
 @Composable
@@ -50,7 +53,7 @@ fun HorizontalBannersPagerContent(
     val state = rememberPagerState(initialPage = 2) { banners.size }
     LaunchedEffect(Unit) {
         while (true) {
-            delay(2100)
+            delay(2500)
             state.animateScrollToPage(
                 page = (state.currentPage + 1) % (state.pageCount),
                 animationSpec = tween(durationMillis = 900)
@@ -89,7 +92,7 @@ fun HorizontalBannersPagerContent(
                     modifier = Modifier
                         .fillMaxSize()
                         .clip(RoundedCornerShape(12.dp))
-                        .background(MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f))
+                        .background(CardDark.copy(alpha = 0.7f))
                 )
                 Column(
                     modifier = Modifier
@@ -126,11 +129,11 @@ fun HorizontalBannersPagerContent(
                     Button(
                         onClick = {},
                         colors = ButtonDefaults.buttonColors(
-                            containerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.5f)
+                            containerColor = PrimaryLight.copy(alpha = 0.5f)
                         ),
                         border = BorderStroke(
                             width = 1.5f.dp,
-                            color = MaterialTheme.colorScheme.outline
+                            color = BorderLight
                         ),
                         shape = RoundedCornerShape(6.dp)
                     ) {
