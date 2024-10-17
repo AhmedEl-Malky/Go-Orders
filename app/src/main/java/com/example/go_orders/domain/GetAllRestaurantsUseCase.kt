@@ -10,8 +10,9 @@ import kotlinx.coroutines.flow.Flow
 class GetAllRestaurantsUseCase {
     suspend operator fun invoke(
         searchInput: String = "",
-        isOpen: Boolean
+        isOpen: Boolean,
+        category: String = ""
     ): Flow<State<List<RestaurantUIState>>> {
-        return StateHandler { Supabase.getAllRestaurants(searchInput, isOpen).sortedBy { it.id } }
+        return StateHandler { Supabase.getAllRestaurants(searchInput, isOpen,category).sortedBy { it.id } }
     }
 }

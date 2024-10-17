@@ -18,9 +18,10 @@ object Supabase : GoOrdersServices {
         install(Postgrest)
     }
 
-    override suspend fun getAllRestaurants(searchInput:String,isOpen: Boolean): List<RestaurantUIState> {
+    override suspend fun getAllRestaurants(searchInput:String,isOpen: Boolean,category: String): List<RestaurantUIState> {
         return supabaseClient.from("restaurants").select{
             filter {
+                like("categories","%$category%")
                 eq("open_now",isOpen)
                 like("name", "%$searchInput%")
             }
@@ -39,7 +40,7 @@ object Supabase : GoOrdersServices {
 
 interface GoOrdersServices {
 
-    suspend fun getAllRestaurants(searchInput: String,isOpen:Boolean): List<RestaurantUIState>
+    suspend fun getAllRestaurants(searchInput: String,isOpen:Boolean,category:String): List<RestaurantUIState>
 
     suspend fun getCategories(): List<CategoryUIState>
 

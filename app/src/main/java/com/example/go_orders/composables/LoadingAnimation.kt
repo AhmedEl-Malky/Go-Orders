@@ -18,7 +18,8 @@ fun LoadingAnimation() {
     LottieAnimation(
         modifier = Modifier.size(220.dp),
         composition = composition,
-        iterations = Int.MAX_VALUE
+        iterations = Int.MAX_VALUE,
+        speed = 1.25f
     )
 }
 

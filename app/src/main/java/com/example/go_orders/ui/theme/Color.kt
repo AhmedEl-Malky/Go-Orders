@@ -30,7 +30,7 @@ val Chart_2Light = Color(0xFFD1FAE5)
 
 val BackgroundDark = Color(0xFF0B0A09)
 val ForegroundDark = Color(0xFFFCFDF6)
-val CardDark = Color(0xFF0B0A09)
+val CardDark = Color(0xFF0B0A09) // onSurface
 val CardForegroundDark = Color(0xFFFCFDF6)
 val PopOverDark = Color(0xFF0B0A09)
 val PopOverForegroundDark = Color(0xFFFCFDF6)

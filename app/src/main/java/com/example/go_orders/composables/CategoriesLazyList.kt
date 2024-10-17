@@ -15,14 +15,16 @@ import com.example.go_orders.ui.theme.GoOrdersTheme
 
 @Composable
 fun CategoriesLazyList(
-    categories: List<CategoryUIState>
+    categories: List<CategoryUIState>,
+    onSelectCategory: (CategoryUIState) -> Unit
 ) {
-    CategoriesLazyListContent(categories)
+    CategoriesLazyListContent(categories,onSelectCategory)
 }
 
 @Composable
 private fun CategoriesLazyListContent(
-    categories: List<CategoryUIState>
+    categories: List<CategoryUIState>,
+    onSelectCategory: (CategoryUIState) -> Unit
 ) {
     LazyRow(
         modifier = Modifier
@@ -31,7 +33,7 @@ private fun CategoriesLazyListContent(
         contentPadding = PaddingValues(start = 12.dp, end = 12.dp, top = 4.dp, bottom = 8.dp),
     ) {
         items(categories) {
-            CategoryCard(it)
+            CategoryCard(it,onSelectCategory)
         }
     }
 }
@@ -40,6 +42,6 @@ private fun CategoriesLazyListContent(
 @Composable
 private fun PreviewCategoriesLazyList() {
     GoOrdersTheme {
-        CategoriesLazyList(ExploreRestaurantsScreenUIState().categories.toData() ?: emptyList())
+        CategoriesLazyList(ExploreRestaurantsScreenUIState().categories,{})
     }
 }

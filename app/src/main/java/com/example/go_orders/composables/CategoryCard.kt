@@ -1,7 +1,6 @@
 package com.example.go_orders.composables
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,13 +14,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
-import com.example.go_orders.R
 import com.example.go_orders.state.ExploreRestaurantsScreenUIState
 import com.example.go_orders.state.ExploreRestaurantsScreenUIState.CategoryUIState
 import com.example.go_orders.ui.theme.Beiruti
@@ -29,20 +25,22 @@ import com.example.go_orders.ui.theme.GoOrdersTheme
 
 @Composable
 fun CategoryCard(
-    category: CategoryUIState
+    category: CategoryUIState,
+    onSelectCategory: (CategoryUIState) -> Unit
 ) {
-    CategoryCardContent(category)
+    CategoryCardContent(category,onSelectCategory)
 }
 
 
 @Composable
 private fun CategoryCardContent(
-    category: CategoryUIState
+    category: CategoryUIState,
+    onSelectCategory: (CategoryUIState) -> Unit
 ) {
     Card(
         modifier = Modifier
             .size(80.dp),
-        onClick = {},
+        onClick = {onSelectCategory(category)},
         shape = RoundedCornerShape(8.dp),
         border = if (category.isSelected)
             BorderStroke(0.8f.dp, color = MaterialTheme.colorScheme.primary)
@@ -73,7 +71,7 @@ private fun CategoryCardContent(
                 color = if (category.isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onBackground,
                 fontFamily = Beiruti,
                 fontWeight = FontWeight.SemiBold,
-                fontSize = MaterialTheme.typography.bodyMedium.fontSize
+                fontSize = MaterialTheme.typography.bodySmall.fontSize
             )
         }
     }
@@ -85,6 +83,6 @@ private fun CategoryCardContent(
 @Composable
 private fun PreviewCategoryCard() {
     GoOrdersTheme {
-        CategoryCard(CategoryUIState(name = "فول وفلافل"))
+        CategoryCard(CategoryUIState(name = "مأكولات بحرية"),{})
     }
 }

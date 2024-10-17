@@ -35,6 +35,7 @@ import com.example.go_orders.composables.RestaurantsSearchBar
 import com.example.go_orders.composables.TopAppBar
 import com.example.go_orders.data.State
 import com.example.go_orders.state.ExploreRestaurantsScreenUIState
+import com.example.go_orders.state.ExploreRestaurantsScreenUIState.*
 import com.example.go_orders.state.HomeScreenUIState
 import com.example.go_orders.ui.theme.Beiruti
 import com.example.go_orders.ui.theme.GoOrdersTheme
@@ -80,7 +81,8 @@ fun ExploreRestaurantsScreen(
                     dismissCityForm = homeViewModel::dismissCityForm,
                     onSelectCity = homeViewModel::onSelectCity,
                     expandCitiesMenu = homeViewModel::expandCitiesMenu,
-                    collapseCitiesMenu = homeViewModel::collapseCitiesMenu
+                    collapseCitiesMenu = homeViewModel::collapseCitiesMenu,
+                    onSelectCategory = viewModel::onSelectCategory
                 )
             }
         is State.Error ->
@@ -113,7 +115,8 @@ fun ExploreRestaurantsScreenContent(
     dismissCityForm: () -> Unit,
     onSelectCity: (HomeScreenUIState.CityUIState) -> Unit,
     expandCitiesMenu: () -> Unit,
-    collapseCitiesMenu: () -> Unit
+    collapseCitiesMenu: () -> Unit,
+    onSelectCategory: (CategoryUIState) -> Unit
 ) {
     Scaffold { innerPadding ->
         Column(
@@ -154,7 +157,7 @@ fun ExploreRestaurantsScreenContent(
                     )
                 }
                 item {
-                    CategoriesLazyList(state.categories.toData() ?: emptyList())
+                    CategoriesLazyList(state.categories,onSelectCategory)
                 }
                 stickyHeader {
                     RestaurantsSearchBar(
