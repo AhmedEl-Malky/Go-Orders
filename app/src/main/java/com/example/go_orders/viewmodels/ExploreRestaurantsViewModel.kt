@@ -37,6 +37,14 @@ class ExploreRestaurantsViewModel : ViewModel() {
         }
     }
 
+    fun startScreen() {
+        viewModelScope.launch(Dispatchers.IO) {
+            getAllRestaurantsUseCase(isOpen = _state.value.isOpenFilter).collect { result ->
+                _state.update { it.copy(screenState = result) }
+            }
+        }
+    }
+
     fun getAllRestaurants() {
         viewModelScope.launch(Dispatchers.IO) {
             getAllRestaurantsUseCase(isOpen = _state.value.isOpenFilter).collect { result ->
@@ -52,11 +60,7 @@ class ExploreRestaurantsViewModel : ViewModel() {
                 isOpen = isOpen,
                 searchInput = _state.value.searchInput
             ).collect { result ->
-                _state.update {
-                    it.copy(
-                        restaurants = result
-                    )
-                }
+                _state.update { it.copy(restaurants = result) }
             }
 
         }
@@ -69,11 +73,7 @@ class ExploreRestaurantsViewModel : ViewModel() {
                 searchInput = searchInput,
                 isOpen = _state.value.isOpenFilter
             ).collect { result ->
-                _state.update {
-                    it.copy(
-                        restaurants = result
-                    )
-                }
+                _state.update { it.copy(restaurants = result) }
             }
         }
     }

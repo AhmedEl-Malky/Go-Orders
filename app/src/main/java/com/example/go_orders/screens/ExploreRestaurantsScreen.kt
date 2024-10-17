@@ -52,11 +52,14 @@ fun ExploreRestaurantsScreen(
     LaunchedEffect(Unit) {
         viewModel.getCategories()
         viewModel.getAllRestaurants()
+        viewModel.startScreen()
     }
-    when (state.restaurants) {
+    when (state.screenState) {
         is State.Loading ->
             Column(
-                modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(MaterialTheme.colorScheme.background),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             )
@@ -65,24 +68,29 @@ fun ExploreRestaurantsScreen(
                     LoadingAnimation()
                 }
             }
+
         is State.Success ->
-            ExploreRestaurantsScreenContent(
-            state = state,
-            homeState = homeState,
-            filterOpenedRestaurants = viewModel::filterOpenedRestaurants,
-            searchForRestaurant = viewModel::searchForRestaurant,
-            showCityForm = homeViewModel::showCityForm,
-            dismissCityForm = homeViewModel::dismissCityForm,
-            onSelectCity = homeViewModel::onSelectCity,
-            expandCitiesMenu = homeViewModel::expandCitiesMenu,
-            collapseCitiesMenu = homeViewModel::collapseCitiesMenu
-        )
+            AnimatedVisibility(visible = true) {
+                ExploreRestaurantsScreenContent(
+                    state = state,
+                    homeState = homeState,
+                    filterOpenedRestaurants = viewModel::filterOpenedRestaurants,
+                    searchForRestaurant = viewModel::searchForRestaurant,
+                    showCityForm = homeViewModel::showCityForm,
+                    dismissCityForm = homeViewModel::dismissCityForm,
+                    onSelectCity = homeViewModel::onSelectCity,
+                    expandCitiesMenu = homeViewModel::expandCitiesMenu,
+                    collapseCitiesMenu = homeViewModel::collapseCitiesMenu
+                )
+            }
         is State.Error ->
             Column(
-                modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(MaterialTheme.colorScheme.background),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
-            ){
+            ) {
                 Image(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -130,7 +138,7 @@ fun ExploreRestaurantsScreenContent(
                     .fillMaxSize()
             ) {
                 item {
-                    HorizontalBannersPager()
+                    HorizontalBannersPager(state.banners)
                 }
                 item {
                     Text(
@@ -168,13 +176,34 @@ fun ExploreRestaurantsScreenContent(
                         textAlign = TextAlign.Start
                     )
                 }
-                itemsIndexed(state.restaurants.toData() ?: listOf()) { index, item ->
-                    RestaurantCard(
-                        restaurant = item,
-                        restaurantCount = state.restaurants.toData()?.size ?: 0,
-                        index = index
-                    )
+                when(state.restaurants){
+                    is State.Loading -> item {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .background(MaterialTheme.colorScheme.background),
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.Center
+                        ) {
+                            LoadingAnimation()
+                        }
+                    }
+                    is State.Success -> itemsIndexed(state.restaurants.toData() ?: listOf()) { index, item ->
+                        RestaurantCard(
+                            restaurant = item,
+                            restaurantCount = state.restaurants.toData()?.size ?: 0,
+                            index = index
+                        )
+                    }
+                    is State.Error -> item { Image(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(24.dp),
+                        painter = painterResource(R.drawable.error),
+                        contentDescription = "Error"
+                    ) }
                 }
+
             }
         }
 

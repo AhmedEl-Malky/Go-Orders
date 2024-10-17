@@ -52,17 +52,15 @@ fun HomeScreen(
 ) {
     val state by viewModel.state.collectAsState()
     when (state.availableCities) {
-        is State.Loading -> HomeScreenContent(
-            goExploreRestaurants = {
-                navController.navigate(Navigation.ExploreRestaurantsScreen.route)
-            },
-            state = state,
-            showCityForm = viewModel::showCityForm,
-            dismissCityForm = viewModel::dismissCityForm,
-            onSelectCity = viewModel::onSelectCity,
-            expandCitiesMenu = viewModel::expandCitiesMenu,
-            collapseCitiesMenu = viewModel::collapseCitiesMenu
-        )
+        is State.Loading -> Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.background),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            LoadingAnimation()
+        }
 
         is State.Success ->
             HomeScreenContent(
