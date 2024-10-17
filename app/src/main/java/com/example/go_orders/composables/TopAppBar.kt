@@ -13,7 +13,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
@@ -23,7 +23,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -36,7 +35,7 @@ import com.example.go_orders.ui.theme.GoOrdersTheme
 
 @Composable
 fun TopAppBar(
-    state:HomeScreenUIState,
+    state: HomeScreenUIState,
     showCityForm: () -> Unit,
     dismissCityForm: () -> Unit,
     onSelectCity: (CityUIState) -> Unit,
@@ -113,7 +112,9 @@ fun TopAppBarContent(
                     .size(48.dp),
                 onClick = {},
                 shape = RoundedCornerShape(6.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.secondary
+                ),
                 border = BorderStroke(1.dp, color = MaterialTheme.colorScheme.outline),
                 contentPadding = PaddingValues(10.dp)
             ) {
@@ -130,15 +131,17 @@ fun TopAppBarContent(
                     .size(48.dp),
                 onClick = {},
                 shape = RoundedCornerShape(6.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF)),
-                border = BorderStroke(1.dp, color = MaterialTheme.colorScheme.outline),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.primary
+                ),
+
                 contentPadding = PaddingValues(10.dp)
             ) {
                 Icon(
-                    modifier = Modifier.size(24.dp),
-                    imageVector = Icons.Default.Menu,
+                    modifier = Modifier.size(26.dp),
+                    imageVector = Icons.Default.Person,
                     contentDescription = "Menu",
-                    tint = MaterialTheme.colorScheme.onBackground
+                    tint = MaterialTheme.colorScheme.onPrimary
                 )
             }
 
