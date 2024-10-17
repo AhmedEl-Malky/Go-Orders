@@ -6,6 +6,7 @@ import com.example.go_orders.state.ExploreRestaurantsScreenUIState.RestaurantUIS
 import com.example.go_orders.utils.StateHandler
 import kotlinx.coroutines.flow.Flow
 
+
 class GetAllRestaurantsUseCase {
     suspend operator fun invoke(
         searchInput: String = "",

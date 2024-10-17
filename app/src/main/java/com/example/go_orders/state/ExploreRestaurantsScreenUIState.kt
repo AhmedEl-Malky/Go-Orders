@@ -12,6 +12,7 @@ data class ExploreRestaurantsScreenUIState(
     val searchInput: String = "",
     val isOpenFilter: Boolean = false,
     val restaurants: State<List<RestaurantUIState>> = State.Loading,
+//    val screenState:State<Any> = State.Loading
 ) {
 
 

@@ -1,5 +1,6 @@
 package com.example.go_orders.screens
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -59,7 +60,11 @@ fun ExploreRestaurantsScreen(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             )
-            { LoadingAnimation() }
+            {
+                AnimatedVisibility(visible = true) {
+                    LoadingAnimation()
+                }
+            }
         is State.Success ->
             ExploreRestaurantsScreenContent(
             state = state,
