@@ -10,7 +10,7 @@ import io.github.jan.supabase.postgrest.from
 
 
 object Supabase : GoOrdersServices {
-    val supabaseClient = createSupabaseClient(
+    private val supabaseClient = createSupabaseClient(
         supabaseUrl = BuildConfig.GO_ORDERS_URL,
         supabaseKey = BuildConfig.API_KEY
     ) {

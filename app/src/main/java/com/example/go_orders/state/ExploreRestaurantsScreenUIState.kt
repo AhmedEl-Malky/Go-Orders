@@ -27,20 +27,6 @@ data class ExploreRestaurantsScreenUIState(
             subtitle = "مطاعم مدينة ",
             highlight = "منوف",
             buttonText = "تصفح العروض والخصومات"
-        ),
-        BannerUIState(
-            img = "https://iwpwngjhxeevmqgaohyk.supabase.co/storage/v1/object/public/banners/6645.jpg",
-            title = "لأصحاب المحلات والمطاعم",
-            subtitle = "كن شريكا مع ",
-            highlight = "Go Orders",
-            buttonText = "تواصل الآن"
-        ),
-        BannerUIState(
-            img = "https://iwpwngjhxeevmqgaohyk.supabase.co/storage/v1/object/public/banners/city-banner-bg.jpg",
-            title = "اطلب من Go Orders",
-            subtitle = "مطاعم مدينة ",
-            highlight = "منوف",
-            buttonText = "تصفح العروض والخصومات"
         )
     )
 ) {

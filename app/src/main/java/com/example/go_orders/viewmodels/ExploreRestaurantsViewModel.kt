@@ -27,11 +27,7 @@ class ExploreRestaurantsViewModel : ViewModel() {
     fun getCategories() {
         viewModelScope.launch(Dispatchers.IO) {
             _state.update { it.copy(categories = getCategoriesUseCase()) }
-            _state.update {
-                it.copy(
-                    selectedCategory = it.categories.first()
-                )
-            }
+            _state.update { it.copy(selectedCategory = it.categories.first()) }
         }
     }
 
@@ -39,6 +35,7 @@ class ExploreRestaurantsViewModel : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             getAllRestaurantsUseCase(
                 isOpen = _state.value.isOpenFilter,
+                searchInput = _state.value.searchInput,
                 category = _state.value.selectedCategory.slug
             ).collect { result ->
                 _state.update { it.copy(screenState = result) }
@@ -50,6 +47,7 @@ class ExploreRestaurantsViewModel : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             getAllRestaurantsUseCase(
                 isOpen = _state.value.isOpenFilter,
+                category = _state.value.selectedCategory.slug,
             ).collect { result ->
                 _state.update { it.copy(restaurants = result) }
             }
@@ -112,9 +110,6 @@ class ExploreRestaurantsViewModel : ViewModel() {
                 }
             )
         }
-        if (selectedCategory.slug != "all")
-            categorizeRestaurants(selectedCategory)
-        else
-            getAllRestaurants()
+        categorizeRestaurants(selectedCategory)
     }
 }

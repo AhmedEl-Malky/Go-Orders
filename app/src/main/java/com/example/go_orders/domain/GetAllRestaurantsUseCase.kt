@@ -13,6 +13,8 @@ class GetAllRestaurantsUseCase {
         isOpen: Boolean,
         category: String = ""
     ): Flow<State<List<RestaurantUIState>>> {
-        return StateHandler { Supabase.getAllRestaurants(searchInput, isOpen,category).sortedBy { it.id } }
+        return StateHandler {
+            Supabase.getAllRestaurants(searchInput, isOpen, category = if (category=="all") "" else category).sortedBy { it.id }
+        }
     }
 }
