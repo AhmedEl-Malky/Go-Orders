@@ -2,47 +2,68 @@ package com.example.go_orders.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.go_orders.data.local.DataStore
 import com.example.go_orders.domain.GetCitiesUseCase
 import com.example.go_orders.state.HomeScreenUIState
-import com.example.go_orders.state.HomeScreenUIState.*
+import com.example.go_orders.state.HomeScreenUIState.CityUIState
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class HomeViewModel:ViewModel() {
+@HiltViewModel
+class HomeViewModel @Inject constructor(
+    private val getCitiesUseCase: GetCitiesUseCase,
+    private val dataStore: DataStore
+) : ViewModel() {
     private val _state = MutableStateFlow(HomeScreenUIState())
-    val state:StateFlow<HomeScreenUIState> = _state
-
-    private val getCitiesUseCase = GetCitiesUseCase()
+    val state: StateFlow<HomeScreenUIState> = _state
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
-            getCitiesUseCase().collect{ result ->
+            getCitiesUseCase().collect { result ->
                 _state.update { it.copy(availableCities = result) }
             }
-            _state.update { it.copy(city = it.availableCities.toData()?.first()?: CityUIState()) }
+            dataStore.setInitialCity(_state.value.availableCities.toData()?.first() ?: CityUIState())
+            getCurrentCity()
         }
     }
 
-    fun onSelectCity(city: CityUIState){
+    fun onSelectCity(city: CityUIState) {
         _state.update { it.copy(city = city) }
+        viewModelScope.launch(Dispatchers.IO) {
+            dataStore.changeCity(city)
+        }
     }
 
-    fun showCityForm(){
+    private fun getCurrentCity() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val city = CityUIState(
+                id = dataStore.getCityID() ?: 0,
+                name = dataStore.getCityName() ?: "",
+                slug = dataStore.getCitySlug() ?: "",
+                createdAt = dataStore.getCityCreate() ?: ""
+            )
+            _state.update { it.copy(city = city) }
+        }
+    }
+
+    fun showCityForm() {
         _state.update { it.copy(isCityFormShown = true) }
     }
 
-    fun dismissCityForm(){
+    fun dismissCityForm() {
         _state.update { it.copy(isCityFormShown = false) }
     }
 
-    fun expandCitiesMenu(){
+    fun expandCitiesMenu() {
         _state.update { it.copy(isCitiesMenuExpanded = true) }
     }
 
-    fun collapseCitiesMenu(){
+    fun collapseCitiesMenu() {
         _state.update { it.copy(isCitiesMenuExpanded = false) }
     }
 }

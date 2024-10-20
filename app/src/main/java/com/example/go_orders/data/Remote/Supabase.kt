@@ -9,7 +9,7 @@ import io.github.jan.supabase.postgrest.from
 
 
 
-object Supabase : GoOrdersServices {
+class Supabase : GoOrdersServices {
     private val supabaseClient = createSupabaseClient(
         supabaseUrl = BuildConfig.GO_ORDERS_URL,
         supabaseKey = BuildConfig.API_KEY
@@ -35,15 +35,5 @@ object Supabase : GoOrdersServices {
     override suspend fun getCities(): List<CityUIState> {
         return supabaseClient.from("cities").select().decodeList<CityUIState>()
     }
-
-}
-
-interface GoOrdersServices {
-
-    suspend fun getAllRestaurants(searchInput: String,isOpen:Boolean,category:String): List<RestaurantUIState>
-
-    suspend fun getCategories(): List<CategoryUIState>
-
-    suspend fun getCities():List<CityUIState>
 
 }

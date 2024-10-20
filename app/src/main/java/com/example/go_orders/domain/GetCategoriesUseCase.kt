@@ -1,13 +1,14 @@
 package com.example.go_orders.domain
 
+import com.example.go_orders.data.Remote.GoOrdersServices
 import com.example.go_orders.data.Remote.Supabase
-import com.example.go_orders.data.State
 import com.example.go_orders.state.ExploreRestaurantsScreenUIState.CategoryUIState
-import com.example.go_orders.utils.StateHandler
-import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-class GetCategoriesUseCase {
+class GetCategoriesUseCase @Inject constructor(
+    private val supabaseClient: GoOrdersServices
+) {
     suspend operator fun invoke(): List<CategoryUIState>{
-        return  Supabase.getCategories().sortedBy { it.order }
+        return  supabaseClient.getCategories().sortedBy { it.order }
     }
 }
