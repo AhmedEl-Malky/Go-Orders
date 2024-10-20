@@ -2,6 +2,7 @@ package com.example.go_orders.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.go_orders.data.Remote.Supabase
 import com.example.go_orders.domain.GetAllRestaurantsUseCase
 import com.example.go_orders.domain.GetCategoriesUseCase
 import com.example.go_orders.state.ExploreRestaurantsScreenUIState
@@ -12,17 +13,18 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
-class ExploreRestaurantsViewModel : ViewModel() {
+class ExploreRestaurantsViewModel @Inject constructor(
+    private val getAllRestaurantsUseCase: GetAllRestaurantsUseCase,
+    private val getCategoriesUseCase: GetCategoriesUseCase
+) : ViewModel() {
 
     private val _state = MutableStateFlow(ExploreRestaurantsScreenUIState())
 
     val state: StateFlow<ExploreRestaurantsScreenUIState> = _state
 
-    private val getAllRestaurantsUseCase = GetAllRestaurantsUseCase()
-
-    private val getCategoriesUseCase = GetCategoriesUseCase()
 
     fun getCategories() {
         viewModelScope.launch(Dispatchers.IO) {

@@ -5,7 +5,7 @@ plugins {
     id("kotlin-kapt")
     kotlin("plugin.serialization") version "2.0.20"
     id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
-//    id ("com.google.dagger.hilt.android")
+    id ("com.google.dagger.hilt.android")
 }
 
 android {
@@ -94,10 +94,12 @@ dependencies {
     implementation("io.coil-kt.coil3:coil-compose:3.0.0-rc01")
     implementation("io.coil-kt.coil3:coil-network-okhttp:3.0.0-rc01")
 //    Hilt
-//    implementation ("com.google.dagger:hilt-android:2.52")
-//    kapt ("com.google.dagger:hilt-compiler:2.52")
+    implementation ("com.google.dagger:hilt-android:2.52")
+    kapt ("com.google.dagger:hilt-compiler:2.52")
 //    Lottie Compose
     implementation ("com.airbnb.android:lottie-compose:6.0.0")
+//    DataStore
+    implementation("androidx.datastore:datastore-preferences:1.1.1")
 }
 
 
