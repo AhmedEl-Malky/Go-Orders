@@ -1,6 +1,8 @@
 package com.example.go_orders.navigations
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -17,34 +19,59 @@ import com.example.go_orders.viewmodels.RestaurantViewModel
 fun NavigationGraph(
     navController: NavHostController
 ) {
-
-    val exploreRestaurantsViewModel: ExploreRestaurantsViewModel = hiltViewModel()
-    val homeViewModel: HomeViewModel = hiltViewModel()
-    val restaurantViewModel: RestaurantViewModel = hiltViewModel()
-
     val navHost = NavHost(
         navController = navController,
         startDestination = Navigation.HomeScreen
     ) {
         composable<Navigation.HomeScreen> {
+            val homeViewModel: HomeViewModel = hiltViewModel()
+            val state by homeViewModel.state.collectAsState()
             HomeScreen(
-                viewModel = homeViewModel,
-                navController = navController
+                state = state,
+                navController = navController,
+                showCityForm = homeViewModel::showCityForm,
+                dismissCityForm = homeViewModel::dismissCityForm,
+                onSelectCity = homeViewModel::onSelectCity,
+                expandCitiesMenu = homeViewModel::expandCitiesMenu,
+                collapseCitiesMenu = homeViewModel::collapseCitiesMenu
             )
         }
         composable<Navigation.ExploreRestaurantsScreen> {
+            val exploreRestaurantsViewModel: ExploreRestaurantsViewModel = hiltViewModel()
+            val state by exploreRestaurantsViewModel.state.collectAsState()
+            val homeViewModel: HomeViewModel = hiltViewModel()
+            val homeState by homeViewModel.state.collectAsState()
             ExploreRestaurantsScreen(
-                viewModel = exploreRestaurantsViewModel,
-                homeViewModel = homeViewModel,
-                navController = navController
+                state = state,
+                homeState = homeState,
+                navController = navController,
+                getCategories = exploreRestaurantsViewModel::getCategories,
+                getAllRestaurants = exploreRestaurantsViewModel::getAllRestaurants,
+                startScreen = exploreRestaurantsViewModel::startScreen,
+                filterOpenedRestaurants = exploreRestaurantsViewModel::filterOpenedRestaurants,
+                searchForRestaurant = exploreRestaurantsViewModel::searchForRestaurant,
+                showCityForm = homeViewModel::showCityForm,
+                dismissCityForm = homeViewModel::dismissCityForm,
+                onSelectCity = homeViewModel::onSelectCity,
+                expandCitiesMenu = homeViewModel::expandCitiesMenu,
+                collapseCitiesMenu = homeViewModel::collapseCitiesMenu,
+                onSelectCategory = exploreRestaurantsViewModel::onSelectCategory,
             )
         }
         composable<Navigation.RestaurantScreen> {
+            val restaurantViewModel: RestaurantViewModel = hiltViewModel()
+            val state by restaurantViewModel.state.collectAsState()
+            val homeViewModel: HomeViewModel = hiltViewModel()
+            val homeState by homeViewModel.state.collectAsState()
+
             val args = it.toRoute<Navigation.RestaurantScreen>()
             RestaurantScreen(
                 restaurantID = args.restaurantID,
-                viewModel = restaurantViewModel,
-                homeViewModel = homeViewModel
+                state = state,
+                homeState = homeState,
+                fetchRestaurantInfo = restaurantViewModel::fetchRestaurantInfo,
+                fetchMenuCategories = restaurantViewModel::fetchMenuCategories,
+                fetchMenuItems = restaurantViewModel::fetchMenuItems
             )
         }
     }

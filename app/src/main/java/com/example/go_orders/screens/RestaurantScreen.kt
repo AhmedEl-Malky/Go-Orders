@@ -60,14 +60,15 @@ import com.example.go_orders.viewmodels.RestaurantViewModel
 @Composable
 fun RestaurantScreen(
     restaurantID: Int,
-    viewModel: RestaurantViewModel,
-    homeViewModel: HomeViewModel
+    state: RestaurantInfoUIState,
+    homeState: HomeUIState,
+    fetchRestaurantInfo:(Int) -> Unit,
+    fetchMenuCategories:(Int) -> Unit,
+    fetchMenuItems: (String) -> List<MenuItemUIState>
 ) {
-    val state by viewModel.state.collectAsState()
-    val homeState by homeViewModel.state.collectAsState()
     LaunchedEffect(Unit) {
-        viewModel.fetchRestaurantInfo(id = restaurantID)
-        viewModel.fetchMenuCategories(id = restaurantID)
+        fetchRestaurantInfo(restaurantID)
+        fetchMenuCategories(restaurantID)
     }
 
     when (state.restaurant) {
@@ -92,7 +93,7 @@ fun RestaurantScreen(
                 RestaurantScreenContent(
                     state = state,
                     homeState = homeState,
-                    fetchMenuItems = viewModel::fetchMenuItems
+                    fetchMenuItems = fetchMenuItems
                 )
             }
 

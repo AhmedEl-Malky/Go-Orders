@@ -20,6 +20,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -46,16 +47,25 @@ import com.example.go_orders.viewmodels.HomeViewModel
 
 @Composable
 fun ExploreRestaurantsScreen(
-    viewModel: ExploreRestaurantsViewModel,
-    homeViewModel: HomeViewModel,
-    navController: NavController
+    state:ExploreRestaurantsUIState,
+    homeState: HomeUIState,
+    navController: NavController,
+    getCategories:() -> Unit,
+    getAllRestaurants:() -> Unit,
+    startScreen:() -> Unit,
+    filterOpenedRestaurants: (Boolean) -> Unit,
+    searchForRestaurant: (String) -> Unit,
+    showCityForm: () -> Unit,
+    dismissCityForm: () -> Unit,
+    onSelectCity: (HomeUIState.CityUIState) -> Unit,
+    expandCitiesMenu: () -> Unit,
+    collapseCitiesMenu: () -> Unit,
+    onSelectCategory: (CategoryUIState) -> Unit,
 ) {
-    val state by viewModel.state.collectAsState()
-    val homeState by homeViewModel.state.collectAsState()
     LaunchedEffect(Unit) {
-        viewModel.getCategories()
-        viewModel.getAllRestaurants()
-        viewModel.startScreen()
+        getCategories()
+        getAllRestaurants()
+        startScreen()
     }
     when (state.screenState) {
         is State.Loading ->
@@ -80,14 +90,14 @@ fun ExploreRestaurantsScreen(
                 ExploreRestaurantsScreenContent(
                     state = state,
                     homeState = homeState,
-                    filterOpenedRestaurants = viewModel::filterOpenedRestaurants,
-                    searchForRestaurant = viewModel::searchForRestaurant,
-                    showCityForm = homeViewModel::showCityForm,
-                    dismissCityForm = homeViewModel::dismissCityForm,
-                    onSelectCity = homeViewModel::onSelectCity,
-                    expandCitiesMenu = homeViewModel::expandCitiesMenu,
-                    collapseCitiesMenu = homeViewModel::collapseCitiesMenu,
-                    onSelectCategory = viewModel::onSelectCategory,
+                    filterOpenedRestaurants = filterOpenedRestaurants,
+                    searchForRestaurant = searchForRestaurant,
+                    showCityForm = showCityForm,
+                    dismissCityForm = dismissCityForm,
+                    onSelectCity = onSelectCity,
+                    expandCitiesMenu = expandCitiesMenu,
+                    collapseCitiesMenu = collapseCitiesMenu,
+                    onSelectCategory = onSelectCategory,
                     navController = navController
                 )
             }
@@ -240,6 +250,21 @@ private fun ExploreRestaurantsScreenContent(
 @Composable
 private fun PreviewExploreRestaurantsScreen() {
     GoOrdersTheme {
-//        ExploreRestaurantsScreen()
+        ExploreRestaurantsScreen(
+            state = ExploreRestaurantsUIState(),
+            homeState = HomeUIState(),
+            navController = NavController(LocalContext.current),
+            getCategories = {},
+            getAllRestaurants = {},
+            startScreen = {},
+            filterOpenedRestaurants = {},
+            searchForRestaurant = {},
+            showCityForm = {},
+            dismissCityForm = {},
+            onSelectCity = {},
+            expandCitiesMenu = {},
+            collapseCitiesMenu = {},
+            onSelectCategory = {}
+        )
     }
 }

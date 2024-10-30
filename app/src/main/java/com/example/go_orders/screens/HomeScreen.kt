@@ -22,12 +22,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -44,14 +43,17 @@ import com.example.go_orders.state.HomeUIState
 import com.example.go_orders.state.HomeUIState.CityUIState
 import com.example.go_orders.ui.theme.Beiruti
 import com.example.go_orders.ui.theme.GoOrdersTheme
-import com.example.go_orders.viewmodels.HomeViewModel
 
 @Composable
 fun HomeScreen(
-    viewModel: HomeViewModel,
-    navController: NavController
+    state: HomeUIState,
+    navController: NavController,
+    showCityForm: () -> Unit,
+    dismissCityForm: () -> Unit,
+    onSelectCity: (CityUIState) -> Unit,
+    expandCitiesMenu: () -> Unit,
+    collapseCitiesMenu: () -> Unit,
 ) {
-    val state by viewModel.state.collectAsState()
     when (state.availableCities) {
         is State.Loading ->
             AnimatedVisibility(true) {
@@ -74,24 +76,30 @@ fun HomeScreen(
                         navController.navigate(Navigation.ExploreRestaurantsScreen)
                     },
                     state = state,
-                    showCityForm = viewModel::showCityForm,
-                    dismissCityForm = viewModel::dismissCityForm,
-                    onSelectCity = viewModel::onSelectCity,
-                    expandCitiesMenu = viewModel::expandCitiesMenu,
-                    collapseCitiesMenu = viewModel::collapseCitiesMenu
+                    showCityForm = showCityForm,
+                    dismissCityForm = dismissCityForm,
+                    onSelectCity = onSelectCity,
+                    expandCitiesMenu = expandCitiesMenu,
+                    collapseCitiesMenu = collapseCitiesMenu
                 )
             }
 
 
         is State.Error ->
             AnimatedVisibility(true) {
-                Image(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(24.dp),
-                    painter = painterResource(R.drawable.error),
-                    contentDescription = "Error"
-                )
+                Column(
+                    modifier = Modifier.fillMaxSize(),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Image(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(24.dp),
+                        painter = painterResource(R.drawable.error),
+                        contentDescription = "Error"
+                    )
+                }
             }
     }
 }
@@ -260,14 +268,14 @@ private fun HomeScreenContent(
 @Composable
 private fun PreviewHomeScreen() {
     GoOrdersTheme {
-        HomeScreenContent(
-            goExploreRestaurants = {},
-            state = HomeUIState(city = CityUIState(name = "السادات")),
+        HomeScreen(
+            state = HomeUIState(),
+            navController = NavController(LocalContext.current),
             showCityForm = {},
             dismissCityForm = {},
             onSelectCity = {},
             expandCitiesMenu = {},
-            collapseCitiesMenu = {}
+            collapseCitiesMenu = {},
         )
     }
 }
