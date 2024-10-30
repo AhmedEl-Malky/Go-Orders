@@ -1,5 +1,6 @@
 package com.example.go_orders.screens
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -39,8 +40,8 @@ import com.example.go_orders.composables.LoadingAnimation
 import com.example.go_orders.composables.TopAppBar
 import com.example.go_orders.data.State
 import com.example.go_orders.navigations.Navigation
-import com.example.go_orders.state.HomeScreenUIState
-import com.example.go_orders.state.HomeScreenUIState.CityUIState
+import com.example.go_orders.state.HomeUIState
+import com.example.go_orders.state.HomeUIState.CityUIState
 import com.example.go_orders.ui.theme.Beiruti
 import com.example.go_orders.ui.theme.GoOrdersTheme
 import com.example.go_orders.viewmodels.HomeViewModel
@@ -52,43 +53,53 @@ fun HomeScreen(
 ) {
     val state by viewModel.state.collectAsState()
     when (state.availableCities) {
-        is State.Loading -> Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(MaterialTheme.colorScheme.background),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-            LoadingAnimation()
-        }
+        is State.Loading ->
+            AnimatedVisibility(true) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(MaterialTheme.colorScheme.background),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    LoadingAnimation()
+                }
+            }
+
 
         is State.Success ->
-            HomeScreenContent(
-                goExploreRestaurants = {
-                    navController.navigate(Navigation.ExploreRestaurantsScreen.route)
-                },
-                state = state,
-                showCityForm = viewModel::showCityForm,
-                dismissCityForm = viewModel::dismissCityForm,
-                onSelectCity = viewModel::onSelectCity,
-                expandCitiesMenu = viewModel::expandCitiesMenu,
-                collapseCitiesMenu = viewModel::collapseCitiesMenu
-            )
+            AnimatedVisibility(true) {
+                HomeScreenContent(
+                    goExploreRestaurants = {
+                        navController.navigate(Navigation.ExploreRestaurantsScreen)
+                    },
+                    state = state,
+                    showCityForm = viewModel::showCityForm,
+                    dismissCityForm = viewModel::dismissCityForm,
+                    onSelectCity = viewModel::onSelectCity,
+                    expandCitiesMenu = viewModel::expandCitiesMenu,
+                    collapseCitiesMenu = viewModel::collapseCitiesMenu
+                )
+            }
 
-        is State.Error -> Image(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(24.dp),
-            painter = painterResource(R.drawable.error),
-            contentDescription = "Error"
-        )
+
+        is State.Error ->
+            AnimatedVisibility(true) {
+                Image(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(24.dp),
+                    painter = painterResource(R.drawable.error),
+                    contentDescription = "Error"
+                )
+            }
     }
 }
 
 @Composable
 private fun HomeScreenContent(
     goExploreRestaurants: () -> Unit,
-    state: HomeScreenUIState,
+    state: HomeUIState,
     showCityForm: () -> Unit,
     dismissCityForm: () -> Unit,
     onSelectCity: (CityUIState) -> Unit,
@@ -204,7 +215,9 @@ private fun HomeScreenContent(
                                 ),
                                 onClick = goExploreRestaurants,
                                 shape = RoundedCornerShape(6.dp),
-                                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.onPrimaryContainer)
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = MaterialTheme.colorScheme.onPrimaryContainer
+                                )
                             ) {
                                 Text(
                                     modifier = Modifier.padding(end = 12.dp),
@@ -241,14 +254,15 @@ private fun HomeScreenContent(
 
 @Preview(
     showBackground = true, showSystemUi = true,
-    device = "spec:width=1080px,height=2400px,dpi=440", locale = "ar"
+    device = "spec:width=1080px,height=2400px,dpi=440",
+    locale = "ar"
 )
 @Composable
 private fun PreviewHomeScreen() {
     GoOrdersTheme {
         HomeScreenContent(
             goExploreRestaurants = {},
-            state = HomeScreenUIState(city = CityUIState(name = "السادات")),
+            state = HomeUIState(city = CityUIState(name = "السادات")),
             showCityForm = {},
             dismissCityForm = {},
             onSelectCity = {},

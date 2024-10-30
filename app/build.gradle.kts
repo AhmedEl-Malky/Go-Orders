@@ -3,9 +3,10 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.compose.compiler)
     id("kotlin-kapt")
-    kotlin("plugin.serialization") version "2.0.20"
+//    kotlin("plugin.serialization") version "2.0.20"
     id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
     id ("com.google.dagger.hilt.android")
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -75,6 +76,8 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
 //    Navigation Graph
     implementation("androidx.navigation:navigation-compose:2.8.2")
+//    KotlinX Serialization
+    implementation(libs.kotlinx.serialization.json)
 //    Supabase
     implementation(platform("io.github.jan-tennert.supabase:bom:3.0.0"))
     implementation("io.github.jan-tennert.supabase:postgrest-kt")

@@ -5,7 +5,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 
-data class ExploreRestaurantsScreenUIState(
+data class ExploreRestaurantsUIState(
     val categories: List<CategoryUIState> = emptyList(),
     val selectedCategory:CategoryUIState = CategoryUIState(),
     val city: String = "",

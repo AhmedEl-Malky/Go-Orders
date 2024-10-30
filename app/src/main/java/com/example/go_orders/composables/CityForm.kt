@@ -26,14 +26,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import com.example.go_orders.state.HomeScreenUIState
-import com.example.go_orders.state.HomeScreenUIState.CityUIState
+import com.example.go_orders.state.HomeUIState
+import com.example.go_orders.state.HomeUIState.CityUIState
 import com.example.go_orders.ui.theme.Beiruti
 import com.example.go_orders.ui.theme.GoOrdersTheme
 
 @Composable
 fun CityForm(
-    state: HomeScreenUIState,
+    state: HomeUIState,
     dismissCityForm: () -> Unit,
     onSelectCity: (CityUIState) -> Unit,
     expandCitiesMenu: () -> Unit,
@@ -51,7 +51,7 @@ fun CityForm(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CityFormContent(
-    state: HomeScreenUIState,
+    state: HomeUIState,
     dismissCityForm: () -> Unit,
     onSelectCity: (CityUIState) -> Unit,
     expandCitiesMenu: () -> Unit,
@@ -150,7 +150,7 @@ fun CityFormContent(
 fun PreviewCityForm() {
     GoOrdersTheme {
         CityForm(
-            state = HomeScreenUIState(),
+            state = HomeUIState(),
             dismissCityForm = {},
             onSelectCity = {},
             expandCitiesMenu = {},

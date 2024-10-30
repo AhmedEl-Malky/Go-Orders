@@ -1,16 +1,14 @@
 package com.example.go_orders.domain
 
 import com.example.go_orders.data.Remote.GoOrdersServices
-import com.example.go_orders.data.Remote.Supabase
 import com.example.go_orders.data.State
-import com.example.go_orders.state.ExploreRestaurantsScreenUIState.RestaurantUIState
+import com.example.go_orders.state.ExploreRestaurantsUIState.RestaurantUIState
 import com.example.go_orders.utils.StateHandler
-import io.github.jan.supabase.SupabaseClient
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 
-class GetAllRestaurantsUseCase @Inject constructor(
+class AllRestaurantsUseCase @Inject constructor(
     private val supabaseClient: GoOrdersServices
 ) {
     suspend operator fun invoke(

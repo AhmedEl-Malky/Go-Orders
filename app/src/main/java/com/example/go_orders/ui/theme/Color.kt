@@ -23,7 +23,7 @@ val DestructiveForeGroundLight = Color(0xFFFCFDF6)
 val BorderLight = Color(0xFFE5E2DB) // Outline
 val InputLight = Color(0xFFE5E2DB)  // SurfaceVariant
 val RingLight = Color(0xFFFF6F1A)
-val Chart_1Light = Color(0xFF059669)
+val Chart_1Light = Color(0xFF059669) // SurfaceContainerLow
 val Chart_2Light = Color(0xFFD1FAE5)
 
 

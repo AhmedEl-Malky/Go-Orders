@@ -1,12 +1,15 @@
 package com.example.go_orders.data.Remote
 
 import com.example.go_orders.BuildConfig
-import com.example.go_orders.state.ExploreRestaurantsScreenUIState.*
-import com.example.go_orders.state.HomeScreenUIState.CityUIState
+import com.example.go_orders.state.ExploreRestaurantsUIState.CategoryUIState
+import com.example.go_orders.state.ExploreRestaurantsUIState.RestaurantUIState
+import com.example.go_orders.state.HomeUIState.CityUIState
+import com.example.go_orders.state.RestaurantInfoUIState
+import com.example.go_orders.state.RestaurantInfoUIState.*
 import io.github.jan.supabase.createSupabaseClient
 import io.github.jan.supabase.postgrest.Postgrest
 import io.github.jan.supabase.postgrest.from
-
+import io.github.jan.supabase.postgrest.query.Columns
 
 
 class Supabase : GoOrdersServices {
@@ -18,11 +21,15 @@ class Supabase : GoOrdersServices {
         install(Postgrest)
     }
 
-    override suspend fun getAllRestaurants(searchInput:String,isOpen: Boolean,category: String): List<RestaurantUIState> {
-        return supabaseClient.from("restaurants").select{
+    override suspend fun getAllRestaurants(
+        searchInput: String,
+        isOpen: Boolean,
+        category: String
+    ): List<RestaurantUIState> {
+        return supabaseClient.from("restaurants").select {
             filter {
-                like("categories","%$category%")
-                eq("open_now",isOpen)
+                like("categories", "%$category%")
+                eq("open_now", isOpen)
                 like("name", "%$searchInput%")
             }
         }.decodeList<RestaurantUIState>()
@@ -36,4 +43,28 @@ class Supabase : GoOrdersServices {
         return supabaseClient.from("cities").select().decodeList<CityUIState>()
     }
 
+    override suspend fun getRestaurantInfo(id: Int): List<RestaurantUIState> {
+        return supabaseClient.from("restaurants").select {
+            filter {
+                eq("id", id)
+            }
+        }.decodeList<RestaurantUIState>()
+    }
+
+    override suspend fun getMenuCategories(id: Int): List<MenuCategoryUIState> {
+        return supabaseClient.from("menuItems").select(columns = Columns.list("category")) {
+            filter {
+                eq("restaurantId", id)
+            }
+        }.decodeList<MenuCategoryUIState>()
+    }
+
+    override suspend fun getMenuItems(category: String): List<MenuItemUIState> {
+        return supabaseClient.from("menuItems").select{
+            filter {
+                like("category", category)
+            }
+        }.decodeList<MenuItemUIState>()
+    }
 }
+
