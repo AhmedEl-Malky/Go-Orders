@@ -9,8 +9,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.go_orders.state.ExploreRestaurantsScreenUIState
-import com.example.go_orders.state.ExploreRestaurantsScreenUIState.CategoryUIState
+import com.example.go_orders.state.ExploreRestaurantsUIState
+import com.example.go_orders.state.ExploreRestaurantsUIState.CategoryUIState
 import com.example.go_orders.ui.theme.GoOrdersTheme
 
 @Composable
@@ -42,6 +42,6 @@ private fun CategoriesLazyListContent(
 @Composable
 private fun PreviewCategoriesLazyList() {
     GoOrdersTheme {
-        CategoriesLazyList(ExploreRestaurantsScreenUIState().categories,{})
+        CategoriesLazyList(ExploreRestaurantsUIState().categories,{})
     }
 }

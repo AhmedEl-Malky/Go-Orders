@@ -28,14 +28,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.go_orders.R
-import com.example.go_orders.state.HomeScreenUIState
-import com.example.go_orders.state.HomeScreenUIState.CityUIState
+import com.example.go_orders.state.HomeUIState
+import com.example.go_orders.state.HomeUIState.CityUIState
 import com.example.go_orders.ui.theme.Beiruti
 import com.example.go_orders.ui.theme.GoOrdersTheme
 
 @Composable
 fun TopAppBar(
-    state: HomeScreenUIState,
+    state: HomeUIState,
     showCityForm: () -> Unit,
     dismissCityForm: () -> Unit,
     onSelectCity: (CityUIState) -> Unit,
@@ -54,7 +54,7 @@ fun TopAppBar(
 
 @Composable
 fun TopAppBarContent(
-    state: HomeScreenUIState,
+    state: HomeUIState,
     showCityForm: () -> Unit,
     dismissCityForm: () -> Unit,
     onSelectCity: (CityUIState) -> Unit,
@@ -163,7 +163,7 @@ fun TopAppBarContent(
 fun PreviewTopAppBar() {
     GoOrdersTheme {
         TopAppBar(
-            state = HomeScreenUIState(),
+            state = HomeUIState(),
             showCityForm = {},
             dismissCityForm = {},
             onSelectCity = {},

@@ -32,9 +32,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import coil3.compose.AsyncImage
 import com.example.go_orders.R
-import com.example.go_orders.state.ExploreRestaurantsScreenUIState.RestaurantUIState
+import com.example.go_orders.navigations.Navigation
+import com.example.go_orders.state.ExploreRestaurantsUIState.RestaurantUIState
 import com.example.go_orders.ui.theme.Beiruti
 import com.example.go_orders.ui.theme.GoOrdersTheme
 
@@ -42,12 +45,14 @@ import com.example.go_orders.ui.theme.GoOrdersTheme
 fun RestaurantCard(
     restaurant: RestaurantUIState,
     restaurantCount: Int,
-    index: Int
+    index: Int,
+    navController: NavController
 ) {
     RestaurantCardContent(
         restaurant,
         restaurantCount,
-        index
+        index,
+        navController
     )
 }
 
@@ -55,7 +60,8 @@ fun RestaurantCard(
 private fun RestaurantCardContent(
     restaurant: RestaurantUIState,
     restaurantCount: Int,
-    index: Int
+    index: Int,
+    navController: NavController
 ) {
     Card(
         modifier = Modifier
@@ -177,7 +183,7 @@ private fun RestaurantCardContent(
                     modifier = Modifier.fillMaxWidth(),
                     text = restaurant.description,
                     fontFamily = Beiruti,
-                    fontSize = 16.sp,
+                    fontSize = MaterialTheme.typography.bodyLarge.fontSize,
                     color = MaterialTheme.colorScheme.onTertiary,
                     textAlign = TextAlign.Start,
                 )
@@ -185,7 +191,7 @@ private fun RestaurantCardContent(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 8.dp, bottom = 6.dp),
-                    onClick = {},
+                    onClick = {navController.navigate(Navigation.RestaurantScreen(restaurant.id))},
                     shape = RoundedCornerShape(6.dp),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = MaterialTheme.colorScheme.primary.copy(
@@ -226,7 +232,8 @@ fun PreviewRestaurantCard() {
         RestaurantCard(
             restaurant = RestaurantUIState(openNow = false),
             restaurantCount = 4,
-            index = 0
+            index = 0,
+            navController = rememberNavController()
         )
     }
 }

@@ -30,7 +30,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
-import com.example.go_orders.state.ExploreRestaurantsScreenUIState.BannerUIState
+import com.example.go_orders.state.ExploreRestaurantsUIState.BannerUIState
 import com.example.go_orders.ui.theme.Beiruti
 import com.example.go_orders.ui.theme.BorderLight
 import com.example.go_orders.ui.theme.CardDark

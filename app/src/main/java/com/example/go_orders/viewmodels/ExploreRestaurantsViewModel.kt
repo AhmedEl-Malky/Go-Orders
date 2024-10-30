@@ -2,11 +2,10 @@ package com.example.go_orders.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.go_orders.data.Remote.Supabase
-import com.example.go_orders.domain.GetAllRestaurantsUseCase
-import com.example.go_orders.domain.GetCategoriesUseCase
-import com.example.go_orders.state.ExploreRestaurantsScreenUIState
-import com.example.go_orders.state.ExploreRestaurantsScreenUIState.CategoryUIState
+import com.example.go_orders.domain.AllRestaurantsUseCase
+import com.example.go_orders.domain.CategoriesUseCase
+import com.example.go_orders.state.ExploreRestaurantsUIState
+import com.example.go_orders.state.ExploreRestaurantsUIState.CategoryUIState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,25 +16,25 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ExploreRestaurantsViewModel @Inject constructor(
-    private val getAllRestaurantsUseCase: GetAllRestaurantsUseCase,
-    private val getCategoriesUseCase: GetCategoriesUseCase
+    private val allRestaurantsUseCase: AllRestaurantsUseCase,
+    private val categoriesUseCase: CategoriesUseCase
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow(ExploreRestaurantsScreenUIState())
+    private val _state = MutableStateFlow(ExploreRestaurantsUIState())
 
-    val state: StateFlow<ExploreRestaurantsScreenUIState> = _state
+    val state: StateFlow<ExploreRestaurantsUIState> = _state
 
 
     fun getCategories() {
         viewModelScope.launch(Dispatchers.IO) {
-            _state.update { it.copy(categories = getCategoriesUseCase()) }
+            _state.update { it.copy(categories = categoriesUseCase()) }
             _state.update { it.copy(selectedCategory = it.categories.first()) }
         }
     }
 
     fun startScreen() {
         viewModelScope.launch(Dispatchers.IO) {
-            getAllRestaurantsUseCase(
+            allRestaurantsUseCase(
                 isOpen = _state.value.isOpenFilter,
                 searchInput = _state.value.searchInput,
                 category = _state.value.selectedCategory.slug
@@ -47,7 +46,7 @@ class ExploreRestaurantsViewModel @Inject constructor(
 
     fun getAllRestaurants() {
         viewModelScope.launch(Dispatchers.IO) {
-            getAllRestaurantsUseCase(
+            allRestaurantsUseCase(
                 isOpen = _state.value.isOpenFilter,
                 category = _state.value.selectedCategory.slug,
             ).collect { result ->
@@ -59,7 +58,7 @@ class ExploreRestaurantsViewModel @Inject constructor(
     fun filterOpenedRestaurants(isOpen: Boolean) {
         _state.update { it.copy(isOpenFilter = isOpen) }
         viewModelScope.launch(Dispatchers.IO) {
-            getAllRestaurantsUseCase(
+            allRestaurantsUseCase(
                 isOpen = isOpen,
                 searchInput = _state.value.searchInput,
                 category = _state.value.selectedCategory.slug
@@ -73,7 +72,7 @@ class ExploreRestaurantsViewModel @Inject constructor(
     fun searchForRestaurant(searchInput: String) {
         _state.update { it.copy(searchInput = searchInput) }
         viewModelScope.launch(Dispatchers.IO) {
-            getAllRestaurantsUseCase(
+            allRestaurantsUseCase(
                 searchInput = searchInput,
                 isOpen = _state.value.isOpenFilter,
                 category = _state.value.selectedCategory.slug
@@ -85,7 +84,7 @@ class ExploreRestaurantsViewModel @Inject constructor(
 
     private fun categorizeRestaurants(selectedCategory: CategoryUIState) {
         viewModelScope.launch(Dispatchers.IO) {
-            getAllRestaurantsUseCase(
+            allRestaurantsUseCase(
                 searchInput = _state.value.searchInput,
                 isOpen = _state.value.isOpenFilter,
                 category = selectedCategory.slug

@@ -19,8 +19,13 @@ import com.example.go_orders.composables.GoogleSignInButton
 import com.example.go_orders.ui.theme.Beiruti
 import com.example.go_orders.ui.theme.GoOrdersTheme
 
+
 @Composable
-fun AuthenticationScreen() {
+fun AuthenticationScreen(){
+    AuthenticationScreenContent()
+}
+@Composable
+private fun AuthenticationScreenContent() {
     Scaffold { innerPadding ->
         Column(
             modifier = Modifier
@@ -76,7 +81,7 @@ fun AuthenticationScreen() {
     device = "spec:width=1080px,height=2400px,dpi=441"
 )
 @Composable
-fun PreviewAuthenticationScreen() {
+private fun PreviewAuthenticationScreen() {
     GoOrdersTheme {
         AuthenticationScreen()
     }

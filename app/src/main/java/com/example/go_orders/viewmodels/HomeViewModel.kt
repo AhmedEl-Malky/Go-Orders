@@ -3,9 +3,9 @@ package com.example.go_orders.viewmodels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.go_orders.data.local.DataStore
-import com.example.go_orders.domain.GetCitiesUseCase
-import com.example.go_orders.state.HomeScreenUIState
-import com.example.go_orders.state.HomeScreenUIState.CityUIState
+import com.example.go_orders.domain.CitiesUseCase
+import com.example.go_orders.state.HomeUIState
+import com.example.go_orders.state.HomeUIState.CityUIState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,15 +16,15 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val getCitiesUseCase: GetCitiesUseCase,
+    private val citiesUseCase: CitiesUseCase,
     private val dataStore: DataStore
 ) : ViewModel() {
-    private val _state = MutableStateFlow(HomeScreenUIState())
-    val state: StateFlow<HomeScreenUIState> = _state
+    private val _state = MutableStateFlow(HomeUIState())
+    val state: StateFlow<HomeUIState> = _state
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
-            getCitiesUseCase().collect { result ->
+            citiesUseCase().collect { result ->
                 _state.update { it.copy(availableCities = result) }
             }
             dataStore.setInitialCity(_state.value.availableCities.toData()?.first() ?: CityUIState())

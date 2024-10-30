@@ -26,6 +26,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.go_orders.R
 import com.example.go_orders.composables.CategoriesLazyList
 import com.example.go_orders.composables.HorizontalBannersPager
@@ -34,9 +35,9 @@ import com.example.go_orders.composables.RestaurantCard
 import com.example.go_orders.composables.RestaurantsSearchBar
 import com.example.go_orders.composables.TopAppBar
 import com.example.go_orders.data.State
-import com.example.go_orders.state.ExploreRestaurantsScreenUIState
-import com.example.go_orders.state.ExploreRestaurantsScreenUIState.*
-import com.example.go_orders.state.HomeScreenUIState
+import com.example.go_orders.state.ExploreRestaurantsUIState
+import com.example.go_orders.state.ExploreRestaurantsUIState.CategoryUIState
+import com.example.go_orders.state.HomeUIState
 import com.example.go_orders.ui.theme.Beiruti
 import com.example.go_orders.ui.theme.GoOrdersTheme
 import com.example.go_orders.viewmodels.ExploreRestaurantsViewModel
@@ -46,7 +47,8 @@ import com.example.go_orders.viewmodels.HomeViewModel
 @Composable
 fun ExploreRestaurantsScreen(
     viewModel: ExploreRestaurantsViewModel,
-    homeViewModel: HomeViewModel
+    homeViewModel: HomeViewModel,
+    navController: NavController
 ) {
     val state by viewModel.state.collectAsState()
     val homeState by homeViewModel.state.collectAsState()
@@ -57,18 +59,21 @@ fun ExploreRestaurantsScreen(
     }
     when (state.screenState) {
         is State.Loading ->
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(MaterialTheme.colorScheme.background),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
-            )
-            {
-                AnimatedVisibility(visible = true) {
-                    LoadingAnimation()
+            AnimatedVisibility(true) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(MaterialTheme.colorScheme.background),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                )
+                {
+                    AnimatedVisibility(visible = true) {
+                        LoadingAnimation()
+                    }
                 }
             }
+
 
         is State.Success ->
             AnimatedVisibility(visible = true) {
@@ -82,41 +87,46 @@ fun ExploreRestaurantsScreen(
                     onSelectCity = homeViewModel::onSelectCity,
                     expandCitiesMenu = homeViewModel::expandCitiesMenu,
                     collapseCitiesMenu = homeViewModel::collapseCitiesMenu,
-                    onSelectCategory = viewModel::onSelectCategory
+                    onSelectCategory = viewModel::onSelectCategory,
+                    navController = navController
                 )
             }
+
         is State.Error ->
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(MaterialTheme.colorScheme.background),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
-            ) {
-                Image(
+            AnimatedVisibility(true) {
+                Column(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(24.dp),
-                    painter = painterResource(R.drawable.error),
-                    contentDescription = "Error"
-                )
+                        .fillMaxSize()
+                        .background(MaterialTheme.colorScheme.background),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Image(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(24.dp),
+                        painter = painterResource(R.drawable.error),
+                        contentDescription = "Error"
+                    )
+                }
             }
     }
 }
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun ExploreRestaurantsScreenContent(
-    state: ExploreRestaurantsScreenUIState,
-    homeState: HomeScreenUIState,
+private fun ExploreRestaurantsScreenContent(
+    state: ExploreRestaurantsUIState,
+    homeState: HomeUIState,
     filterOpenedRestaurants: (Boolean) -> Unit,
     searchForRestaurant: (String) -> Unit,
     showCityForm: () -> Unit,
     dismissCityForm: () -> Unit,
-    onSelectCity: (HomeScreenUIState.CityUIState) -> Unit,
+    onSelectCity: (HomeUIState.CityUIState) -> Unit,
     expandCitiesMenu: () -> Unit,
     collapseCitiesMenu: () -> Unit,
-    onSelectCategory: (CategoryUIState) -> Unit
+    onSelectCategory: (CategoryUIState) -> Unit,
+    navController: NavController
 ) {
     Scaffold { innerPadding ->
         Column(
@@ -157,7 +167,7 @@ fun ExploreRestaurantsScreenContent(
                     )
                 }
                 item {
-                    CategoriesLazyList(state.categories,onSelectCategory)
+                    CategoriesLazyList(state.categories, onSelectCategory)
                 }
                 stickyHeader {
                     RestaurantsSearchBar(
@@ -179,7 +189,7 @@ fun ExploreRestaurantsScreenContent(
                         textAlign = TextAlign.Start
                     )
                 }
-                when(state.restaurants){
+                when (state.restaurants) {
                     is State.Loading -> item {
                         Column(
                             modifier = Modifier
@@ -191,20 +201,27 @@ fun ExploreRestaurantsScreenContent(
                             LoadingAnimation()
                         }
                     }
-                    is State.Success -> itemsIndexed(state.restaurants.toData() ?: listOf()) { index, item ->
+
+                    is State.Success -> itemsIndexed(
+                        state.restaurants.toData() ?: listOf()
+                    ) { index, item ->
                         RestaurantCard(
                             restaurant = item,
                             restaurantCount = state.restaurants.toData()?.size ?: 0,
-                            index = index
+                            index = index,
+                            navController = navController
                         )
                     }
-                    is State.Error -> item { Image(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(24.dp),
-                        painter = painterResource(R.drawable.error),
-                        contentDescription = "Error"
-                    ) }
+
+                    is State.Error -> item {
+                        Image(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(24.dp),
+                            painter = painterResource(R.drawable.error),
+                            contentDescription = "Error"
+                        )
+                    }
                 }
 
             }
@@ -221,7 +238,7 @@ fun ExploreRestaurantsScreenContent(
     locale = "ar"
 )
 @Composable
-fun PreviewExploreRestaurantsScreen() {
+private fun PreviewExploreRestaurantsScreen() {
     GoOrdersTheme {
 //        ExploreRestaurantsScreen()
     }
