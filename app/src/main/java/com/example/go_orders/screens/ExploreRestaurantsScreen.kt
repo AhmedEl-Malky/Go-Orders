@@ -50,9 +50,6 @@ fun ExploreRestaurantsScreen(
     state:ExploreRestaurantsUIState,
     homeState: HomeUIState,
     navController: NavController,
-    getCategories:() -> Unit,
-    getAllRestaurants:() -> Unit,
-    startScreen:() -> Unit,
     filterOpenedRestaurants: (Boolean) -> Unit,
     searchForRestaurant: (String) -> Unit,
     showCityForm: () -> Unit,
@@ -62,11 +59,7 @@ fun ExploreRestaurantsScreen(
     collapseCitiesMenu: () -> Unit,
     onSelectCategory: (CategoryUIState) -> Unit,
 ) {
-    LaunchedEffect(Unit) {
-        getCategories()
-        getAllRestaurants()
-        startScreen()
-    }
+
     when (state.screenState) {
         is State.Loading ->
             AnimatedVisibility(true) {
@@ -150,6 +143,7 @@ private fun ExploreRestaurantsScreenContent(
 
             TopAppBar(
                 state = homeState,
+                navController = navController,
                 showCityForm = showCityForm,
                 dismissCityForm = dismissCityForm,
                 onSelectCity = onSelectCity,
@@ -254,9 +248,6 @@ private fun PreviewExploreRestaurantsScreen() {
             state = ExploreRestaurantsUIState(),
             homeState = HomeUIState(),
             navController = NavController(LocalContext.current),
-            getCategories = {},
-            getAllRestaurants = {},
-            startScreen = {},
             filterOpenedRestaurants = {},
             searchForRestaurant = {},
             showCityForm = {},

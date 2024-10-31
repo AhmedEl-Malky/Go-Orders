@@ -8,6 +8,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
+import com.example.go_orders.screens.AuthenticationScreen
 import com.example.go_orders.screens.ExploreRestaurantsScreen
 import com.example.go_orders.screens.HomeScreen
 import com.example.go_orders.screens.RestaurantScreen
@@ -19,12 +20,14 @@ import com.example.go_orders.viewmodels.RestaurantViewModel
 fun NavigationGraph(
     navController: NavHostController
 ) {
+    val homeViewModel: HomeViewModel = hiltViewModel()
+
     val navHost = NavHost(
         navController = navController,
         startDestination = Navigation.HomeScreen
     ) {
+
         composable<Navigation.HomeScreen> {
-            val homeViewModel: HomeViewModel = hiltViewModel()
             val state by homeViewModel.state.collectAsState()
             HomeScreen(
                 state = state,
@@ -36,18 +39,15 @@ fun NavigationGraph(
                 collapseCitiesMenu = homeViewModel::collapseCitiesMenu
             )
         }
+
         composable<Navigation.ExploreRestaurantsScreen> {
             val exploreRestaurantsViewModel: ExploreRestaurantsViewModel = hiltViewModel()
             val state by exploreRestaurantsViewModel.state.collectAsState()
-            val homeViewModel: HomeViewModel = hiltViewModel()
             val homeState by homeViewModel.state.collectAsState()
             ExploreRestaurantsScreen(
                 state = state,
                 homeState = homeState,
                 navController = navController,
-                getCategories = exploreRestaurantsViewModel::getCategories,
-                getAllRestaurants = exploreRestaurantsViewModel::getAllRestaurants,
-                startScreen = exploreRestaurantsViewModel::startScreen,
                 filterOpenedRestaurants = exploreRestaurantsViewModel::filterOpenedRestaurants,
                 searchForRestaurant = exploreRestaurantsViewModel::searchForRestaurant,
                 showCityForm = homeViewModel::showCityForm,
@@ -58,10 +58,10 @@ fun NavigationGraph(
                 onSelectCategory = exploreRestaurantsViewModel::onSelectCategory,
             )
         }
+
         composable<Navigation.RestaurantScreen> {
             val restaurantViewModel: RestaurantViewModel = hiltViewModel()
             val state by restaurantViewModel.state.collectAsState()
-            val homeViewModel: HomeViewModel = hiltViewModel()
             val homeState by homeViewModel.state.collectAsState()
 
             val args = it.toRoute<Navigation.RestaurantScreen>()
@@ -69,10 +69,16 @@ fun NavigationGraph(
                 restaurantID = args.restaurantID,
                 state = state,
                 homeState = homeState,
+                navController = navController,
                 fetchRestaurantInfo = restaurantViewModel::fetchRestaurantInfo,
                 fetchMenuCategories = restaurantViewModel::fetchMenuCategories,
                 fetchMenuItems = restaurantViewModel::fetchMenuItems
             )
         }
+
+        composable<Navigation.AuthenticationScreen> {
+            AuthenticationScreen()
+        }
+
     }
 }

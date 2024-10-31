@@ -15,4 +15,7 @@ object Navigation {
         val restaurantID: Int,
     )
 
+    @Serializable
+    object AuthenticationScreen
+
 }

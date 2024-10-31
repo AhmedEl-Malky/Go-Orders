@@ -8,6 +8,10 @@ class CategoriesUseCase @Inject constructor(
     private val supabaseClient: GoOrdersServices
 ) {
     suspend operator fun invoke(): List<CategoryUIState>{
-        return  supabaseClient.getCategories().sortedBy { it.order }
+        try {
+            return  supabaseClient.getCategories().sortedBy { it.order }
+        }catch (e:Exception){
+            return emptyList()
+        }
     }
 }

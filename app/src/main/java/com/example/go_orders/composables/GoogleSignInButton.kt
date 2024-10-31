@@ -65,7 +65,7 @@ fun GoogleSignInButton() {
             )
             Spacer(modifier = Modifier.width(8.dp))
             Text(
-                text = "تسجيل الدخول باستخدام جوجل",
+                text = if (isClicked) "جاري التسجيل ..." else "تسجيل الدخول باستخدام جوجل",
                 fontFamily = Beiruti,
                 fontSize = MaterialTheme.typography.bodyLarge.fontSize,
                 color = MaterialTheme.colorScheme.onSecondary,

@@ -23,11 +23,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.go_orders.R
+import com.example.go_orders.navigations.Navigation
 import com.example.go_orders.state.HomeUIState
 import com.example.go_orders.state.HomeUIState.CityUIState
 import com.example.go_orders.ui.theme.Beiruti
@@ -36,6 +39,7 @@ import com.example.go_orders.ui.theme.GoOrdersTheme
 @Composable
 fun TopAppBar(
     state: HomeUIState,
+    navController: NavController,
     showCityForm: () -> Unit,
     dismissCityForm: () -> Unit,
     onSelectCity: (CityUIState) -> Unit,
@@ -44,6 +48,7 @@ fun TopAppBar(
 ) {
     TopAppBarContent(
         state = state,
+        navController = navController,
         showCityForm = showCityForm,
         dismissCityForm = dismissCityForm,
         onSelectCity = onSelectCity,
@@ -55,6 +60,7 @@ fun TopAppBar(
 @Composable
 fun TopAppBarContent(
     state: HomeUIState,
+    navController: NavController,
     showCityForm: () -> Unit,
     dismissCityForm: () -> Unit,
     onSelectCity: (CityUIState) -> Unit,
@@ -129,7 +135,7 @@ fun TopAppBarContent(
             Button(
                 modifier = Modifier
                     .size(48.dp),
-                onClick = {},
+                onClick = {navController.navigate(Navigation.AuthenticationScreen)},
                 shape = RoundedCornerShape(6.dp),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = MaterialTheme.colorScheme.primary
@@ -164,6 +170,7 @@ fun PreviewTopAppBar() {
     GoOrdersTheme {
         TopAppBar(
             state = HomeUIState(),
+            navController = NavController(LocalContext.current),
             showCityForm = {},
             dismissCityForm = {},
             onSelectCity = {},

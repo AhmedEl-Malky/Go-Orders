@@ -24,6 +24,11 @@ class ExploreRestaurantsViewModel @Inject constructor(
 
     val state: StateFlow<ExploreRestaurantsUIState> = _state
 
+    init {
+        startScreen()
+        getAllRestaurants()
+        getCategories()
+    }
 
     fun getCategories() {
         viewModelScope.launch(Dispatchers.IO) {

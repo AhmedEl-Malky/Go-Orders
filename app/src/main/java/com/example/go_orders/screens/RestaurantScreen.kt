@@ -43,6 +43,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import coil3.compose.AsyncImage
 import com.example.go_orders.R
 import com.example.go_orders.composables.LoadingAnimation
@@ -54,14 +55,14 @@ import com.example.go_orders.state.RestaurantInfoUIState
 import com.example.go_orders.state.RestaurantInfoUIState.MenuItemUIState
 import com.example.go_orders.ui.theme.Beiruti
 import com.example.go_orders.ui.theme.GoOrdersTheme
-import com.example.go_orders.viewmodels.HomeViewModel
-import com.example.go_orders.viewmodels.RestaurantViewModel
+
 
 @Composable
 fun RestaurantScreen(
     restaurantID: Int,
     state: RestaurantInfoUIState,
     homeState: HomeUIState,
+    navController:NavController,
     fetchRestaurantInfo:(Int) -> Unit,
     fetchMenuCategories:(Int) -> Unit,
     fetchMenuItems: (String) -> List<MenuItemUIState>
@@ -93,6 +94,7 @@ fun RestaurantScreen(
                 RestaurantScreenContent(
                     state = state,
                     homeState = homeState,
+                    navController = navController,
                     fetchMenuItems = fetchMenuItems
                 )
             }
@@ -122,6 +124,7 @@ fun RestaurantScreen(
 private fun RestaurantScreenContent(
     state: RestaurantInfoUIState,
     homeState: HomeUIState,
+    navController: NavController,
     fetchMenuItems: (String) -> List<MenuItemUIState>
 ) {
     Scaffold { innerPadding ->
@@ -133,6 +136,7 @@ private fun RestaurantScreenContent(
         ) {
             TopAppBar(
                 state = homeState,
+                navController = navController,
                 showCityForm = {},
                 dismissCityForm = {},
                 onSelectCity = {},

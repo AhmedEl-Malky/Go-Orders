@@ -72,9 +72,7 @@ fun HomeScreen(
         is State.Success ->
             AnimatedVisibility(true) {
                 HomeScreenContent(
-                    goExploreRestaurants = {
-                        navController.navigate(Navigation.ExploreRestaurantsScreen)
-                    },
+                    navController = navController,
                     state = state,
                     showCityForm = showCityForm,
                     dismissCityForm = dismissCityForm,
@@ -106,7 +104,7 @@ fun HomeScreen(
 
 @Composable
 private fun HomeScreenContent(
-    goExploreRestaurants: () -> Unit,
+    navController: NavController,
     state: HomeUIState,
     showCityForm: () -> Unit,
     dismissCityForm: () -> Unit,
@@ -129,7 +127,8 @@ private fun HomeScreenContent(
                 dismissCityForm = dismissCityForm,
                 onSelectCity = onSelectCity,
                 expandCitiesMenu = expandCitiesMenu,
-                collapseCitiesMenu = collapseCitiesMenu
+                collapseCitiesMenu = collapseCitiesMenu,
+                navController = navController
             )
             Box(
                 modifier = Modifier
@@ -221,7 +220,7 @@ private fun HomeScreenContent(
                                     top = 12.dp,
                                     bottom = 12.dp
                                 ),
-                                onClick = goExploreRestaurants,
+                                onClick = { navController.navigate(Navigation.ExploreRestaurantsScreen) },
                                 shape = RoundedCornerShape(6.dp),
                                 colors = ButtonDefaults.buttonColors(
                                     containerColor = MaterialTheme.colorScheme.onPrimaryContainer
@@ -269,7 +268,7 @@ private fun HomeScreenContent(
 private fun PreviewHomeScreen() {
     GoOrdersTheme {
         HomeScreen(
-            state = HomeUIState(),
+            state = HomeUIState(availableCities = State.Success(emptyList())),
             navController = NavController(LocalContext.current),
             showCityForm = {},
             dismissCityForm = {},
