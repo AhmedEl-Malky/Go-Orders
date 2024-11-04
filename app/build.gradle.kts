@@ -10,8 +10,8 @@ plugins {
 }
 
 android {
-    namespace = "com.example.go_orders"
-    compileSdk = 34
+    namespace = "com.malky.go_orders"
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.example.go_orders"
@@ -81,7 +81,7 @@ dependencies {
 //    Supabase
     implementation(platform("io.github.jan-tennert.supabase:bom:3.0.0"))
     implementation("io.github.jan-tennert.supabase:postgrest-kt")
-    //    implementation("io.github.jan-tennert.supabase:auth-kt")
+        implementation("io.github.jan-tennert.supabase:auth-kt")
     //    implementation("io.github.jan-tennert.supabase:realtime-kt")
 //    ktor
     implementation("io.ktor:ktor-client-android:3.0.0-rc-1")
@@ -103,6 +103,12 @@ dependencies {
     implementation ("com.airbnb.android:lottie-compose:6.0.0")
 //    DataStore
     implementation("androidx.datastore:datastore-preferences:1.1.1")
+//    Sign in Credential
+    implementation("androidx.credentials:credentials:1.3.0-alpha01")
+    implementation("androidx.credentials:credentials-play-services-auth:1.3.0-alpha01")
+//    Sign in with google
+    implementation ("com.google.android.libraries.identity.googleid:googleid:1.1.1")
+//    implementation("com.google.android.gms:play-services-auth:20.5.0")
 }
 
 
