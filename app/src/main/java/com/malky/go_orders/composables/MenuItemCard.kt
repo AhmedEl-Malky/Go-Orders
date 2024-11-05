@@ -84,10 +84,7 @@ private fun MenuItemCardContent(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 8.dp, horizontal = 16.dp),
-            onClick = {
-//                menuCategory.isSelected = !menuCategory.isSelected
-                Log.i("Card",isClicked.toString())
-            },
+            onClick = {},
             border = BorderStroke(
                 width = 1.5f.dp,
                 color = MaterialTheme.colorScheme.outline
