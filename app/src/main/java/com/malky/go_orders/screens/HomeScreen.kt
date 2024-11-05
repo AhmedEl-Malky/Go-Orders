@@ -39,8 +39,8 @@ import com.malky.go_orders.composables.LoadingAnimation
 import com.malky.go_orders.composables.TopAppBar
 import com.malky.go_orders.data.State
 import com.malky.go_orders.navigations.Navigation
+import com.malky.go_orders.screens.events.HomeEvents
 import com.malky.go_orders.state.HomeUIState
-import com.malky.go_orders.state.HomeUIState.CityUIState
 import com.malky.go_orders.ui.theme.Beiruti
 import com.malky.go_orders.ui.theme.GoOrdersTheme
 
@@ -48,11 +48,7 @@ import com.malky.go_orders.ui.theme.GoOrdersTheme
 fun HomeScreen(
     state: HomeUIState,
     navController: NavController,
-    showCityForm: () -> Unit,
-    dismissCityForm: () -> Unit,
-    onSelectCity: (CityUIState) -> Unit,
-    expandCitiesMenu: () -> Unit,
-    collapseCitiesMenu: () -> Unit,
+    onEvent: (HomeEvents) -> Unit
 ) {
     when (state.availableCities) {
         is State.Loading ->
@@ -74,11 +70,7 @@ fun HomeScreen(
                 HomeScreenContent(
                     navController = navController,
                     state = state,
-                    showCityForm = showCityForm,
-                    dismissCityForm = dismissCityForm,
-                    onSelectCity = onSelectCity,
-                    expandCitiesMenu = expandCitiesMenu,
-                    collapseCitiesMenu = collapseCitiesMenu
+                    onEvent = onEvent
                 )
             }
 
@@ -106,11 +98,7 @@ fun HomeScreen(
 private fun HomeScreenContent(
     navController: NavController,
     state: HomeUIState,
-    showCityForm: () -> Unit,
-    dismissCityForm: () -> Unit,
-    onSelectCity: (CityUIState) -> Unit,
-    expandCitiesMenu: () -> Unit,
-    collapseCitiesMenu: () -> Unit,
+    onEvent: (HomeEvents) -> Unit
 ) {
     Scaffold { innerPadding ->
         Column(
@@ -123,11 +111,7 @@ private fun HomeScreenContent(
         ) {
             TopAppBar(
                 state = state,
-                showCityForm = showCityForm,
-                dismissCityForm = dismissCityForm,
-                onSelectCity = onSelectCity,
-                expandCitiesMenu = expandCitiesMenu,
-                collapseCitiesMenu = collapseCitiesMenu,
+                onEvent = onEvent,
                 navController = navController
             )
             Box(
@@ -187,7 +171,7 @@ private fun HomeScreenContent(
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             Button(
-                                onClick = { showCityForm() },
+                                onClick = { onEvent(HomeEvents.ShowCityForm) },
                                 shape = RoundedCornerShape(6.dp),
                                 colors = ButtonDefaults.buttonColors(
                                     containerColor = MaterialTheme.colorScheme.primaryContainer
@@ -249,10 +233,7 @@ private fun HomeScreenContent(
             if (state.isCityFormShown) {
                 CityForm(
                     state = state,
-                    dismissCityForm = dismissCityForm,
-                    onSelectCity = onSelectCity,
-                    expandCitiesMenu = expandCitiesMenu,
-                    collapseCitiesMenu = collapseCitiesMenu
+                    onEvent = onEvent
                 )
             }
         }
@@ -270,11 +251,7 @@ private fun PreviewHomeScreen() {
         HomeScreen(
             state = HomeUIState(availableCities = State.Success(emptyList())),
             navController = NavController(LocalContext.current),
-            showCityForm = {},
-            dismissCityForm = {},
-            onSelectCity = {},
-            expandCitiesMenu = {},
-            collapseCitiesMenu = {},
+            onEvent = {}
         )
     }
 }

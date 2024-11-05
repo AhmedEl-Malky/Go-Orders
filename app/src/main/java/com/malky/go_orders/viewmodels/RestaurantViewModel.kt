@@ -26,6 +26,15 @@ class RestaurantViewModel @Inject constructor(
     private val _state = MutableStateFlow(RestaurantInfoUIState())
     val state: StateFlow<RestaurantInfoUIState> = _state.asStateFlow()
 
+//    fun onEvent(event:RestaurantEvent){
+//        when(event){
+//            is RestaurantEvent.FetchRestaurantInfo -> fetchRestaurantInfo(event.restaurantID)
+//            is RestaurantEvent.FetchMenuCategories -> fetchMenuCategories(event.restaurantID)
+//            is RestaurantEvent.FetchMenuItems -> fetchMenuItems(event.category)
+//
+//        }
+//    }
+
     fun fetchRestaurantInfo(id: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             restaurantUseCase(id).collect { result ->

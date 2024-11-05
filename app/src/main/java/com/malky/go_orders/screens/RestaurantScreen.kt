@@ -48,6 +48,7 @@ import com.malky.go_orders.composables.LoadingAnimation
 import com.malky.go_orders.composables.MenuItemCard
 import com.malky.go_orders.composables.TopAppBar
 import com.malky.go_orders.data.State
+import com.malky.go_orders.screens.events.HomeEvents
 import com.malky.go_orders.state.HomeUIState
 import com.malky.go_orders.state.RestaurantInfoUIState
 import com.malky.go_orders.state.RestaurantInfoUIState.MenuItemUIState
@@ -63,7 +64,8 @@ fun RestaurantScreen(
     navController:NavController,
     fetchRestaurantInfo:(Int) -> Unit,
     fetchMenuCategories:(Int) -> Unit,
-    fetchMenuItems: (String) -> List<MenuItemUIState>
+    fetchMenuItems: (String) -> List<MenuItemUIState>,
+    onHomeEvent: (HomeEvents) -> Unit
 ) {
     LaunchedEffect(Unit) {
         fetchRestaurantInfo(restaurantID)
@@ -93,7 +95,8 @@ fun RestaurantScreen(
                     state = state,
                     homeState = homeState,
                     navController = navController,
-                    fetchMenuItems = fetchMenuItems
+                    fetchMenuItems = fetchMenuItems,
+                    onHomeEvent = onHomeEvent
                 )
             }
 
@@ -123,7 +126,8 @@ private fun RestaurantScreenContent(
     state: RestaurantInfoUIState,
     homeState: HomeUIState,
     navController: NavController,
-    fetchMenuItems: (String) -> List<MenuItemUIState>
+    fetchMenuItems: (String) -> List<MenuItemUIState>,
+    onHomeEvent: (HomeEvents) -> Unit
 ) {
     Scaffold { innerPadding ->
         Column(
@@ -135,11 +139,7 @@ private fun RestaurantScreenContent(
             TopAppBar(
                 state = homeState,
                 navController = navController,
-                showCityForm = {},
-                dismissCityForm = {},
-                onSelectCity = {},
-                expandCitiesMenu = {},
-                collapseCitiesMenu = {}
+                onEvent = onHomeEvent
             )
             LazyColumn(
                 modifier = Modifier

@@ -33,8 +33,9 @@ import com.malky.go_orders.composables.RestaurantCard
 import com.malky.go_orders.composables.RestaurantsSearchBar
 import com.malky.go_orders.composables.TopAppBar
 import com.malky.go_orders.data.State
+import com.malky.go_orders.screens.events.ExploreRestaurantsEvents
+import com.malky.go_orders.screens.events.HomeEvents
 import com.malky.go_orders.state.ExploreRestaurantsUIState
-import com.malky.go_orders.state.ExploreRestaurantsUIState.CategoryUIState
 import com.malky.go_orders.state.HomeUIState
 import com.malky.go_orders.ui.theme.Beiruti
 import com.malky.go_orders.ui.theme.GoOrdersTheme
@@ -45,14 +46,8 @@ fun ExploreRestaurantsScreen(
     state:ExploreRestaurantsUIState,
     homeState: HomeUIState,
     navController: NavController,
-    filterOpenedRestaurants: (Boolean) -> Unit,
-    searchForRestaurant: (String) -> Unit,
-    showCityForm: () -> Unit,
-    dismissCityForm: () -> Unit,
-    onSelectCity: (HomeUIState.CityUIState) -> Unit,
-    expandCitiesMenu: () -> Unit,
-    collapseCitiesMenu: () -> Unit,
-    onSelectCategory: (CategoryUIState) -> Unit,
+    onEvent: (ExploreRestaurantsEvents) -> Unit,
+    onHomeEvent: (HomeEvents) -> Unit
 ) {
 
     when (state.screenState) {
@@ -78,15 +73,9 @@ fun ExploreRestaurantsScreen(
                 ExploreRestaurantsScreenContent(
                     state = state,
                     homeState = homeState,
-                    filterOpenedRestaurants = filterOpenedRestaurants,
-                    searchForRestaurant = searchForRestaurant,
-                    showCityForm = showCityForm,
-                    dismissCityForm = dismissCityForm,
-                    onSelectCity = onSelectCity,
-                    expandCitiesMenu = expandCitiesMenu,
-                    collapseCitiesMenu = collapseCitiesMenu,
-                    onSelectCategory = onSelectCategory,
-                    navController = navController
+                    navController = navController,
+                    onEvent = onEvent,
+                    onHomeEvent = onHomeEvent,
                 )
             }
 
@@ -116,15 +105,9 @@ fun ExploreRestaurantsScreen(
 private fun ExploreRestaurantsScreenContent(
     state: ExploreRestaurantsUIState,
     homeState: HomeUIState,
-    filterOpenedRestaurants: (Boolean) -> Unit,
-    searchForRestaurant: (String) -> Unit,
-    showCityForm: () -> Unit,
-    dismissCityForm: () -> Unit,
-    onSelectCity: (HomeUIState.CityUIState) -> Unit,
-    expandCitiesMenu: () -> Unit,
-    collapseCitiesMenu: () -> Unit,
-    onSelectCategory: (CategoryUIState) -> Unit,
-    navController: NavController
+    navController: NavController,
+    onEvent: (ExploreRestaurantsEvents) -> Unit,
+    onHomeEvent: (HomeEvents) -> Unit,
 ) {
     Scaffold { innerPadding ->
         Column(
@@ -139,11 +122,7 @@ private fun ExploreRestaurantsScreenContent(
             TopAppBar(
                 state = homeState,
                 navController = navController,
-                showCityForm = showCityForm,
-                dismissCityForm = dismissCityForm,
-                onSelectCity = onSelectCity,
-                expandCitiesMenu = expandCitiesMenu,
-                collapseCitiesMenu = collapseCitiesMenu
+                onEvent = onHomeEvent
             )
             LazyColumn(
                 modifier = Modifier
@@ -166,14 +145,13 @@ private fun ExploreRestaurantsScreenContent(
                     )
                 }
                 item {
-                    CategoriesLazyList(state.categories, onSelectCategory)
+                    CategoriesLazyList(state.categories, onEvent)
                 }
                 stickyHeader {
                     RestaurantsSearchBar(
                         state.isOpenFilter,
                         state.searchInput,
-                        filterOpenedRestaurants,
-                        searchForRestaurant
+                        onEvent = onEvent
                     )
                 }
                 item {
@@ -243,14 +221,8 @@ private fun PreviewExploreRestaurantsScreen() {
             state = ExploreRestaurantsUIState(),
             homeState = HomeUIState(),
             navController = NavController(LocalContext.current),
-            filterOpenedRestaurants = {},
-            searchForRestaurant = {},
-            showCityForm = {},
-            dismissCityForm = {},
-            onSelectCity = {},
-            expandCitiesMenu = {},
-            collapseCitiesMenu = {},
-            onSelectCategory = {}
+            onEvent = {},
+            onHomeEvent = {}
         )
     }
 }

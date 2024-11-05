@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.malky.go_orders.data.local.DataStore
 import com.malky.go_orders.domain.CitiesUseCase
+import com.malky.go_orders.screens.events.HomeEvents
 import com.malky.go_orders.state.HomeUIState
 import com.malky.go_orders.state.HomeUIState.CityUIState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -32,7 +33,17 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun onSelectCity(city: CityUIState) {
+    fun onEvent(event: HomeEvents){
+        when(event){
+            is HomeEvents.ShowCityForm -> showCityForm()
+            is HomeEvents.DismissCityForm -> dismissCityForm()
+            is HomeEvents.OnSelectCity -> onSelectCity(event.city)
+            is HomeEvents.ExpandCitiesMenu -> expandCitiesMenu()
+            is HomeEvents.CollapseCitiesMenu -> collapseCitiesMenu()
+        }
+    }
+
+    private fun onSelectCity(city: CityUIState) {
         _state.update { it.copy(city = city) }
         viewModelScope.launch(Dispatchers.IO) {
             dataStore.changeCity(city)
@@ -51,19 +62,19 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun showCityForm() {
+    private fun showCityForm() {
         _state.update { it.copy(isCityFormShown = true) }
     }
 
-    fun dismissCityForm() {
+    private fun dismissCityForm() {
         _state.update { it.copy(isCityFormShown = false) }
     }
 
-    fun expandCitiesMenu() {
+    private fun expandCitiesMenu() {
         _state.update { it.copy(isCitiesMenuExpanded = true) }
     }
 
-    fun collapseCitiesMenu() {
+    private fun collapseCitiesMenu() {
         _state.update { it.copy(isCitiesMenuExpanded = false) }
     }
 }

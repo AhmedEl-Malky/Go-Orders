@@ -27,9 +27,9 @@ class Supabase : GoOrdersServices {
     ): List<RestaurantUIState> {
         return supabaseClient.from("restaurants").select {
             filter {
-                like("categories", "%$category%")
+                ilike("categories", "%$category%")
                 eq("open_now", isOpen)
-                like("name", "%$searchInput%")
+                ilike("name", "%$searchInput%")
             }
         }.decodeList<RestaurantUIState>()
     }

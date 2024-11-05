@@ -31,8 +31,8 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.malky.go_orders.R
 import com.malky.go_orders.navigations.Navigation
+import com.malky.go_orders.screens.events.HomeEvents
 import com.malky.go_orders.state.HomeUIState
-import com.malky.go_orders.state.HomeUIState.CityUIState
 import com.malky.go_orders.ui.theme.Beiruti
 import com.malky.go_orders.ui.theme.GoOrdersTheme
 
@@ -40,20 +40,12 @@ import com.malky.go_orders.ui.theme.GoOrdersTheme
 fun TopAppBar(
     state: HomeUIState,
     navController: NavController,
-    showCityForm: () -> Unit,
-    dismissCityForm: () -> Unit,
-    onSelectCity: (CityUIState) -> Unit,
-    expandCitiesMenu: () -> Unit,
-    collapseCitiesMenu: () -> Unit,
+    onEvent: (HomeEvents) -> Unit,
 ) {
     TopAppBarContent(
         state = state,
         navController = navController,
-        showCityForm = showCityForm,
-        dismissCityForm = dismissCityForm,
-        onSelectCity = onSelectCity,
-        expandCitiesMenu = expandCitiesMenu,
-        collapseCitiesMenu = collapseCitiesMenu
+        onEvent = onEvent
     )
 }
 
@@ -61,11 +53,7 @@ fun TopAppBar(
 fun TopAppBarContent(
     state: HomeUIState,
     navController: NavController,
-    showCityForm: () -> Unit,
-    dismissCityForm: () -> Unit,
-    onSelectCity: (CityUIState) -> Unit,
-    expandCitiesMenu: () -> Unit,
-    collapseCitiesMenu: () -> Unit,
+    onEvent: (HomeEvents) -> Unit
 ) {
 
     Row(
@@ -83,7 +71,7 @@ fun TopAppBarContent(
             contentDescription = "logo"
         )
         Button(
-            onClick = { showCityForm() },
+            onClick = { onEvent(HomeEvents.ShowCityForm) },
             shape = RoundedCornerShape(6.dp),
             colors = ButtonDefaults.buttonColors(
                 containerColor = MaterialTheme.colorScheme.secondary
@@ -156,10 +144,7 @@ fun TopAppBarContent(
     if (state.isCityFormShown) {
         CityForm(
             state = state,
-            dismissCityForm = dismissCityForm,
-            onSelectCity = onSelectCity,
-            expandCitiesMenu = expandCitiesMenu,
-            collapseCitiesMenu = collapseCitiesMenu
+            onEvent = onEvent
         )
     }
 }
@@ -171,11 +156,7 @@ fun PreviewTopAppBar() {
         TopAppBar(
             state = HomeUIState(),
             navController = NavController(LocalContext.current),
-            showCityForm = {},
-            dismissCityForm = {},
-            onSelectCity = {},
-            expandCitiesMenu = {},
-            collapseCitiesMenu = {}
+            onEvent = {}
         )
     }
 }

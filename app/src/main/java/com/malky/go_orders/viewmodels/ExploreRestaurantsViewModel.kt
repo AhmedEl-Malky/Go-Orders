@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.malky.go_orders.domain.AllRestaurantsUseCase
 import com.malky.go_orders.domain.CategoriesUseCase
+import com.malky.go_orders.screens.events.ExploreRestaurantsEvents
 import com.malky.go_orders.state.ExploreRestaurantsUIState
 import com.malky.go_orders.state.ExploreRestaurantsUIState.CategoryUIState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -30,14 +31,22 @@ class ExploreRestaurantsViewModel @Inject constructor(
         getCategories()
     }
 
-    fun getCategories() {
+    fun onEvent(event:ExploreRestaurantsEvents){
+        when(event){
+            is ExploreRestaurantsEvents.FilterOpenedRestaurants -> filterOpenedRestaurants(event.isOpen)
+            is ExploreRestaurantsEvents.SearchForRestaurant -> searchForRestaurant(event.searchInput)
+            is ExploreRestaurantsEvents.OnSelectCategory -> onSelectCategory(event.selectedCategory)
+        }
+    }
+
+    private fun getCategories() {
         viewModelScope.launch(Dispatchers.IO) {
             _state.update { it.copy(categories = categoriesUseCase()) }
             _state.update { it.copy(selectedCategory = it.categories.first()) }
         }
     }
 
-    fun startScreen() {
+    private fun startScreen() {
         viewModelScope.launch(Dispatchers.IO) {
             allRestaurantsUseCase(
                 isOpen = _state.value.isOpenFilter,
@@ -49,7 +58,7 @@ class ExploreRestaurantsViewModel @Inject constructor(
         }
     }
 
-    fun getAllRestaurants() {
+    private fun getAllRestaurants() {
         viewModelScope.launch(Dispatchers.IO) {
             allRestaurantsUseCase(
                 isOpen = _state.value.isOpenFilter,
@@ -61,7 +70,7 @@ class ExploreRestaurantsViewModel @Inject constructor(
     }
 
     fun filterOpenedRestaurants(isOpen: Boolean) {
-        _state.update { it.copy(isOpenFilter = isOpen) }
+        _state.update { it.copy(isOpenFilter = !it.isOpenFilter) }
         viewModelScope.launch(Dispatchers.IO) {
             allRestaurantsUseCase(
                 isOpen = isOpen,

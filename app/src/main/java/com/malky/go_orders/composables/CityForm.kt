@@ -26,25 +26,19 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import com.malky.go_orders.screens.events.HomeEvents
 import com.malky.go_orders.state.HomeUIState
-import com.malky.go_orders.state.HomeUIState.CityUIState
 import com.malky.go_orders.ui.theme.Beiruti
 import com.malky.go_orders.ui.theme.GoOrdersTheme
 
 @Composable
 fun CityForm(
     state: HomeUIState,
-    dismissCityForm: () -> Unit,
-    onSelectCity: (CityUIState) -> Unit,
-    expandCitiesMenu: () -> Unit,
-    collapseCitiesMenu: () -> Unit
+    onEvent:(HomeEvents) -> Unit
 ) {
     CityFormContent(
         state = state,
-        dismissCityForm = dismissCityForm,
-        onSelectCity = onSelectCity,
-        expandCitiesMenu = expandCitiesMenu,
-        collapseCitiesMenu = collapseCitiesMenu
+        onEvent = onEvent
     )
 }
 
@@ -52,13 +46,10 @@ fun CityForm(
 @Composable
 fun CityFormContent(
     state: HomeUIState,
-    dismissCityForm: () -> Unit,
-    onSelectCity: (CityUIState) -> Unit,
-    expandCitiesMenu: () -> Unit,
-    collapseCitiesMenu: () -> Unit
+    onEvent: (HomeEvents) -> Unit
 ) {
     Dialog(
-        onDismissRequest = { dismissCityForm() },
+        onDismissRequest = { onEvent(HomeEvents.DismissCityForm) },
         properties = DialogProperties(usePlatformDefaultWidth = false)
     ) {
         Card(
@@ -96,7 +87,7 @@ fun CityFormContent(
                 ExposedDropdownMenuBox(
                     modifier = Modifier.fillMaxWidth(),
                     expanded = state.isCitiesMenuExpanded,
-                    onExpandedChange = { expandCitiesMenu() }
+                    onExpandedChange = { onEvent(HomeEvents.ExpandCitiesMenu) }
                 ) {
                     OutlinedTextField(
                         modifier = Modifier
@@ -119,7 +110,7 @@ fun CityFormContent(
                     ExposedDropdownMenu(
                         modifier = Modifier.fillMaxWidth(),
                         expanded = state.isCitiesMenuExpanded,
-                        onDismissRequest = { collapseCitiesMenu() }
+                        onDismissRequest = { onEvent(HomeEvents.CollapseCitiesMenu)}
                     ) {
                         state.availableCities.toData()?.forEach { city ->
                             DropdownMenuItem(
@@ -131,9 +122,9 @@ fun CityFormContent(
                                     )
                                 },
                                 onClick = {
-                                    onSelectCity(city)
-                                    collapseCitiesMenu()
-                                    dismissCityForm()
+                                    onEvent(HomeEvents.OnSelectCity(city))
+                                    onEvent(HomeEvents.CollapseCitiesMenu)
+                                    onEvent(HomeEvents.DismissCityForm)
                                 }
                             )
                         }
@@ -151,10 +142,7 @@ fun PreviewCityForm() {
     GoOrdersTheme {
         CityForm(
             state = HomeUIState(),
-            dismissCityForm = {},
-            onSelectCity = {},
-            expandCitiesMenu = {},
-            collapseCitiesMenu = {}
+            onEvent = {}
         )
     }
 }

@@ -33,11 +33,7 @@ fun NavigationGraph(
             HomeScreen(
                 state = state,
                 navController = navController,
-                showCityForm = homeViewModel::showCityForm,
-                dismissCityForm = homeViewModel::dismissCityForm,
-                onSelectCity = homeViewModel::onSelectCity,
-                expandCitiesMenu = homeViewModel::expandCitiesMenu,
-                collapseCitiesMenu = homeViewModel::collapseCitiesMenu
+                onEvent = homeViewModel::onEvent
             )
         }
 
@@ -49,14 +45,8 @@ fun NavigationGraph(
                 state = state,
                 homeState = homeState,
                 navController = navController,
-                filterOpenedRestaurants = exploreRestaurantsViewModel::filterOpenedRestaurants,
-                searchForRestaurant = exploreRestaurantsViewModel::searchForRestaurant,
-                showCityForm = homeViewModel::showCityForm,
-                dismissCityForm = homeViewModel::dismissCityForm,
-                onSelectCity = homeViewModel::onSelectCity,
-                expandCitiesMenu = homeViewModel::expandCitiesMenu,
-                collapseCitiesMenu = homeViewModel::collapseCitiesMenu,
-                onSelectCategory = exploreRestaurantsViewModel::onSelectCategory,
+                onEvent = exploreRestaurantsViewModel::onEvent,
+                onHomeEvent = homeViewModel::onEvent
             )
         }
 
@@ -73,7 +63,8 @@ fun NavigationGraph(
                 navController = navController,
                 fetchRestaurantInfo = restaurantViewModel::fetchRestaurantInfo,
                 fetchMenuCategories = restaurantViewModel::fetchMenuCategories,
-                fetchMenuItems = restaurantViewModel::fetchMenuItems
+                fetchMenuItems = restaurantViewModel::fetchMenuItems,
+                onHomeEvent = homeViewModel::onEvent
             )
         }
 

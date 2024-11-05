@@ -18,6 +18,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
+import com.malky.go_orders.screens.events.ExploreRestaurantsEvents
 import com.malky.go_orders.state.ExploreRestaurantsUIState.CategoryUIState
 import com.malky.go_orders.ui.theme.Beiruti
 import com.malky.go_orders.ui.theme.GoOrdersTheme
@@ -25,21 +26,21 @@ import com.malky.go_orders.ui.theme.GoOrdersTheme
 @Composable
 fun CategoryCard(
     category: CategoryUIState,
-    onSelectCategory: (CategoryUIState) -> Unit
+    onEvent: (ExploreRestaurantsEvents) -> Unit
 ) {
-    CategoryCardContent(category,onSelectCategory)
+    CategoryCardContent(category, onEvent)
 }
 
 
 @Composable
 private fun CategoryCardContent(
     category: CategoryUIState,
-    onSelectCategory: (CategoryUIState) -> Unit
+    onEvent: (ExploreRestaurantsEvents) -> Unit
 ) {
     Card(
         modifier = Modifier
             .size(80.dp),
-        onClick = {onSelectCategory(category)},
+        onClick = { onEvent(ExploreRestaurantsEvents.OnSelectCategory(category)) },
         shape = RoundedCornerShape(8.dp),
         border = if (category.isSelected)
             BorderStroke(0.8f.dp, color = MaterialTheme.colorScheme.primary)
@@ -82,6 +83,9 @@ private fun CategoryCardContent(
 @Composable
 private fun PreviewCategoryCard() {
     GoOrdersTheme {
-        CategoryCard(CategoryUIState(name = "مأكولات بحرية"),{})
+        CategoryCard(
+            CategoryUIState(name = "مأكولات بحرية"),
+            onEvent = {}
+        )
     }
 }

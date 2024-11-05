@@ -24,6 +24,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.malky.go_orders.screens.events.ExploreRestaurantsEvents
 import com.malky.go_orders.ui.theme.Beiruti
 import com.malky.go_orders.ui.theme.GoOrdersTheme
 
@@ -31,14 +32,12 @@ import com.malky.go_orders.ui.theme.GoOrdersTheme
 fun RestaurantsSearchBar(
     isOpenFilter: Boolean,
     searchInput: String,
-    filterOpenedRestaurants: (Boolean) -> Unit,
-    searchForRestaurant: (String) -> Unit
+    onEvent:(ExploreRestaurantsEvents) -> Unit
 ) {
     RestaurantsSearchBarContent(
         isOpenFilter,
         searchInput,
-        filterOpenedRestaurants,
-        searchForRestaurant
+        onEvent = onEvent
     )
 }
 
@@ -46,8 +45,7 @@ fun RestaurantsSearchBar(
 fun RestaurantsSearchBarContent(
     isOpenFilter: Boolean,
     searchInput: String,
-    filterOpenedRestaurants: (Boolean) -> Unit,
-    searchForRestaurant: (String) -> Unit
+    onEvent: (ExploreRestaurantsEvents) -> Unit
 ) {
     Row(
         modifier = Modifier
@@ -63,7 +61,7 @@ fun RestaurantsSearchBarContent(
                 .height(52.dp)
                 .padding(top = 0.dp, bottom = 0.dp, end = 0.dp, start = 4.dp),
             value = searchInput,
-            onValueChange = { searchForRestaurant(it) },
+            onValueChange = { onEvent(ExploreRestaurantsEvents.SearchForRestaurant(it)) },
             textStyle = TextStyle(
                 fontFamily = Beiruti,
                 textAlign = TextAlign.Start,
@@ -105,7 +103,7 @@ fun RestaurantsSearchBarContent(
             )
             Switch(
                 checked = isOpenFilter,
-                onCheckedChange = {filterOpenedRestaurants(it)},
+                onCheckedChange = {onEvent(ExploreRestaurantsEvents.FilterOpenedRestaurants(it))},
                 colors = SwitchDefaults.colors(
                     uncheckedTrackColor = MaterialTheme.colorScheme.onTertiary,
                     checkedTrackColor = MaterialTheme.colorScheme.primary,
@@ -124,8 +122,7 @@ fun PreviewRestaurantsSearchBar() {
         RestaurantsSearchBar(
             false,
             "",
-            filterOpenedRestaurants = { false },
-            searchForRestaurant = { "true" }
+            onEvent = {}
         )
     }
 }
