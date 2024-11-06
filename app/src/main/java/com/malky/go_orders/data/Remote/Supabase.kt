@@ -58,12 +58,20 @@ class Supabase : GoOrdersServices {
         }.decodeList<MenuCategoryUIState>()
     }
 
-    override suspend fun getMenuItems(category: String): List<MenuItemUIState> {
+    override suspend fun getMenuItems(id: Int): List<MenuItemUIState> {
         return supabaseClient.from("menuItems").select{
             filter {
-                like("category", category)
+                eq("restaurantId", id)
             }
         }.decodeList<MenuItemUIState>()
+    }
+
+    override suspend fun getMenuImages(id: Int): List<MenuImageUIState> {
+        return supabaseClient.from("menusImages").select{
+            filter {
+                eq("restaurantId",id)
+            }
+        }.decodeList<MenuImageUIState>()
     }
 }
 

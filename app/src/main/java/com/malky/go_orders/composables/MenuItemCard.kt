@@ -1,6 +1,5 @@
 package com.malky.go_orders.composables
 
-import android.util.Log
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.tween
@@ -35,6 +34,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -42,37 +42,49 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.malky.go_orders.R
-import com.malky.go_orders.state.RestaurantInfoUIState.*
+import com.malky.go_orders.state.RestaurantInfoUIState.MenuCategoryUIState
+import com.malky.go_orders.state.RestaurantInfoUIState.MenuItemUIState
 import com.malky.go_orders.ui.theme.Beiruti
+import com.malky.go_orders.ui.theme.GoOrdersTheme
 
 @Composable
 fun MenuItemCard(
-    menuCategory: MenuCategoryUIState,
-    menuSize:Int,
-    index:Int,
-    fetchMenuItems:(String) -> List<MenuItemUIState>
+    category: MenuCategoryUIState,
+    menuSize: Int,
+    index: Int,
+    menuItems: List<MenuItemUIState>,
+    restaurantLogo:String
 ) {
     MenuItemCardContent(
-        menuCategory = menuCategory,
+        category = category,
         menuSize = menuSize,
         index = index,
-        fetchMenuItems = fetchMenuItems
+        menuItems = menuItems,
+        restaurantLogo = restaurantLogo
     )
 }
 
 @Composable
 private fun MenuItemCardContent(
-    menuCategory: MenuCategoryUIState,
+    category: MenuCategoryUIState,
     menuSize: Int,
-    index:Int,
-    fetchMenuItems: (String) -> List<MenuItemUIState>
+    index: Int,
+    menuItems: List<MenuItemUIState>,
+    restaurantLogo:String
 ) {
     var isClicked by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.secondary)
+            .padding(if (index == menuSize - 1) PaddingValues(bottom = 16.dp) else PaddingValues(0.dp))
+            .clip(
+                if (index == menuSize - 1) RoundedCornerShape(
+                    bottomEnd = 6.dp,
+                    bottomStart = 6.dp
+                ) else RoundedCornerShape(0.dp)
+            )
+            .background(MaterialTheme.colorScheme.secondary.copy(alpha = 0.6f))
             .animateContentSize(
                 animationSpec = tween(
                     durationMillis = 300,
@@ -83,14 +95,21 @@ private fun MenuItemCardContent(
         Card(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 8.dp, horizontal = 16.dp),
-            onClick = {},
+                .padding(
+                    if (index == menuSize - 1) PaddingValues(
+                        bottom = 16.dp,
+                        top = 8.dp,
+                        start = 16.dp,
+                        end = 16.dp
+                    ) else PaddingValues(vertical = 8.dp, horizontal = 16.dp)
+                ),
+            onClick = { isClicked = !isClicked },
             border = BorderStroke(
                 width = 1.5f.dp,
                 color = MaterialTheme.colorScheme.outline
             ),
             shape = RoundedCornerShape(6.dp),
-            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.tertiary)
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondary)
         ) {
             Row(
                 modifier = Modifier
@@ -100,21 +119,23 @@ private fun MenuItemCardContent(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
-                    text = menuCategory.category,
+                    modifier = Modifier.padding(vertical = 4.dp),
+                    text = category.name,
                     fontFamily = Beiruti,
                     fontSize = MaterialTheme.typography.titleMedium.fontSize,
                     fontWeight = FontWeight.SemiBold,
                     color = MaterialTheme.colorScheme.onBackground
                 )
                 Icon(
+                    modifier = Modifier.size(28.dp),
                     imageVector = if (isClicked) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown,
                     contentDescription = "Menu Icon",
-                    tint = MaterialTheme.colorScheme.onBackground
+                    tint = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f)
                 )
             }
         }
-        if (menuCategory.isSelected) {
-            fetchMenuItems(menuCategory.category).forEach { item ->
+        if (isClicked) {
+            menuItems.filter { it.category == category.name }.forEach { item ->
                 Card(
                     modifier = Modifier
                         .padding(vertical = 8.dp, horizontal = 16.dp),
@@ -130,12 +151,13 @@ private fun MenuItemCardContent(
                         AsyncImage(
                             modifier = Modifier
                                 .size(80.dp)
+                                .clip(RoundedCornerShape(6.dp))
                                 .border(
                                     width = 1.dp,
                                     color = MaterialTheme.colorScheme.outline,
                                     shape = RoundedCornerShape(6.dp)
                                 ),
-                            model = item.image,
+                            model = item.image?: restaurantLogo,
                             contentDescription = null,
                         )
                         Column(
@@ -143,14 +165,14 @@ private fun MenuItemCardContent(
                             verticalArrangement = Arrangement.spacedBy(4.dp)
                         ) {
                             Text(
-                                text = item.name?:"NULL",
+                                text = item.name ?: "NULL",
                                 fontFamily = Beiruti,
                                 fontSize = MaterialTheme.typography.headlineSmall.fontSize,
                                 color = MaterialTheme.colorScheme.primary,
                                 fontWeight = FontWeight.Medium
                             )
                             Text(
-                                text = item.description?:"NULL",
+                                text = item.description ?: "NULL",
                                 fontFamily = Beiruti,
                                 maxLines = 1,
                                 overflow = TextOverflow.Ellipsis,
@@ -224,16 +246,17 @@ private fun MenuItemCardContent(
     }
 }
 
-//val items = listOf(1, 2, 2)
 
 @Preview(locale = "ar")
 @Composable
 private fun PreviewMenuItemCard() {
-//    GoOrdersTheme {
-//        MenuItemCard(
-//            menuItems = emptyList(),
-//            menuSize = 10,
-//            index = 10
-//        )
-//    }
+    GoOrdersTheme {
+        MenuItemCard(
+            category = MenuCategoryUIState(name = "المأكولات"),
+            menuSize = 1,
+            index = 0,
+            menuItems = emptyList(),
+            restaurantLogo = ""
+        )
+    }
 }

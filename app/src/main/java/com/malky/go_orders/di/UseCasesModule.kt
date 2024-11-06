@@ -5,6 +5,7 @@ import com.malky.go_orders.domain.AllRestaurantsUseCase
 import com.malky.go_orders.domain.CategoriesUseCase
 import com.malky.go_orders.domain.CitiesUseCase
 import com.malky.go_orders.domain.MenuCategoriesUseCase
+import com.malky.go_orders.domain.MenuImagesUseCase
 import com.malky.go_orders.domain.MenuItemsUseCase
 import com.malky.go_orders.domain.RestaurantUseCase
 import dagger.Module
@@ -33,5 +34,8 @@ object UseCasesModule {
 
     @Provides
     fun provideMenuItemsUseCase(supabaseClient: Supabase): MenuItemsUseCase = MenuItemsUseCase(supabaseClient)
+
+    @Provides
+    fun provideMenuImagesUseCase(supabaseClient: Supabase): MenuImagesUseCase = MenuImagesUseCase(supabaseClient)
 
 }

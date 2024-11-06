@@ -61,9 +61,7 @@ fun NavigationGraph(
                 state = state,
                 homeState = homeState,
                 navController = navController,
-                fetchRestaurantInfo = restaurantViewModel::fetchRestaurantInfo,
-                fetchMenuCategories = restaurantViewModel::fetchMenuCategories,
-                fetchMenuItems = restaurantViewModel::fetchMenuItems,
+                onEvent = restaurantViewModel::onEvent,
                 onHomeEvent = homeViewModel::onEvent
             )
         }
