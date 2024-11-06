@@ -6,7 +6,7 @@ import com.malky.go_orders.state.RestaurantInfoUIState.MenuItemUIState
 class MenuItemsUseCase(
     val supabaseClient: GoOrdersServices
 ) {
-    suspend operator fun invoke(category:String):List<MenuItemUIState>{
-        return supabaseClient.getMenuItems(category)
+    suspend operator fun invoke(restaurantID:Int):List<MenuItemUIState>{
+        return supabaseClient.getMenuItems(restaurantID)
     }
 }

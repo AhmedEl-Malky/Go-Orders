@@ -20,6 +20,8 @@ interface GoOrdersServices {
 
     suspend fun getMenuCategories(id:Int):List<MenuCategoryUIState>
 
-    suspend fun getMenuItems(category: String):List<MenuItemUIState>
+    suspend fun getMenuItems(id: Int):List<MenuItemUIState>
+
+    suspend fun getMenuImages(id:Int):List<MenuImageUIState>
 
 }

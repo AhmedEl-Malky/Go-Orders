@@ -7,6 +7,6 @@ class MenuCategoriesUseCase(
     val supabaseClient: GoOrdersServices
 ) {
     suspend operator fun invoke(restaurantID:Int):List<MenuCategoryUIState>{
-        return supabaseClient.getMenuCategories(restaurantID)
+        return supabaseClient.getMenuCategories(restaurantID).toSet().toList()
     }
 }

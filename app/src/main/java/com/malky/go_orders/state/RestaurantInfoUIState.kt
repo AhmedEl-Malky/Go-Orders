@@ -7,19 +7,22 @@ import kotlinx.serialization.Serializable
 
 data class RestaurantInfoUIState(
     val restaurant: State<List<RestaurantUIState>> = State.Loading,
-    val menuItems:List<MenuItemUIState> = emptyList(),
-    val menuCategories:List<MenuCategoryUIState> = emptyList()
-){
+    val menuItems: List<MenuItemUIState> = emptyList(),
+    val menuCategories: List<MenuCategoryUIState> = emptyList(),
+    val menuOption:MenuOptions = MenuOptions.OnlineOrders,
+    val menuImages:List<MenuImageUIState> = emptyList()
+) {
     @Serializable
     data class MenuCategoryUIState(
         @SerialName("category")
-        val category:String = "",
-        var isSelected:Boolean = true
+        val name:String = "",
+//        var isSelected:Boolean = false
     )
+
     @Serializable
     data class MenuItemUIState(
         @SerialName("category")
-        val category: List<String?>?,
+        val category: String?,
         @SerialName("created_at")
         val createdAt: String?,
         @SerialName("description")
@@ -29,7 +32,7 @@ data class RestaurantInfoUIState(
         @SerialName("image")
         val image: String?,
         @SerialName("isAvilable")
-        val isAvilable: Boolean?,
+        val isAvailable: Boolean?,
         @SerialName("name")
         val name: String?,
         @SerialName("regPrice")
@@ -43,4 +46,23 @@ data class RestaurantInfoUIState(
         @SerialName("variants")
         val variants: String?
     )
+
+    @Serializable
+    data class MenuImageUIState(
+        @SerialName("created_at")
+        val createdAt: String?,
+        @SerialName("id")
+        val id: Int?,
+        @SerialName("restaurantId")
+        val restaurantId: Int?,
+        @SerialName("url")
+        val url: String?
+    )
+
+    sealed class MenuOptions{
+        data object OnlineOrders:MenuOptions()
+        data object MenuImages:MenuOptions()
+        data object RestaurantInfo:MenuOptions()
+    }
+
 }

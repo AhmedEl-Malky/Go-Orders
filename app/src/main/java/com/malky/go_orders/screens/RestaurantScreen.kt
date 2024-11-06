@@ -1,6 +1,7 @@
 package com.malky.go_orders.screens
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -34,6 +35,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -45,13 +47,17 @@ import androidx.navigation.NavController
 import coil3.compose.AsyncImage
 import com.malky.go_orders.R
 import com.malky.go_orders.composables.LoadingAnimation
+import com.malky.go_orders.composables.MenuImagesPager
 import com.malky.go_orders.composables.MenuItemCard
+import com.malky.go_orders.composables.MenuOptionsBar
 import com.malky.go_orders.composables.TopAppBar
 import com.malky.go_orders.data.State
 import com.malky.go_orders.screens.events.HomeEvents
+import com.malky.go_orders.screens.events.RestaurantEvents
+import com.malky.go_orders.state.ExploreRestaurantsUIState
 import com.malky.go_orders.state.HomeUIState
 import com.malky.go_orders.state.RestaurantInfoUIState
-import com.malky.go_orders.state.RestaurantInfoUIState.MenuItemUIState
+import com.malky.go_orders.state.RestaurantInfoUIState.*
 import com.malky.go_orders.ui.theme.Beiruti
 import com.malky.go_orders.ui.theme.GoOrdersTheme
 
@@ -62,14 +68,13 @@ fun RestaurantScreen(
     state: RestaurantInfoUIState,
     homeState: HomeUIState,
     navController:NavController,
-    fetchRestaurantInfo:(Int) -> Unit,
-    fetchMenuCategories:(Int) -> Unit,
-    fetchMenuItems: (String) -> List<MenuItemUIState>,
+    onEvent:(RestaurantEvents) -> Unit,
     onHomeEvent: (HomeEvents) -> Unit
 ) {
     LaunchedEffect(Unit) {
-        fetchRestaurantInfo(restaurantID)
-        fetchMenuCategories(restaurantID)
+        onEvent(RestaurantEvents.FetchRestaurantInfo(restaurantID))
+        onEvent(RestaurantEvents.FetchMenuCategories(restaurantID))
+        onEvent(RestaurantEvents.FetchMenuItems(restaurantID))
     }
 
     when (state.restaurant) {
@@ -95,7 +100,7 @@ fun RestaurantScreen(
                     state = state,
                     homeState = homeState,
                     navController = navController,
-                    fetchMenuItems = fetchMenuItems,
+                    onEvent = onEvent,
                     onHomeEvent = onHomeEvent
                 )
             }
@@ -121,12 +126,13 @@ fun RestaurantScreen(
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun RestaurantScreenContent(
     state: RestaurantInfoUIState,
     homeState: HomeUIState,
     navController: NavController,
-    fetchMenuItems: (String) -> List<MenuItemUIState>,
+    onEvent: (RestaurantEvents) -> Unit,
     onHomeEvent: (HomeEvents) -> Unit
 ) {
     Scaffold { innerPadding ->
@@ -235,7 +241,7 @@ private fun RestaurantScreenContent(
                     Text(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(top = 8.dp),
+                            .padding(vertical = 8.dp),
                         text = state.restaurant.toData()?.first()?.description ?: "",
                         fontFamily = Beiruti,
                         fontSize = MaterialTheme.typography.titleLarge.fontSize,
@@ -246,29 +252,42 @@ private fun RestaurantScreenContent(
                     )
                 }
                 item {
-                    Text(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .clip(RoundedCornerShape(topStart = 6.dp, topEnd = 6.dp))
-                            .background(MaterialTheme.colorScheme.secondary)
-                            .padding(top = 8.dp, start = 16.dp, end = 16.dp),
-                        text = "أقسام المنيو",
-                        fontFamily = Beiruti,
-                        fontSize = MaterialTheme.typography.headlineSmall.fontSize,
-                        fontWeight = FontWeight.SemiBold,
-                        color = MaterialTheme.colorScheme.onBackground,
-                        maxLines = 2,
-                        lineHeight = 30.sp,
-                        textAlign = TextAlign.Start
+                    MenuOptionsBar(
+                        option = state.menuOption,
+                        onEvent = onEvent,
+                        restaurantID = state.restaurant.toData()?.first()?.id ?: 0
                     )
                 }
-                itemsIndexed(state.menuCategories.toSet().toList()) { index, item ->
-                    MenuItemCard(
-                        menuCategory = item,
-                        menuSize = state.menuCategories.size,
-                        index = index,
-                        fetchMenuItems = fetchMenuItems
-                    )
+                when(state.menuOption){
+                    is MenuOptions.OnlineOrders -> {
+                        stickyHeader {
+                            Text(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .clip(RoundedCornerShape(topStart = 6.dp, topEnd = 6.dp))
+                                    .background(MaterialTheme.colorScheme.secondary.copy(alpha = 0.6f))
+                                    .padding(top = 16.dp, start = 16.dp, end = 16.dp),
+                                text = "أقسام المنيو",
+                                fontFamily = Beiruti,
+                                fontSize = MaterialTheme.typography.headlineSmall.fontSize,
+                                fontWeight = FontWeight.SemiBold,
+                                color = MaterialTheme.colorScheme.onBackground,
+                                textAlign = TextAlign.Start
+                            )
+                        }
+                        itemsIndexed(state.menuCategories) { index, item ->
+                            MenuItemCard(
+                                category = item,
+                                menuSize = state.menuCategories.size,
+                                index = index,
+                                menuItems = state.menuItems,
+                                restaurantLogo = state.restaurant.toData()?.first()?.logo ?: ""
+                            )
+                        }
+
+                    }
+                    is MenuOptions.MenuImages -> item { MenuImagesPager(state.menuImages) }
+                    is MenuOptions.RestaurantInfo -> {}
                 }
 
             }
@@ -277,7 +296,6 @@ private fun RestaurantScreenContent(
     }
 }
 
-//val menuItems = listOf(1, 1, 1, 1, 1)
 
 @Preview(
     showBackground = true, showSystemUi = true,
@@ -287,6 +305,16 @@ private fun RestaurantScreenContent(
 @Composable
 private fun PreviewRestaurantScreen() {
     GoOrdersTheme {
-//        RestaurantScreen(0, RestaurantViewModel())
+        RestaurantScreen(
+            restaurantID = 1,
+            state = RestaurantInfoUIState(restaurant = State.Success(listOf(
+                ExploreRestaurantsUIState.RestaurantUIState())),
+                menuOption = MenuOptions.MenuImages
+            ),
+            homeState = HomeUIState(),
+            navController = NavController(LocalContext.current),
+            onEvent = {},
+            onHomeEvent = {}
+        )
     }
 }

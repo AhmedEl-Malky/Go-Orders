@@ -50,7 +50,7 @@ fun HorizontalBannersPager(
 fun HorizontalBannersPagerContent(
     banners: List<BannerUIState>
 ) {
-    val state = rememberPagerState(initialPage = 2) { banners.size }
+    val state = rememberPagerState { banners.size }
     LaunchedEffect(Unit) {
         while (true) {
             delay(2500)
