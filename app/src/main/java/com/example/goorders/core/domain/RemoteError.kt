@@ -1,0 +1,12 @@
+package com.example.goorders.core.domain
+
+enum class RemoteError : Error {
+    REQUEST_TIMEOUT,
+    TOO_MANY_REQUESTS,
+    NO_INTERNET,
+    SERVER,
+    SERIALIZATION,
+    UNAUTHORIZED,
+    UNKNOWN,
+    NOT_FOUND,
+}
