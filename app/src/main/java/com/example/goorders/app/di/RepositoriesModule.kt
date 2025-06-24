@@ -1,36 +1,27 @@
 package com.example.goorders.app.di
 
-import com.example.goorders.mainscreen.data.remote.CitiesService
-import com.example.goorders.mainscreen.data.repository.CitiesRepositoryImpl
-import com.example.goorders.mainscreen.domain.CitiesRepository
+import com.example.goorders.home.data.remote.HomeServices
+import com.example.goorders.home.data.repository.HomeRepositoryImpl
+import com.example.goorders.home.domain.HomeRepository
+import com.example.goorders.main.data.remote.MainService
+import com.example.goorders.main.data.repository.MainRepositoryImpl
+import com.example.goorders.main.domain.MainRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 object RepositoriesModule {
 
-//    @Provides
-//    fun provideRestaurantsUseCase(supabaseClient: Supabase): AllRestaurantsUseCase = AllRestaurantsUseCase(supabaseClient)
-
-//    @Provides
-//    fun provideCategoriesUseCase(supabaseClient: Supabase): CategoriesUseCase = CategoriesUseCase(supabaseClient)
+    @Provides
+    @Singleton
+    fun provideMainRepository(service: MainService): MainRepository = MainRepositoryImpl(service = service)
 
     @Provides
-    fun provideCitiesRepository(service: CitiesService): CitiesRepository = CitiesRepositoryImpl(service = service)
-
-//    @Provides
-//    fun provideRestaurantUseCase(supabaseClient: Supabase): RestaurantUseCase = RestaurantUseCase(supabaseClient)
-
-//    @Provides
-//    fun provideMenuUseCase(supabaseClient: Supabase): MenuCategoriesUseCase = MenuCategoriesUseCase(supabaseClient)
-
-//    @Provides
-//    fun provideMenuItemsUseCase(supabaseClient: Supabase): MenuItemsUseCase = MenuItemsUseCase(supabaseClient)
-
-//    @Provides
-//    fun provideMenuImagesUseCase(supabaseClient: Supabase): MenuImagesUseCase = MenuImagesUseCase(supabaseClient)
+    @Singleton
+    fun provideHomeRepository(service: HomeServices): HomeRepository = HomeRepositoryImpl(service = service)
 
 }

@@ -7,7 +7,7 @@ import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.example.goorders.BuildConfig
-import com.example.goorders.mainscreen.domain.City
+import com.example.goorders.main.domain.City
 import kotlinx.coroutines.flow.first
 
 class DataStorePref(

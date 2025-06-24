@@ -2,13 +2,13 @@ package com.example.goorders.app.navigation
 
 import kotlinx.serialization.Serializable
 
-object Navigation {
+object Route {
 
     @Serializable
     object MainScreen
-//
-//    @Serializable
-//    object ExploreRestaurantsScreen
+
+    @Serializable
+    object HomeScreen
 //
 //    @Serializable
 //    data class RestaurantScreen(

@@ -23,7 +23,6 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -42,13 +41,13 @@ import com.composables.icons.lucide.ChevronDown
 import com.composables.icons.lucide.Lucide
 import com.example.goorders.core.presentation.theme.Beiruti
 import com.example.goorders.core.presentation.theme.GoOrdersTheme
-import com.example.goorders.mainscreen.presentation.MainActions
-import com.example.goorders.mainscreen.presentation.MainScreenState
+import com.example.goorders.main.presentation.MainActions
+import com.example.goorders.main.presentation.MainState
 
 
 @Composable
 fun CityForm(
-    state: MainScreenState,
+    state: MainState,
     onAction: (MainActions) -> Unit
 ) {
     CityFormContent(
@@ -60,7 +59,7 @@ fun CityForm(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CityFormContent(
-    state: MainScreenState,
+    state: MainState,
     onAction: (MainActions) -> Unit
 ) {
     val animateRotation by animateFloatAsState(
@@ -191,7 +190,7 @@ fun CityFormContent(
 fun PreviewCityForm() {
     GoOrdersTheme {
         CityForm(
-            state = MainScreenState(),
+            state = MainState(),
             onAction = {}
         )
     }

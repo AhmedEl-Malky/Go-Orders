@@ -1,9 +1,9 @@
-package com.example.goorders.mainscreen.data.remote
+package com.example.goorders.main.data.remote
 
 import com.example.goorders.core.domain.RemoteError
 import com.example.goorders.core.domain.Result
-import com.example.goorders.mainscreen.data.dto.CityDTO
+import com.example.goorders.main.data.dto.CityDTO
 
-interface CitiesService {
+interface MainService {
     suspend fun getCities(): Result<List<CityDTO>, RemoteError>
 }

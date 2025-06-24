@@ -7,42 +7,45 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.toRoute
-import com.example.goorders.mainscreen.presentation.MainScreen
-import com.example.goorders.mainscreen.presentation.MainViewModel
+import com.example.goorders.home.presentation.HomeScreen
+import com.example.goorders.home.presentation.HomeViewModel
+import com.example.goorders.main.presentation.MainScreen
+import com.example.goorders.main.presentation.MainViewModel
 
 @Composable
 fun NavigationGraph(
     navController: NavHostController
 ) {
-    val homeViewModel: MainViewModel = hiltViewModel()
+    val mainViewModel: MainViewModel = hiltViewModel()
 
     val navHost = NavHost(
         navController = navController,
-        startDestination = Navigation.MainScreen
+        startDestination = Route.MainScreen
     ) {
-        composable<Navigation.MainScreen> {
-            val state by homeViewModel.state.collectAsState()
+        composable<Route.MainScreen> {
+            val state by mainViewModel.state.collectAsState()
             MainScreen(
                 state = state,
-                onAction = homeViewModel::onAction,
-                navigateToHome = {},
+                onAction = mainViewModel::onAction,
+                navigateToHome = {
+                    navController.navigate(Route.HomeScreen)
+                },
                 navigateToCart = {}
             )
         }
 
-//        composable<Navigation.ExploreRestaurantsScreen> {
-//            val exploreRestaurantsViewModel: ExploreRestaurantsViewModel = hiltViewModel()
-//            val state by exploreRestaurantsViewModel.state.collectAsState()
-//            val homeState by homeViewModel.state.collectAsState()
-//            ExploreRestaurantsScreen(
-//                state = state,
-//                homeState = homeState,
-//                navController = navController,
-//                onEvent = exploreRestaurantsViewModel::onEvent,
-//                onHomeEvent = homeViewModel::onEvent
-//            )
-//        }
+        composable<Route.HomeScreen> {
+            val viewModel: HomeViewModel = hiltViewModel()
+            val state by viewModel.state.collectAsState()
+            val mainState by mainViewModel.state.collectAsState()
+            HomeScreen(
+                state = state,
+                mainState = mainState,
+                onAction = viewModel::onAction,
+                onMainAction = mainViewModel::onAction,
+                goToRestaurant = {}
+            )
+        }
 //
 //        composable<Navigation.RestaurantScreen> {
 //            val restaurantViewModel: RestaurantViewModel = hiltViewModel()

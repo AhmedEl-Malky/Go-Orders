@@ -1,4 +1,4 @@
-package com.example.goorders.mainscreen.presentation
+package com.example.goorders.main.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -6,8 +6,8 @@ import com.example.goorders.core.data.local.DataStorePref
 import com.example.goorders.core.domain.onError
 import com.example.goorders.core.domain.onSuccess
 import com.example.goorders.core.presentation.toUiText
-import com.example.goorders.mainscreen.domain.CitiesRepository
-import com.example.goorders.mainscreen.domain.City
+import com.example.goorders.main.domain.MainRepository
+import com.example.goorders.main.domain.City
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,10 +18,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val citiesRepo: CitiesRepository,
+    private val citiesRepo: MainRepository,
     private val dataStore: DataStorePref
 ) : ViewModel() {
-    private val _state = MutableStateFlow(MainScreenState())
+    private val _state = MutableStateFlow(MainState())
     val state = _state.asStateFlow()
 
     init {

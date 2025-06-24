@@ -1,4 +1,4 @@
-package com.example.goorders.mainscreen.presentation
+package com.example.goorders.main.presentation
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -25,13 +25,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import com.composables.icons.lucide.Lucide
 import com.composables.icons.lucide.MapPinned
 import com.composables.icons.lucide.Utensils
@@ -44,7 +42,7 @@ import com.example.goorders.core.presentation.components.TopAppBar
 
 @Composable
 fun MainScreen(
-    state: MainScreenState,
+    state: MainState,
     navigateToHome: () -> Unit,
     navigateToCart:() -> Unit,
     onAction: (MainActions) -> Unit
@@ -101,7 +99,7 @@ fun MainScreen(
 
 @Composable
 private fun MainScreenContent(
-    state: MainScreenState,
+    state: MainState,
     onAction: (MainActions) -> Unit,
     navigateToHome:() -> Unit,
     navigateToCart:() -> Unit,
@@ -226,8 +224,10 @@ private fun MainScreenContent(
                                 },
                                 shape = RoundedCornerShape(6.dp),
                                 colors = ButtonDefaults.buttonColors(
-                                    containerColor = MaterialTheme.colorScheme.onPrimaryContainer
-                                )
+                                    containerColor = MaterialTheme.colorScheme.background,
+                                    disabledContainerColor = MaterialTheme.colorScheme.secondary.copy(alpha = 0.8f)
+                                ),
+                                enabled = state.currentCity != null
                             ) {
                                 Text(
                                     modifier = Modifier.padding(end = 12.dp),
@@ -263,7 +263,7 @@ private fun MainScreenContent(
 private fun PreviewHomeScreen() {
     GoOrdersTheme {
         MainScreen(
-            state = MainScreenState(),
+            state = MainState(),
             onAction = {},
             navigateToHome = {},
             navigateToCart = {}

@@ -1,4 +1,4 @@
-package com.example.goorders.mainscreen.data.dto
+package com.example.goorders.main.data.dto
 
 
 import kotlinx.serialization.SerialName
