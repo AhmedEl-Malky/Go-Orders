@@ -1,22 +1,23 @@
 package com.example.goorders.app.di
 
 import android.content.Context
-import com.example.goorders.core.data.remote.Supabse
+import com.example.goorders.core.data.local.DataStorePref
+import com.example.goorders.core.data.remote.HttpClientFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import io.github.jan.supabase.SupabaseClient
+import io.ktor.client.HttpClient
 
 @Module
 @InstallIn(SingletonComponent::class)
 object DataModule {
 
     @Provides
-    fun provideSupabaseClient(): SupabaseClient = Supabse.create()
+    fun provideHttpClient(): HttpClient = HttpClientFactory.create()
 
-//    @Provides
-//    fun provideDataStore(@ApplicationContext context: Context): DataStore = DataStore(context)
+    @Provides
+    fun provideDataStore(@ApplicationContext context: Context): DataStorePref = DataStorePref(context)
 
 }

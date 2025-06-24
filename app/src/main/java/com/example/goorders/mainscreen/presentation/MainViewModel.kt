@@ -2,6 +2,11 @@ package com.example.goorders.mainscreen.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.goorders.core.data.local.DataStorePref
+import com.example.goorders.core.domain.onError
+import com.example.goorders.core.domain.onSuccess
+import com.example.goorders.core.presentation.toUiText
+import com.example.goorders.mainscreen.domain.CitiesRepository
 import com.example.goorders.mainscreen.domain.City
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -13,27 +18,53 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-//    private val citiesUseCase: CitiesUseCase,
-//    private val dataStore: DataStore
+    private val citiesRepo: CitiesRepository,
+    private val dataStore: DataStorePref
 ) : ViewModel() {
     private val _state = MutableStateFlow(MainScreenState())
     val state = _state.asStateFlow()
 
-//    init {
-//        viewModelScope.launch(Dispatchers.IO) {
-//            citiesUseCase().collect { result ->
-//                _state.update { it.copy(availableCities = result) }
-//            }
-//            dataStore.setInitialCity(_state.value.availableCities.toData()?.first() ?: CityUIState())
-//            getCurrentCity()
-//        }
-//    }
-
-    fun onAction(action: MainAction) {
+    init {
+        getAllCities()
+        getCurrentCity()
+    }
+    fun onAction(action: MainActions) {
         when (action) {
-            MainAction.OnCitiesMenuToggle -> TODO()
-            is MainAction.OnCitySelect -> onCitySelect(action.city)
-            MainAction.OnCityFormToggle -> onCityFormToggle()
+            MainActions.OnCitiesMenuToggle -> onCitiesMenuToggle()
+            is MainActions.OnCitySelect -> onCitySelect(action.city)
+            MainActions.OnCityFormToggle -> onCityFormToggle()
+            MainActions.GetAllCities -> getAllCities()
+        }
+    }
+
+    private fun onCitiesMenuToggle() {
+        _state.update {
+            it.copy(
+                isCitiesMenuExpanded = !it.isCitiesMenuExpanded
+            )
+        }
+    }
+
+    private fun getAllCities() {
+        viewModelScope.launch {
+            citiesRepo.getCities()
+                .onSuccess { cities ->
+                    _state.update {
+                        it.copy(
+                            isLoading = false,
+                            availableCities = cities
+                        )
+                    }
+                }
+                .onError { error ->
+                    _state.update {
+                        it.copy(
+                            isLoading = false,
+                            availableCities = emptyList(),
+                            isError = error.toUiText()
+                        )
+                    }
+                }
         }
     }
 
@@ -44,21 +75,21 @@ class MainViewModel @Inject constructor(
             )
         }
         viewModelScope.launch(Dispatchers.IO) {
-//            dataStore.changeCity(city)
+            dataStore.changeCity(city)
         }
     }
 
     private fun getCurrentCity() {
         viewModelScope.launch(Dispatchers.IO) {
-//            val city = City(
-//                id = dataStore.getCityID() ?: 0,
-//                name = dataStore.getCityName() ?: "",
-//            )
-//            _state.update {
-//                it.copy(
-//                    currentCity = city
-//                )
-//            }
+            val city = City(
+                id = dataStore.getCityID() ?: 0,
+                name = dataStore.getCityName() ?: "",
+            )
+            _state.update {
+                it.copy(
+                    currentCity = city
+                )
+            }
         }
     }
 

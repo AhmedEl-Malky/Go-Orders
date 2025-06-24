@@ -55,6 +55,9 @@ ktor-client-android = { group = "io.ktor", name = "ktor-client-android", version
 ktor-client-core = { group = "io.ktor", name = "ktor-client-core", version.ref = "ktor" }
 ktor-client-logging = { group = "io.ktor", name = "ktor-client-logging", version.ref = "ktor" }
 ktor-client-content-negotiation = { group = "io.ktor", name = "ktor-client-content-negotiation", version.ref = "ktor" }
+ktor-client-auth = { module = "io.ktor:ktor-client-auth", version.ref = "ktor" }
+#OkHttp
+ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
 
 # kotlin Coroutines
 kotlinx-coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutines" }
@@ -103,7 +106,9 @@ ktor = [
     "ktor-client-android",
     "ktor-client-core",
     "ktor-client-logging",
-    "ktor-client-content-negotiation"
+    "ktor-client-content-negotiation",
+    "ktor-client-auth",
+    "ktor-client-okhttp"
 ]
 coil = [
     "coil-compose",

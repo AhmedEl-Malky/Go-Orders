@@ -36,6 +36,7 @@ import com.composables.icons.lucide.Lucide
 import com.composables.icons.lucide.MapPinned
 import com.composables.icons.lucide.Utensils
 import com.example.goorders.R
+import com.example.goorders.core.presentation.components.CityForm
 import com.example.goorders.core.presentation.theme.Beiruti
 import com.example.goorders.core.presentation.theme.GoOrdersTheme
 import com.example.goorders.core.presentation.components.TopAppBar
@@ -44,12 +45,14 @@ import com.example.goorders.core.presentation.components.TopAppBar
 @Composable
 fun MainScreen(
     state: MainScreenState,
-    navController: NavController,
-    onAction: (MainAction) -> Unit
+    navigateToHome: () -> Unit,
+    navigateToCart:() -> Unit,
+    onAction: (MainActions) -> Unit
 ) {
     MainScreenContent(
         state = state,
-        navController = navController,
+        navigateToHome = navigateToHome,
+        navigateToCart = navigateToCart,
         onAction = onAction
     )
 //    when (state.availableCities) {
@@ -98,15 +101,22 @@ fun MainScreen(
 
 @Composable
 private fun MainScreenContent(
-    navController: NavController,
     state: MainScreenState,
-    onAction: (MainAction) -> Unit
+    onAction: (MainActions) -> Unit,
+    navigateToHome:() -> Unit,
+    navigateToCart:() -> Unit,
 ) {
+    if (state.isCityFormVisible) {
+        CityForm(
+            state = state,
+            onAction = onAction
+        )
+    }
     Scaffold(
         topBar = {
             TopAppBar(
                 state = state,
-                navController = navController,
+                navigateToCart = navigateToCart,
                 onAction = onAction
             )
         }
@@ -177,7 +187,7 @@ private fun MainScreenContent(
                         ) {
                             Button(
                                 onClick = {
-//                                    onAction(HomeEvents.ShowCityForm)
+                                    onAction(MainActions.OnCityFormToggle)
                                 },
                                 shape = RoundedCornerShape(6.dp),
                                 colors = ButtonDefaults.buttonColors(
@@ -212,7 +222,7 @@ private fun MainScreenContent(
                                     bottom = 12.dp
                                 ),
                                 onClick = {
-//                                    navController.navigate(Navigation.ExploreRestaurantsScreen)
+                                    navigateToHome()
                                 },
                                 shape = RoundedCornerShape(6.dp),
                                 colors = ButtonDefaults.buttonColors(
@@ -239,12 +249,6 @@ private fun MainScreenContent(
                     }
                 }
             }
-//            if (state.isCityFormShown) {
-//                CityForm(
-//                    state = state,
-//                    onEvent = onAction
-//                )
-//            }
         }
     }
 }
@@ -260,8 +264,9 @@ private fun PreviewHomeScreen() {
     GoOrdersTheme {
         MainScreen(
             state = MainScreenState(),
-            navController = NavController(LocalContext.current),
-            onAction = {}
+            onAction = {},
+            navigateToHome = {},
+            navigateToCart = {}
         )
     }
 }
