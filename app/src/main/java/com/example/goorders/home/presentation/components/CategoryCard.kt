@@ -25,18 +25,7 @@ import com.example.goorders.home.domain.Category
 @Composable
 fun CategoryCard(
     category: Category,
-    onCategorySelect: (Category) -> Unit
-) {
-    CategoryCardContent(
-        category = category,
-        onCategorySelect = onCategorySelect
-    )
-}
-
-
-@Composable
-private fun CategoryCardContent(
-    category: Category,
+    selectedCategory: Category,
     onCategorySelect: (Category) -> Unit
 ) {
     Card(
@@ -46,11 +35,11 @@ private fun CategoryCardContent(
             onCategorySelect(category)
         },
         shape = RoundedCornerShape(8.dp),
-        border = if (category.isSelected)
+        border = if (category == selectedCategory)
             BorderStroke(0.8f.dp, color = MaterialTheme.colorScheme.primary)
         else
             BorderStroke(0.8f.dp, color = MaterialTheme.colorScheme.outline),
-        colors = if (category.isSelected)
+        colors = if (category == selectedCategory)
             CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.1f))
         else
             CardDefaults.cardColors(
@@ -72,7 +61,7 @@ private fun CategoryCardContent(
             )
             Text(
                 text = category.name,
-                color = if (category.isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onBackground,
+                color = if (category == selectedCategory) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onBackground,
                 fontFamily = Beiruti,
                 fontWeight = FontWeight.SemiBold,
                 fontSize = MaterialTheme.typography.bodySmall.fontSize

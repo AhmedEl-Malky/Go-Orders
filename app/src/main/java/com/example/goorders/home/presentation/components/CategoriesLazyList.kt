@@ -17,6 +17,7 @@ import com.example.goorders.home.presentation.HomeActions
 @Composable
 fun CategoriesLazyList(
     categories: List<Category>,
+    selectedCategory: Category,
     onCategorySelect: (Category) -> Unit
 ) {
     LazyRow(
@@ -28,6 +29,7 @@ fun CategoriesLazyList(
         items(categories) { category ->
             CategoryCard(
                 category = category,
+                selectedCategory = selectedCategory,
                 onCategorySelect = onCategorySelect
             )
         }
@@ -40,6 +42,13 @@ private fun PreviewCategoriesLazyList() {
     GoOrdersTheme {
         CategoriesLazyList(
             categories = emptyList(),
+            selectedCategory = Category(
+                id = 1,
+                name = "Pizza",
+                slug = "pizza",
+                icon = "https://example.com/pizza_icon.png",
+                order = 1
+            ),
             onCategorySelect = {}
         )
     }

@@ -21,6 +21,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.goorders.core.presentation.components.CityForm
 import com.example.goorders.core.presentation.components.TopAppBar
 import com.example.goorders.core.presentation.theme.Beiruti
 import com.example.goorders.core.presentation.theme.GoOrdersTheme
@@ -39,6 +40,10 @@ fun HomeScreen(
     onMainAction: (MainActions) -> Unit,
     goToRestaurant: (Int) -> Unit
 ) {
+    LaunchedEffect(Unit) {
+        onAction(HomeActions.GetCategories)
+        onAction(HomeActions.GetRestaurants(mainState.currentCity!!.id))
+    }
     HomeScreenContent(
         state = state,
         mainState = mainState,
@@ -104,10 +109,11 @@ private fun HomeScreenContent(
     onMainAction: (MainActions) -> Unit,
     goToRestaurant: (Int) -> Unit
 ) {
-    LaunchedEffect(Unit) {
-        onAction(HomeActions.GetCategories)
-        onAction(HomeActions.GetRestaurants(mainState.currentCity!!.id))
-    }
+    if(mainState.isCityFormVisible)
+        CityForm(
+            state = mainState,
+            onAction = onMainAction
+        )
     Scaffold(
         topBar = {
             TopAppBar(
@@ -148,6 +154,7 @@ private fun HomeScreenContent(
                 item {
                     CategoriesLazyList(
                         categories = state.categories,
+                        selectedCategory = state.selectedCategory,
                         onCategorySelect = {
                             onAction(HomeActions.OnCategorySelect(it))
                         }
@@ -157,8 +164,12 @@ private fun HomeScreenContent(
                     SearchBar(
                         isOpen = state.isOpenFilter,
                         searchQuery = state.searchQuery,
-                        onSearchChange = { onAction(HomeActions.OnRestaurantsSearchChange(it)) },
-                        onFilterOpenRestaurant = { onAction(HomeActions.OnOpenRestaurantsFilter) }
+                        onSearchChange = {
+                            onAction(HomeActions.OnRestaurantsSearchChange(it))
+                        },
+                        onFilterOpenRestaurant = {
+                            onAction(HomeActions.OnOpenRestaurantsFilter)
+                        }
                     )
                 }
                 item {

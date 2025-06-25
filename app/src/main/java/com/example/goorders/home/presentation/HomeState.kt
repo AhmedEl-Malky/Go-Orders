@@ -9,7 +9,7 @@ data class HomeState(
     val isLoading: Boolean = true,
     val isError: UiText? = null,
     val categories: List<Category> = emptyList(),
-    val selectedCategory: Category? = null,
+    val selectedCategory: Category = Category(),
     val searchQuery: String = "",
     val isOpenFilter: Boolean = false,
     val restaurants: List<Restaurant> = emptyList(),

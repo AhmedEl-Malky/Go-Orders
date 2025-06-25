@@ -34,21 +34,6 @@ fun SearchBar(
     onSearchChange: (String) -> Unit,
     onFilterOpenRestaurant: () -> Unit
 ) {
-    RestaurantsSearchBarContent(
-        isOpen,
-        searchQuery,
-        onSearchChange = onSearchChange,
-        onFilterOpenRestaurant = onFilterOpenRestaurant
-    )
-}
-
-@Composable
-fun RestaurantsSearchBarContent(
-    isOpen: Boolean,
-    searchQuery: String,
-    onSearchChange: (String) -> Unit,
-    onFilterOpenRestaurant: () -> Unit
-) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
