@@ -9,11 +9,11 @@ object Route {
 
     @Serializable
     object HomeScreen
-//
-//    @Serializable
-//    data class RestaurantScreen(
-//        val restaurantID: Int,
-//    )
+
+    @Serializable
+    data class RestaurantScreen(
+        val restaurantID: Int,
+    )
 //
 //    @Serializable
 //    object AuthenticationScreen

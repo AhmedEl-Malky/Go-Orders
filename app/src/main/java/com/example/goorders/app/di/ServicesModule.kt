@@ -4,6 +4,8 @@ import com.example.goorders.home.data.remote.HomeServices
 import com.example.goorders.home.data.remote.HomeServicesImpl
 import com.example.goorders.main.data.remote.MainService
 import com.example.goorders.main.data.remote.MainServiceImpl
+import com.example.goorders.restaurant.data.remote.RestaurantService
+import com.example.goorders.restaurant.data.remote.RestaurantServiceImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -21,4 +23,8 @@ object ServicesModule {
     @Provides
     @Singleton
     fun provideHomeServices(client: HttpClient) : HomeServices = HomeServicesImpl(client = client)
+
+    @Provides
+    @Singleton
+    fun provideRestaurantService(client: HttpClient) : RestaurantService = RestaurantServiceImpl(client = client)
 }
