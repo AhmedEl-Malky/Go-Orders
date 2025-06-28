@@ -18,8 +18,8 @@ fun MenuItemDTO.toMenuItem() = MenuItem(
     variants = variants?.map { it.toVariant() } ?: emptyList()
 )
 
-fun MenuCategoryDTO.toMenuCategories() : List<String> {
-    return this.categories ?: emptyList()
+fun MenuCategoryDTO.toMenuCategory() : String {
+    return this.category ?: ""
 }
 
 

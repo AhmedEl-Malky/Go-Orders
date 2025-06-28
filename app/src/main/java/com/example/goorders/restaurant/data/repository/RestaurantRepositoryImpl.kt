@@ -5,7 +5,7 @@ import com.example.goorders.core.domain.Result
 import com.example.goorders.core.domain.map
 import com.example.goorders.home.data.mappers.toRestaurant
 import com.example.goorders.home.domain.Restaurant
-import com.example.goorders.restaurant.data.mappers.toMenuCategories
+import com.example.goorders.restaurant.data.mappers.toMenuCategory
 import com.example.goorders.restaurant.data.mappers.toMenuImage
 import com.example.goorders.restaurant.data.mappers.toMenuItem
 import com.example.goorders.restaurant.data.remote.RestaurantService
@@ -24,9 +24,10 @@ class RestaurantRepositoryImpl(
 
     override suspend fun getMenuCategories(restaurantId: Int): Result<List<String>, RemoteError> {
         return service.getMenuCategories(restaurantId).map { DTO ->
-            DTO.firstOrNull()?.categories ?: emptyList()
+            DTO.map {
+                it.toMenuCategory()
+            }.toSet().toList()
         }
-
     }
 
     override suspend fun getMenuItems(restaurantId: Int): Result<List<MenuItem>, RemoteError> {

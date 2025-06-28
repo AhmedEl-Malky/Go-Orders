@@ -11,6 +11,7 @@ import com.example.goorders.restaurant.data.dto.MenuImageDTO
 import com.example.goorders.restaurant.data.dto.MenuItemDTO
 import io.ktor.client.HttpClient
 import io.ktor.client.request.get
+import io.ktor.client.request.parameter
 import io.ktor.http.URLProtocol
 import io.ktor.http.parameters
 import io.ktor.http.path
@@ -27,9 +28,9 @@ class RestaurantServiceImpl(
                     path(
                         "restaurants"
                     )
-                    parameters {
-                        append("id", "eq.$restaurantId")
-                        append("select", "*")
+                    parameters{
+                        parameter("id", "eq.$restaurantId")
+                        parameter("select", "*")
                     }
                 }
             }
@@ -43,11 +44,11 @@ class RestaurantServiceImpl(
                     protocol = URLProtocol.HTTPS
                     host = BuildConfig.SUPABASE_URL
                     path(
-                        "restaurants"
+                        "menuItems"
                     )
                     parameters {
-                        append("id","eq.$restaurantId")
-                        append("select", "categories")
+                        parameter("restaurantId", "eq.$restaurantId")
+                        parameter("select", "category")
                     }
                 }
             }
@@ -56,16 +57,16 @@ class RestaurantServiceImpl(
 
     override suspend fun getMenuItems(restaurantId: Int): Result<List<MenuItemDTO>, RemoteError> {
         return safeCall<List<MenuItemDTO>> {
-            client.get{
+            client.get {
                 url {
                     protocol = URLProtocol.HTTPS
                     host = BuildConfig.SUPABASE_URL
                     path(
                         "menuItems"
                     )
-                    parameters{
-                        append("restaurantId","eq.$restaurantId")
-                        append("select","*")
+                    parameters {
+                        parameter("restaurantId", "eq.$restaurantId")
+                        parameter("select", "*")
                     }
                 }
             }
@@ -80,8 +81,8 @@ class RestaurantServiceImpl(
                     host = BuildConfig.SUPABASE_URL
                     path("menusImages")
                     parameters {
-                        append("restaurantId","eq.$restaurantId")
-                        append("select","*")
+                        append("restaurantId", "eq.$restaurantId")
+                        append("select", "*")
                     }
                 }
             }

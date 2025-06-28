@@ -6,6 +6,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class MenuCategoryDTO(
-    @SerialName("categories")
-    val categories: List<String>?
+    @SerialName("category")
+    val category: String?
 )

@@ -34,6 +34,15 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    private fun onOpenRestaurantsFilter() {
+        _state.update {
+            it.copy(
+                isOpenFilter = !it.isOpenFilter
+            )
+        }
+        filterRestaurants()
+    }
+
     private fun getCategories() {
         viewModelScope.launch {
             repo.getCategories()
@@ -85,42 +94,30 @@ class HomeViewModel @Inject constructor(
         _state.update { state ->
             state.copy(
                 searchQuery = query,
-                filteredRestaurants = state.restaurants
-                    .filter { it.name.contains(query) }
-                    .filter { if(state.selectedCategory.slug != "all") it.categories.contains(state.selectedCategory.slug) else true }
-                    .filter { if(state.isOpenFilter == true) it.isOpen else true }
             )
         }
-    }
-
-    private fun onOpenRestaurantsFilter() {
-        _state.update { state ->
-            state.copy(
-                isOpenFilter = !state.isOpenFilter,
-                filteredRestaurants = state.restaurants
-                    .filter { it.name.contains(state.searchQuery) }
-                    .filter { if(state.selectedCategory.slug != "all") it.categories.contains(state.selectedCategory.slug) else true }
-                    .filter { if(state.isOpenFilter == false) it.isOpen else true }
-            )
-        }
-    }
-
-    private fun filterRestaurantsByCategory(categorySlug: String) {
-        _state.update { state ->
-            state.copy(
-                filteredRestaurants = state.restaurants
-                    .filter { it.name.contains(state.searchQuery) }
-                    .filter { it.categories.contains(categorySlug) }
-                    .filter { if(state.isOpenFilter == true) it.isOpen else true }
-            )
-        }
+        filterRestaurants()
     }
 
     fun onCategorySelect(category: Category) {
         _state.update {
             it.copy(selectedCategory = category)
         }
-        if (category.slug != "all")
-            filterRestaurantsByCategory(category.slug)
+        filterRestaurants()
+    }
+
+    private fun filterRestaurants() {
+        _state.update {
+            it.copy(
+                filteredRestaurants = it.restaurants
+                    .filter { it.name.contains(_state.value.searchQuery) }
+                    .filter {
+                        if (_state.value.selectedCategory.slug != "all") it.categories.contains(
+                            _state.value.selectedCategory.slug
+                        ) else true
+                    }
+                    .filter { if (_state.value.isOpenFilter == true) it.isOpen else true }
+            )
+        }
     }
 }

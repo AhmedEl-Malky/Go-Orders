@@ -17,7 +17,7 @@ class HomeRepositoryImpl(
         return service.getRestaurants(cityID).map { DTO ->
             DTO.map{ restaurantDTO ->
                 restaurantDTO.toRestaurant()
-            }
+            }.sortedBy { it.id }
         }
     }
 

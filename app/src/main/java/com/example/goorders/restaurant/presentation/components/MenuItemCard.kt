@@ -2,6 +2,7 @@ package com.example.goorders.restaurant.presentation.components
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.LinearOutSlowInEasing
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -35,6 +36,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -58,6 +60,9 @@ fun MenuItemCard(
     restaurantLogo:String
 ) {
     var isClicked by remember { mutableStateOf(false) }
+    val animateRotation by animateFloatAsState(
+        targetValue = if (isClicked) 180f else 0f,
+    )
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -111,7 +116,7 @@ fun MenuItemCard(
                     color = MaterialTheme.colorScheme.onBackground
                 )
                 Icon(
-                    modifier = Modifier.size(28.dp),
+                    modifier = Modifier.size(28.dp).rotate(animateRotation),
                     imageVector = if (isClicked) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown,
                     contentDescription = "Menu Icon",
                     tint = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f)
