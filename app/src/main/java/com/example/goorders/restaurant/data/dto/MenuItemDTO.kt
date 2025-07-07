@@ -28,6 +28,6 @@ data class MenuItemDTO(
     val sellingPrice: Double?,
     @SerialName("variantType")
     val variantType: String?,
-    @SerialName("variants")
+    @SerialName("variants_list")
     val variants: List<VariantDTO>?
 )

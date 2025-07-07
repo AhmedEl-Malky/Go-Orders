@@ -10,7 +10,7 @@ data class RestaurantDTO(
     val active: Boolean?,
     @SerialName("address")
     val address: String?,
-    @SerialName("categories")
+    @SerialName("categories_list")
     val categories: List<String>?,
     @SerialName("city_id")
     val cityId: Int?,
